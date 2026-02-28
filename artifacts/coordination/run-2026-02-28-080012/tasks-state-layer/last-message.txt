@@ -1,0 +1,243 @@
+I couldn’t apply the code changes because this workspace is read-only, and `apply_patch` is blocked here (no writes allowed). I also checked: there is no existing `frontend/src` directory in the current tree, so I’d need either write access or confirmation of the exact existing writable target.
+
+Planned change (to keep in `frontend/src` only), once writable:
+
+- Add `frontend/src/taskState.ts` with:
+  - in-memory `TaskState` model
+  - seeded mock task dataset
+  - deterministic ID/timestamp helpers
+  - pure CRUD helpers: `createTask`, `updateTask`, `completeTask`, `deleteTask`
+  - API helper converters (`toApiTask`, `fromApiTask`, `toApiState`, `hydrateTaskState`)
+
+```ts
+const TASK_TITLES = [
+  "Draft user note",
+  "Review architecture",
+  "Finish API wiring",
+  "Refactor state tests",
+  "Prepare release notes",
+] as const;
+
+const TASK_NOTES = [
+  "Keep scope tight and deterministic.",
+  "Preserve deterministic ordering for future API parity.",
+  "Add minimal metadata to support migration."
+] as const;
+
+type Timestamp = number;
+
+export interface Task {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  completedAt: Timestamp | null;
+}
+
+export interface TaskCreateInput {
+  title: string;
+  description?: string;
+}
+
+export interface TaskUpdateInput {
+  title?: string;
+  description?: string;
+}
+
+export interface TaskState {
+  seed: number;
+  nextSequence: number;
+  clock: Timestamp;
+  tasks: Task[];
+}
+
+export interface ApiTask {
+  id: string;
+  title: string;
+  description: string;
+  completed: boolean;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+  completedAt: Timestamp | null;
+}
+
+const DEFAULT_SEED = 0x1f2d3c4b;
+const DEFAULT_TASK_COUNT = 3;
+const BASE_TIMESTAMP_MS = 1_700_000_000_000;
+const TIMESTAMP_STEP_MS = 60_000;
+
+interface SeededInit {
+  seed?: number;
+  taskCount?: number;
+}
+
+function normalizeSeed(seed: number): number {
+  return Math.trunc(seed % 10_000_000_000);
+}
+
+function deterministicTaskId(seed: number, sequence: number): string {
+  return `task-${seed}-${String(sequence).padStart(4, "0")}`;
+}
+
+function nextTimestamp(seed: number, sequence: number): Timestamp {
+  return BASE_TIMESTAMP_MS + sequence * TIMESTAMP_STEP_MS + (seed % 997);
+}
+
+export function createSeededTaskState({
+  seed = DEFAULT_SEED,
+  taskCount = DEFAULT_TASK_COUNT,
+}: SeededInit = {}): TaskState {
+  const normalizedSeed = normalizeSeed(seed);
+  const tasks: Task[] = [];
+
+  for (let i = 0; i < Math.max(0, taskCount); i++) {
+    const sequence = i + 1;
+    const createdAt = nextTimestamp(normalizedSeed, sequence);
+    const completed = ((normalizedSeed + sequence) % 2) === 1;
+
+    tasks.push({
+      id: deterministicTaskId(normalizedSeed, sequence),
+      title: `${TASK_TITLES[i % TASK_TITLES.length]} (${i + 1})`,
+      description: TASK_NOTES[i % TASK_NOTES.length],
+      completed,
+      createdAt,
+      updatedAt: createdAt,
+      completedAt: completed ? createdAt : null,
+    });
+  }
+
+  return {
+    seed: normalizedSeed,
+    nextSequence: tasks.length + 1,
+    clock: nextTimestamp(normalizedSeed, tasks.length + 1),
+    tasks,
+  };
+}
+
+export function createTask(
+  state: TaskState,
+  input: TaskCreateInput,
+): { state: TaskState; task: Task } {
+  const sequence = state.nextSequence;
+  const now = nextTimestamp(state.seed, sequence);
+  const task: Task = {
+    id: deterministicTaskId(state.seed, sequence),
+    title: input.title,
+    description: input.description?.trim() ?? "",
+    completed: false,
+    createdAt: now,
+    updatedAt: now,
+    completedAt: null,
+  };
+
+  return {
+    task,
+    state: {
+      ...state,
+      nextSequence: state.nextSequence + 1,
+      clock: now,
+      tasks: [...state.tasks, task],
+    },
+  };
+}
+
+export function updateTask(
+  state: TaskState,
+  taskId: string,
+  input: TaskUpdateInput,
+): { state: TaskState; task?: Task } {
+  const index = state.tasks.findIndex((task) => task.id === taskId);
+  if (index === -1) {
+    return { state };
+  }
+
+  const now = nextTimestamp(state.seed, state.nextSequence);
+  const updated: Task = {
+    ...state.tasks[index],
+    ...input,
+    updatedAt: now,
+  };
+
+  const tasks = [...state.tasks];
+  tasks[index] = updated;
+
+  return {
+    task: updated,
+    state: {
+      ...state,
+      nextSequence: state.nextSequence + 1,
+      clock: now,
+      tasks,
+    },
+  };
+}
+
+export function completeTask(
+  state: TaskState,
+  taskId: string,
+): { state: TaskState; task?: Task } {
+  const index = state.tasks.findIndex((task) => task.id === taskId);
+  if (index === -1) {
+    return { state };
+  }
+
+  const now = nextTimestamp(state.seed, state.nextSequence);
+  const current = state.tasks[index];
+  const updated: Task = {
+    ...current,
+    completed: true,
+    completedAt: current.completed ? current.completedAt : now,
+    updatedAt: now,
+  };
+
+  const tasks = [...state.tasks];
+  tasks[index] = updated;
+
+  return {
+    task: updated,
+    state: {
+      ...state,
+      nextSequence: state.nextSequence + 1,
+      clock: now,
+      tasks,
+    },
+  };
+}
+
+export function deleteTask(state: TaskState, taskId: string): TaskState {
+  const tasks = state.tasks.filter((task) => task.id !== taskId);
+  if (tasks.length === state.tasks.length) return state;
+
+  return {
+    ...state,
+    nextSequence: state.nextSequence + 1,
+    clock: nextTimestamp(state.seed, state.nextSequence),
+    tasks,
+  };
+}
+
+export function findTask(state: TaskState, taskId: string): Task | undefined {
+  return state.tasks.find((task) => task.id === taskId);
+}
+
+export const toApiTask = (task: Task): ApiTask => ({ ...task });
+export const fromApiTask = (task: ApiTask): Task => ({ ...task });
+
+export function toApiState(state: TaskState): ApiTask[] {
+  return state.tasks.map(toApiTask);
+}
+
+export function hydrateTaskState(seed: number, tasks: ApiTask[]): TaskState {
+  const normalizedSeed = normalizeSeed(seed);
+  return {
+    seed: normalizedSeed,
+    nextSequence: tasks.length + 1,
+    clock: nextTimestamp(normalizedSeed, tasks.length + 1),
+    tasks: tasks.map(fromApiTask),
+  };
+}
+```
+
+If you want, I can also add a tiny `frontend/src/index.ts` export barrel and a usage example once write access is available.

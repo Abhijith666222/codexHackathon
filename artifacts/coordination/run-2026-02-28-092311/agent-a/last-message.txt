@@ -1,0 +1,10 @@
+Completed in scope `tasks-frontend/bootstrap`.
+
+Implemented explicit single-route bootstrapping so the `Tasks` page is the default and only destination:
+
+- `tasks-frontend/bootstrap/src/App.tsx`: changed routing to:
+
+  - Render `TasksPage` at `/`
+  - Catch all other paths and redirect to `/` via `Navigate` (prevents any additional accessible routes)
+
+This keeps the entrypoint/root mount as-is (`tasks-frontend/bootstrap/src/main.tsx` mounting `#root` with `App`) and uses the existing `react-router-dom` dependency already declared in `tasks-frontend/bootstrap/package.json`.

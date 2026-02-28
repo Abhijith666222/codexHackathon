@@ -1,0 +1,7 @@
+- [ ] `Phase 0: Requirements` — Accessibility criteria mapped to WCAG 2.2 AA; target breakpoints/devices agreed; performance budgets defined; release owner + rollback owner assigned.
+- [ ] `Phase 1: Design` — Contrast/focus order reviewed; layouts validated at `320/375/768/1024/1440`; expected perf impact estimated; monitoring/analytics requirements defined.
+- [ ] `Phase 2: Build (Local)` — Keyboard-only + labels/ARIA checks pass; no overflow/cutoff at target widths; bundle/render changes within budget; feature flags and migration safety verified.
+- [ ] `Phase 3: PR/CI Gate` — `0` critical automated accessibility violations; viewport/screenshot regression checks pass; Lighthouse/Web Vitals gate passes (`LCP <2.5s`, `INP <200ms`, `CLS <0.1` target); tests/docs/changelog/runbook updates included.
+- [ ] `Phase 4: Staging/UAT` — Screen reader smoke test on key flows; real-device responsive spot checks complete; synthetic + load checks meet SLO; deploy + rollback dry run successful.
+- [ ] `Phase 5: Release Go/No-Go` — No open Sev1/Sev2 quality issues; canary metrics within budget; approvals captured; on-call + rollback trigger thresholds confirmed.
+- [ ] `Phase 6: Post-Release (24–72h)` — Monitor accessibility feedback, responsive regressions, and live performance p75; log findings in post-release review with action owners.

@@ -1,0 +1,7 @@
+- **Phase 1 - Discovery & Alignment**: Deliverable: a problem brief with goals, constraints, stakeholders, dependencies, and success metrics. Exit criteria: scope baseline approved, assumptions documented, top risks logged.
+- **Phase 2 - Solution Design & Sequencing**: Deliverable: architecture/design doc plus a prioritized phase plan (milestones, owners, dependencies). Exit criteria: design review passed, tradeoffs accepted, each milestone has clear acceptance criteria.
+- **Phase 3 - Foundation Build**: Deliverable: working skeleton with core models/contracts, basic workflows, and CI/lint/test setup. Exit criteria: one end-to-end happy path works locally, foundation tests pass, no critical blockers remain.
+- **Phase 4 - Feature Completion & Hardening**: Deliverable: agreed MVP feature set with validation, error handling, and observability. Exit criteria: committed stories completed, integration tests green, reliability/performance checks meet targets.
+- **Phase 5 - Polish & Release Readiness**: Deliverable: UX/content polish, documentation/runbook, release notes, and rollout plan. Exit criteria: stakeholder/UAT sign-off, monitoring and alerts live, rollback plan verified.
+
+- **Cross-phase checklist**: every phase closes only when outputs are reviewable, quality gates are green for that phase, unresolved risks have owners/dates, and next-phase inputs are complete.

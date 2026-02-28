@@ -1,0 +1,13 @@
+{
+  "agent": "agent-implementation",
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "scope": "codex-rs",
+  "state": "BLOCKED",
+  "threadId": null,
+  "startedAt": "2026-02-28T09:15:32.831997+00:00",
+  "finishedAt": "2026-02-28T09:15:33.440560+00:00",
+  "durationMs": 311,
+  "exitCode": 2,
+  "updatedAt": "2026-02-28T09:15:33.529724+00:00",
+  "blockerReason": "Agent exited with non-zero status."
+}

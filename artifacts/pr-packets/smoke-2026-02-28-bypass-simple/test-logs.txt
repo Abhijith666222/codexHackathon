@@ -1,0 +1,6 @@
+run_id: smoke-2026-02-28-bypass-simple
+overall: BLOCKED
+planner_exit: 2
+scope_ok: True
+mergeable: True
+contract_status: FAIL

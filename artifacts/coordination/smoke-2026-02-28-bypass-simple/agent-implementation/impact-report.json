@@ -1,0 +1,9 @@
+{
+  "agent": "agent-implementation",
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "state": "BLOCKED",
+  "scope": "codex-rs",
+  "changedFiles": [],
+  "durationMs": 311,
+  "error": "Agent exited with non-zero status."
+}

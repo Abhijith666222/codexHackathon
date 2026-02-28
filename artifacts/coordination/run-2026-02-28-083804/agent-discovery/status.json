@@ -1,0 +1,12 @@
+{
+  "agent": "agent-discovery",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/requirements",
+  "state": "DONE",
+  "threadId": "019ca366-47cf-7e03-a943-9748d8badbce",
+  "startedAt": "2026-02-28T08:38:34.002197+00:00",
+  "finishedAt": "2026-02-28T08:39:39.032666+00:00",
+  "durationMs": 64867,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:39:39.083669+00:00"
+}

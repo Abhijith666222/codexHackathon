@@ -1,0 +1,12 @@
+{
+  "agent": "agent-phase-sequencing",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "sequencing",
+  "state": "DONE",
+  "threadId": "019ca36e-9384-7162-8655-89feb4b7a865",
+  "startedAt": "2026-02-28T08:47:38.452041+00:00",
+  "finishedAt": "2026-02-28T08:48:03.098796+00:00",
+  "durationMs": 24546,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:48:03.156125+00:00"
+}

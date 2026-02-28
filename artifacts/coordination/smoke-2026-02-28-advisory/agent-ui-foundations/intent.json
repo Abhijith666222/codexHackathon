@@ -1,0 +1,7 @@
+{
+  "agent": "agent-ui-foundations",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "foundations",
+  "objective": "produce a concise setup checklist for layout structure, component primitives, design tokens, navigation, and data/state boundaries",
+  "createdAt": "2026-02-28T08:47:36.442136+00:00"
+}

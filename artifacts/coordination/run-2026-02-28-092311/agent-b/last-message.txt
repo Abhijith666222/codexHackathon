@@ -1,0 +1,13 @@
+Implemented inside scope `tasks-frontend/pages` only.
+
+Changes made:
+- Added `tasks-frontend/pages/index.html`
+
+What it includes:
+- One-page page-level layout with header + two-column shell (control panel + task board)
+- Task form controls for “Create task” placeholders (title, priority, assignee, notes, buttons, helper text)
+- “View” placeholders (search/filter area placeholder and view mode buttons placeholders)
+- Static task sections with three columns: `Backlog`, `In progress`, `Done`, each populated with static cards
+- Responsive behavior for smaller screens
+
+No additional files were modified.

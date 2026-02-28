@@ -2051,6 +2051,7 @@ impl CodexMessageProcessor {
             sandbox,
             config,
             service_name,
+            service_name_hint: _,
             base_instructions,
             developer_instructions,
             dynamic_tools,

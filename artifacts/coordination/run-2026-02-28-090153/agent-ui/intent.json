@@ -1,0 +1,7 @@
+{
+  "agent": "agent-ui",
+  "runId": "run-2026-02-28-090153",
+  "scope": "codex-rs/tui/src/ui",
+  "objective": "Create the Tasks frontend scaffolding (list/detail/error/loading/empty views), row rendering helpers, and interaction wiring (selection movement, mark/dismiss actions hooks) that consume the state layer.",
+  "createdAt": "2026-02-28T09:02:17.769811+00:00"
+}

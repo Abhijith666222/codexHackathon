@@ -1,0 +1,299 @@
+I’m blocked from writing files in this workspace: `sandbox_mode` is read-only, so I can’t create/update `tasks-ui/styles/*` directly.
+
+Planned change (ready to apply if write access is enabled):
+- Add `tasks-ui/styles/tasks-ui.css` with initial theme, spacing, typography, and responsive layout tokens/classes for a Tasks UI scaffold.
+
+```css
+:root {
+  --tasks-font-family: "Inter", "Avenir Next", "Segoe UI", system-ui, -apple-system,
+    sans-serif;
+  --tasks-bg: #f8fafc;
+  --tasks-fg: #1f2937;
+  --tasks-muted: #6b7280;
+  --tasks-border: #e5e7eb;
+  --tasks-surface: #ffffff;
+  --tasks-surface-muted: #f3f4f6;
+  --tasks-primary: #0f766e;
+  --tasks-primary-hover: #0d5f58;
+  --tasks-danger: #dc2626;
+  --tasks-success: #15803d;
+  --tasks-warning: #b45309;
+  --tasks-radius-sm: 0.5rem;
+  --tasks-radius-md: 0.875rem;
+  --tasks-radius-lg: 1.25rem;
+  --tasks-shadow-soft: 0 10px 30px rgb(15 23 42 / 10%);
+  --tasks-shadow-card: 0 6px 18px rgb(15 23 42 / 8%);
+  --tasks-spacing-xs: 0.25rem;
+  --tasks-spacing-sm: 0.5rem;
+  --tasks-spacing-md: 1rem;
+  --tasks-spacing-lg: 1.5rem;
+  --tasks-spacing-xl: 2rem;
+  --tasks-container-max: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tasks-bg: #090d14;
+    --tasks-fg: #f8fafc;
+    --tasks-muted: #94a3b8;
+    --tasks-border: #1f2937;
+    --tasks-surface: #111827;
+    --tasks-surface-muted: #0b1220;
+    --tasks-shadow-soft: 0 18px 36px rgb(0 0 0 / 45%);
+    --tasks-shadow-card: 0 10px 24px rgb(0 0 0 / 40%);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: var(--tasks-font-family);
+  font-size: 16px;
+  line-height: 1.45;
+  color: var(--tasks-fg);
+  background:
+    radial-gradient(circle at 20% 5%, rgb(16 185 129 / 8%), transparent 45%),
+    radial-gradient(circle at 90% 0%, rgb(56 189 248 / 10%), transparent 40%), var(--tasks-bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tasks-root {
+  width: min(100%, var(--tasks-container-max));
+  margin: 0 auto;
+  padding: var(--tasks-spacing-lg) var(--tasks-spacing-md);
+}
+
+.tasks-shell {
+  display: grid;
+  gap: var(--tasks-spacing-lg);
+}
+
+.tasks-shell__hero {
+  padding: var(--tasks-spacing-lg);
+  border-radius: var(--tasks-radius-lg);
+  background: linear-gradient(120deg, rgb(16 185 129 / 14%), rgb(14 116 144 / 12%));
+  border: 1px solid var(--tasks-border);
+  box-shadow: var(--tasks-shadow-soft);
+}
+
+.tasks-shell__title {
+  margin: 0;
+  font-size: clamp(1.45rem, 2vw + 1rem, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.tasks-shell__subtitle {
+  margin: var(--tasks-spacing-sm) 0 0;
+  max-width: 68ch;
+  color: var(--tasks-muted);
+}
+
+.tasks-grid {
+  display: grid;
+  gap: var(--tasks-spacing-lg);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  align-items: start;
+}
+
+.tasks-sidebar,
+.tasks-main {
+  border-radius: var(--tasks-radius-md);
+  background: var(--tasks-surface);
+  border: 1px solid var(--tasks-border);
+  padding: var(--tasks-spacing-md);
+  box-shadow: var(--tasks-shadow-card);
+}
+
+.tasks-sidebar {
+  display: grid;
+  gap: var(--tasks-spacing-sm);
+  position: sticky;
+  top: var(--tasks-spacing-lg);
+}
+
+.tasks-main__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--tasks-spacing-md);
+  margin-bottom: var(--tasks-spacing-md);
+}
+
+.tasks-main__title {
+  margin: 0;
+  font-size: 1.125rem;
+  line-height: 1.2;
+}
+
+.tasks-main__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--tasks-spacing-sm);
+  flex-wrap: wrap;
+}
+
+.tasks-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--tasks-spacing-sm);
+}
+
+.tasks-task {
+  display: grid;
+  gap: var(--tasks-spacing-sm);
+  border-radius: var(--tasks-radius-sm);
+  border: 1px solid color-mix(in srgb, var(--tasks-border) 88%, transparent);
+  background: var(--tasks-surface-muted);
+  padding: var(--tasks-spacing-md);
+}
+
+.tasks-task__name {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.tasks-task__meta {
+  margin: 0;
+  color: var(--tasks-muted);
+  font-size: 0.9rem;
+}
+
+.tasks-task__description {
+  margin: 0;
+  color: var(--tasks-fg);
+}
+
+.tasks-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border: 1px solid var(--tasks-border);
+  background: color-mix(in srgb, var(--tasks-surface) 90%, var(--tasks-muted));
+}
+
+.tasks-badge--done {
+  background: color-mix(in srgb, var(--tasks-success) 20%, var(--tasks-surface));
+  border-color: color-mix(in srgb, var(--tasks-success) 35%, transparent);
+}
+.tasks-badge--pending {
+  background: color-mix(in srgb, var(--tasks-warning) 18%, var(--tasks-surface));
+  border-color: color-mix(in srgb, var(--tasks-warning) 35%, transparent);
+}
+.tasks-badge--alert {
+  background: color-mix(in srgb, var(--tasks-danger) 16%, var(--tasks-surface));
+  border-color: color-mix(in srgb, var(--tasks-danger) 35%, transparent);
+}
+
+.tasks-input,
+.tasks-select,
+.tasks-textarea,
+.tasks-btn {
+  width: 100%;
+  border-radius: var(--tasks-radius-sm);
+  border: 1px solid var(--tasks-border);
+  font: inherit;
+}
+
+.tasks-input,
+.tasks-select,
+.tasks-textarea {
+  padding: 0.6rem 0.8rem;
+  color: inherit;
+  background: var(--tasks-surface);
+}
+
+.tasks-input:focus,
+.tasks-select:focus,
+.tasks-textarea:focus,
+.tasks-btn:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--tasks-primary) 40%, transparent);
+  outline-offset: 1px;
+}
+
+.tasks-btn {
+  cursor: pointer;
+  background: var(--tasks-primary);
+  color: #fff;
+  border-color: color-mix(in srgb, var(--tasks-primary) 65%, transparent);
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+}
+
+.tasks-btn:hover {
+  background: var(--tasks-primary-hover);
+}
+
+.tasks-btn--subtle {
+  background: var(--tasks-surface-muted);
+  color: var(--tasks-fg);
+}
+
+.tasks-form-grid {
+  display: grid;
+  gap: var(--tasks-spacing-md);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.tasks-textarea {
+  min-height: 8.25rem;
+  resize: vertical;
+}
+
+.tasks-divider {
+  height: 1px;
+  background: var(--tasks-border);
+  border: 0;
+}
+
+@media (max-width: 960px) {
+  .tasks-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tasks-sidebar {
+    position: static;
+  }
+
+  .tasks-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .tasks-root {
+    padding: var(--tasks-spacing-md) var(--tasks-spacing-sm);
+  }
+
+  .tasks-main__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tasks-main__controls {
+    justify-content: flex-end;
+  }
+}
+```
+
+If you can switch the workspace to writable (or provide an equivalent writable path), I can apply this immediately.

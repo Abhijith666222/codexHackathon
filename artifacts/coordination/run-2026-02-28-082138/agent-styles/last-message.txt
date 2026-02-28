@@ -1,0 +1,183 @@
+I can’t apply any write in this environment.
+
+- I confirmed the scoped folder does not exist yet:
+  - `tasks-ui/styles` → `False`
+  - `tasks-ui/styles` → `False`
+- Any write attempt is blocked by the sandbox (`rejected: blocked by policy`), and `apply_patch` also cannot write (`writing outside of the project; rejected by user approval settings`).
+
+Prepared scaffold file (for your `tasks-ui/styles` scope) you can apply directly:
+
+```css
+/* Baseline styling for the Tasks UI scaffold */
+
+.task-ui {
+  --task-ui-font: "Nunito", "Avenir Next", "Segoe UI", "SF Pro Text", Arial, sans-serif;
+  --task-ui-fg: #f4f5f7;
+  --task-ui-muted: #9aa3b2;
+  --task-ui-surface: #111827;
+  --task-ui-surface-soft: #1f2937;
+  --task-ui-surface-elevated: #2b3442;
+  --task-ui-border: #334155;
+  --task-ui-accent: #5eead4;
+  --task-ui-focus: #93c5fd;
+
+  --task-ui-radius-lg: 1rem;
+  --task-ui-radius-sm: 0.6rem;
+  --task-ui-space-1: 0.35rem;
+  --task-ui-space-2: 0.7rem;
+  --task-ui-space-3: 1rem;
+  --task-ui-space-4: 1.3rem;
+  --task-ui-font-size-title: clamp(1.35rem, 2.2vw, 1.7rem);
+  --task-ui-font-size-card: 1rem;
+  --task-ui-font-size-meta: 0.87rem;
+
+  color: var(--task-ui-fg);
+  background: #0b1220;
+  font-family: var(--task-ui-font);
+  line-height: 1.45;
+  min-height: 100vh;
+}
+
+.task-ui__header {
+  margin-bottom: var(--task-ui-space-4);
+  padding: 0 var(--task-ui-space-3);
+}
+
+.task-ui__title {
+  margin: 0;
+  font-size: var(--task-ui-font-size-title);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.task-ui__subtitle {
+  margin: var(--task-ui-space-1) 0 0;
+  color: var(--task-ui-muted);
+  font-size: var(--task-ui-font-size-meta);
+}
+
+.task-ui__content {
+  display: grid;
+  gap: var(--task-ui-space-3);
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0 var(--task-ui-space-3) var(--task-ui-space-4);
+}
+
+.task-ui__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--task-ui-space-3);
+  grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+}
+
+.task-ui__item {
+  border: 1px solid var(--task-ui-border);
+  border-radius: var(--task-ui-radius-lg);
+  background: var(--task-ui-surface);
+  padding: var(--task-ui-space-3);
+  display: grid;
+  gap: var(--task-ui-space-2);
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease;
+  cursor: pointer;
+}
+
+.task-ui__item:focus-visible {
+  outline: 3px solid var(--task-ui-focus);
+  outline-offset: 2px;
+}
+
+.task-ui__item:hover {
+  border-color: color-mix(in srgb, var(--task-ui-accent) 42%, transparent);
+  background: var(--task-ui-surface-soft);
+  transform: translateY(-1px);
+}
+
+.task-ui__item:focus-within,
+.task-ui__item.is-selected {
+  border-color: var(--task-ui-accent);
+  background: color-mix(in srgb, var(--task-ui-accent) 12%, var(--task-ui-surface));
+}
+
+.task-ui__item-title {
+  margin: 0;
+  font-size: var(--task-ui-font-size-card);
+  font-weight: 650;
+  color: #f8fafc;
+}
+
+.task-ui__item-meta {
+  display: grid;
+  gap: 0.18rem;
+  color: var(--task-ui-muted);
+  font-size: var(--task-ui-font-size-meta);
+}
+
+.task-ui__item-description {
+  margin: 0;
+  color: #d4dbe8;
+  font-size: 0.95rem;
+}
+
+.task-ui__item-actions {
+  margin-top: var(--task-ui-space-1);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--task-ui-space-1);
+}
+
+.task-ui__tag {
+  border: 1px solid color-mix(in srgb, var(--task-ui-muted) 48%, transparent);
+  border-radius: 999px;
+  padding: 0.22rem 0.62rem;
+  font-size: 0.76rem;
+  color: var(--task-ui-muted);
+}
+
+@media (min-width: 56rem) {
+  .task-ui__content {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .task-ui__list {
+    grid-column: 2;
+  }
+
+  .task-ui__sidebar {
+    grid-column: 1;
+    min-height: 12rem;
+    border: 1px solid var(--task-ui-border);
+    border-radius: var(--task-ui-radius-lg);
+    background: var(--task-ui-surface);
+    padding: var(--task-ui-space-3);
+  }
+}
+
+@media (max-width: 55.999rem) {
+  .task-ui__content {
+    padding-left: var(--task-ui-space-2);
+    padding-right: var(--task-ui-space-2);
+  }
+
+  .task-ui__list {
+    grid-template-columns: 1fr;
+  }
+
+  .task-ui__item {
+    padding: 0.95rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .task-ui__item {
+    transition: none;
+  }
+}
+```
+
+If you want, I can also provide the matching minimal HTML skeleton (`.task-ui`, `.task-ui__header`, `.task-ui__list`, `.task-ui__item`) to plug this into your current markup, or I can retry immediately once write access is enabled.

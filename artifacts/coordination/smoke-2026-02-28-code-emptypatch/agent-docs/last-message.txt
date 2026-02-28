@@ -1,0 +1,14 @@
+Blocked by platform constraints; I could not make the required documentation change.
+
+What I verified:
+- `todo-app/project-docs` does not exist in this checkout.
+- Write attempts are denied:
+  - Shell create attempt (`New-Item -ItemType Directory -Force -Path "todo-app/project-docs"`) was rejected by policy.
+  - `apply_patch` add-file attempt for `todo-app/project-docs/README.md` was rejected: `writing outside of the project; rejected by user approval settings`.
+
+Because of this, I could not create/update any file in your requested scope.
+
+Next steps to unblock:
+1. Provide a writable workspace (or relax approval settings for file writes).
+2. Ensure `todo-app/project-docs` exists in this worktree, or confirm the correct scope path.
+3. I’ll then immediately add a concise setup/usage doc with run commands, current scaffold capabilities, and clearly marked next-step enhancements.

@@ -1,0 +1,6 @@
+run_id: smoke-2026-02-28-bypass-simple-v3
+overall: DONE
+planner_exit: 0
+scope_ok: True
+mergeable: True
+contract_status: SKIPPED

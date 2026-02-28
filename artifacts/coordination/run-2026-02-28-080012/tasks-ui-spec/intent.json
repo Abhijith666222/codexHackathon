@@ -1,0 +1,7 @@
+{
+  "agent": "tasks-ui-spec",
+  "runId": "run-2026-02-28-080012",
+  "scope": "frontend",
+  "objective": "Define the minimal feature set and screen map for the Tasks UI (list, create, edit, complete), plus interaction flows and acceptance criteria for a scaffold.",
+  "createdAt": "2026-02-28T08:00:21.510273+00:00"
+}

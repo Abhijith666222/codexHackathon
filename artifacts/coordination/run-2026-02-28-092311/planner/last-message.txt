@@ -1,0 +1,25 @@
+{
+  "raw_task": "SCAFFOLD a simple Tasks frontend UI with only one page",
+  "subtasks": [
+    {
+      "name": "agent-a",
+      "scope": "tasks-frontend/bootstrap",
+      "objective": "Set up the single-page app shell: entrypoint, root mount, dependency setup, and route/render entry so the Tasks page is the default and only route."
+    },
+    {
+      "name": "agent-b",
+      "scope": "tasks-frontend/pages",
+      "objective": "Create the one-page Tasks interface with page-level layout, task form controls (create/view placeholders), and static task sections."
+    },
+    {
+      "name": "agent-c",
+      "scope": "tasks-frontend/components",
+      "objective": "Implement reusable UI pieces for the page (task row, task list, section header, action buttons) and compose them into the Tasks page."
+    },
+    {
+      "name": "agent-d",
+      "scope": "tasks-frontend/styles",
+      "objective": "Add baseline styling and responsive behavior for the Tasks page, including card/list/table-like layout, spacing, typography, and mobile adjustments."
+    }
+  ]
+}

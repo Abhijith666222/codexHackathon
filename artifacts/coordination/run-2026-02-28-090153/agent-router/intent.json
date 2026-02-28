@@ -1,0 +1,7 @@
+{
+  "agent": "agent-router",
+  "runId": "run-2026-02-28-090153",
+  "scope": "codex-rs/tui/src/app",
+  "objective": "Integrate a new Tasks route/screen into app entry flow, including view dispatch, keyboard/workspace entrypoint wiring, and any existing route/state enums required for navigation.",
+  "createdAt": "2026-02-28T09:02:13.701451+00:00"
+}

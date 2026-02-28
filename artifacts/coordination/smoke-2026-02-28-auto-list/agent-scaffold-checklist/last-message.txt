@@ -1,0 +1,15 @@
+- [ ] Define scope and stack: framework, routing style, styling system, and target platforms.
+- [ ] Create top-level structure: `app/` or `src/`, `components/`, `layouts/`, `pages/`, `features/`, `lib/`, `assets/`, `styles/`, `tests/`.
+- [ ] Add project-wide config: linting, formatting, path aliases, env handling, and build scripts.
+- [ ] Establish design tokens: spacing, typography, colors, radii, shadows, breakpoints.
+- [ ] Build layout primitives first: `Container`, `Stack`, `Inline`, `Grid`, `Section`, `Spacer`.
+- [ ] Add app shell layout: header, content region, footer, and optional sidebar slots.
+- [ ] Define navigation model: route map, labels, icons, access rules, and active-state logic.
+- [ ] Implement navigation UI: top nav/side nav + mobile menu + breadcrumbs.
+- [ ] Scaffold shared UI components: `Button`, `Input`, `Select`, `Card`, `Modal/Drawer`, `Tabs`, `Table`, `EmptyState`, `Loader`.
+- [ ] Add shared behavior utilities: form validation wrappers, API client layer, error boundary, toast/notification API.
+- [ ] Create placeholder pages for all routes with consistent page template (title, description, primary action, empty/loading states).
+- [ ] Wire each nav item to its placeholder page and verify deep-linking/back-forward behavior.
+- [ ] Add sample fixture/mock data so skeleton pages render realistic structure.
+- [ ] Add baseline tests: route rendering, nav active states, shared component smoke tests.
+- [ ] Run final scaffold review: naming consistency, import boundaries, and “ready-for-feature” checklist sign-off.

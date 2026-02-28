@@ -1,0 +1,7 @@
+{
+  "agent": "tasks-ui-components",
+  "runId": "run-2026-02-28-080012",
+  "scope": "frontend/src",
+  "objective": "Create the core UI scaffold with component structure for task list, task item, and task input, plus route/layout shell and local mock data wiring.",
+  "createdAt": "2026-02-28T08:00:24.785193+00:00"
+}

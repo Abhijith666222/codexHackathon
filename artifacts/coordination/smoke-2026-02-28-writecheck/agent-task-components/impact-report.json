@@ -1,0 +1,9 @@
+{
+  "agent": "agent-task-components",
+  "runId": "smoke-2026-02-28-writecheck",
+  "state": "BLOCKED",
+  "scope": "tasks-ui/components",
+  "changedFiles": [],
+  "durationMs": 116989,
+  "error": "No file changes were produced; execution was blocked or task was not executed."
+}

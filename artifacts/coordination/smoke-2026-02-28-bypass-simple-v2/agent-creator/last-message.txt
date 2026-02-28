@@ -1,0 +1,5 @@
+Updated `codex-rs/SMOKE_WRITE.md` to contain exactly:
+
+`smoke`
+
+(with one trailing newline).

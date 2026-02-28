@@ -1,0 +1,12 @@
+{
+  "agent": "agent-goals-audience",
+  "runId": "run-2026-02-28-085329",
+  "scope": "requirements",
+  "state": "DONE",
+  "threadId": "019ca374-59d5-7543-be95-73db004ffc52",
+  "startedAt": "2026-02-28T08:53:56.078775+00:00",
+  "finishedAt": "2026-02-28T08:54:59.316573+00:00",
+  "durationMs": 63045,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:54:59.423903+00:00"
+}

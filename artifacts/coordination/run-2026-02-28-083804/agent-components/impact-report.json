@@ -1,0 +1,9 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-083804",
+  "state": "BLOCKED",
+  "scope": "ui/components",
+  "changedFiles": [],
+  "durationMs": 60171,
+  "error": "Platform write restriction detected from agent output."
+}

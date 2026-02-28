@@ -1,0 +1,6 @@
+run_id: smoke-2026-02-28-advisory
+overall: DONE
+planner_exit: 0
+scope_ok: True
+mergeable: True
+contract_status: PASS

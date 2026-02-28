@@ -1,0 +1,13 @@
+{
+  "agent": "agent-router",
+  "runId": "run-2026-02-28-090153",
+  "scope": "codex-rs/tui/src/app",
+  "state": "BLOCKED",
+  "threadId": "019ca37c-0ce0-70a2-a311-01380c8b6e6b",
+  "startedAt": "2026-02-28T09:02:20.704374+00:00",
+  "finishedAt": "2026-02-28T09:10:44.887922+00:00",
+  "durationMs": 504124,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T09:10:44.970608+00:00",
+  "blockerReason": "No file changes were produced; execution was blocked or task was not executed."
+}

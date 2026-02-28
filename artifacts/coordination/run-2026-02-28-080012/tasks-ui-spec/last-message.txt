@@ -1,0 +1,89 @@
+I can’t write files in this session (`read-only` sandbox + write tool blocked), so I’m giving you the exact scoped scaffold content to add under `frontend/`.
+
+`frontend/tasks-ui-scaffold-spec.md`:
+```md
+# Tasks UI scaffold (MVP)
+
+## Scope (in-scope features)
+
+- List tasks
+- Create a task
+- Edit a task
+- Complete / uncomplete a task
+
+Out of scope for this scaffold:
+- Filtering, sorting, search, tags, attachments, recurring tasks, comments, sharing, bulk actions, analytics, notifications, permissions.
+
+## Screen map
+
+- `Tasks List` (default/home)
+  - Shows all tasks with title + status + quick-complete control.
+  - CTA for creating a new task.
+- `Task Form` (Create/Edit)
+  - One shared screen reused in two modes:
+    - Create mode (`POST` a new task)
+    - Edit mode (`PATCH` selected task)
+  - Fields:
+    - Title (required)
+    - Description/notes (optional)
+    - Due date (optional)
+  - Actions: Save, Cancel
+
+Optional visual state:
+- Empty state for no tasks
+- Completed section/group at bottom (or compact row style)
+
+## Interaction flows
+
+### 1) Create task
+1. User opens `Tasks List`.
+2. User selects `Add Task`.
+3. Navigate to `Task Form` in create mode.
+4. User enters title (required) and optional fields.
+5. User taps `Save`.
+6. Validate:
+   - Missing/blank title → show inline validation error, keep user on form.
+7. On success:
+   - Persist with status `pending`.
+   - Return to `Tasks List`.
+   - New task appears immediately (optimistically if API async pending).
+
+### 2) Edit task
+1. User taps `Edit` on a task in `Tasks List`.
+2. Navigate to `Task Form` in edit mode with values prefilled.
+3. User updates fields.
+4. User taps `Save`.
+5. Validate as in create flow.
+6. On success:
+   - Persist changes.
+   - Return to `Tasks List`.
+   - Task row reflects updated values.
+
+### 3) Complete / uncomplete task
+1. User toggles completion control on a task row in `Tasks List`.
+2. App immediately updates status:
+   - `pending` → `completed`
+   - `completed` → `pending`
+3. UI updates visual treatment:
+   - Completed tasks visually distinct.
+   - Optional: move completed tasks to separate bottom section.
+
+### 4) Cancel / abort editing
+1. User taps `Cancel` from `Task Form`.
+2. Unsaved edits are discarded.
+3. Return to `Tasks List` without mutation.
+
+## Acceptance criteria
+
+- AC-01: `Tasks List` loads and displays each task title and current status.
+- AC-02: User can create at least one task from list screen.
+- AC-03: Title is required for create/edit; blank title is blocked with clear message.
+- AC-04: Newly created tasks are persisted and visible in list within same session.
+- AC-05: Editing preloads existing data and saves updates successfully.
+- AC-06: Completion toggle works in list view without requiring a separate screen.
+- AC-07: Completed tasks are visually distinguishable from pending tasks.
+- AC-08: API/validation failures produce actionable inline error messaging and keep flow recoverable.
+- AC-09: No extra UI or feature surface beyond list/create/edit/complete is required for this scaffold baseline.
+```
+
+If you want, I can next convert this into an implementation-ready ticket format (user stories + component checklist + route/component mapping).

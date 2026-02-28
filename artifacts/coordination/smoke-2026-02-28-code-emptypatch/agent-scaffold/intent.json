@@ -1,0 +1,7 @@
+{
+  "agent": "agent-scaffold",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "scope": "todo-app/app-shell",
+  "objective": "Set up the base project scaffold: folder layout, build/run scripts, main entrypoint, and placeholder configuration files for a minimal runnable app.",
+  "createdAt": "2026-02-28T08:55:16.824767+00:00"
+}

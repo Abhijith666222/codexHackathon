@@ -1,0 +1,12 @@
+{
+  "agent": "agent-readiness-review",
+  "runId": "run-2026-02-28-085329",
+  "state": "DONE",
+  "scope": "validation",
+  "changedFiles": [],
+  "durationMs": 26885,
+  "exitCode": 0,
+  "threadId": "019ca374-59d7-77d1-b2e5-0a00fd8c5acb",
+  "lastMessage": "**Pre-Feature Validation Gate**\n\n**Responsive behavior**\n- [ ] No horizontal scroll/clipping at `320`, `375`, `768`, `1024`, and `1440` widths.\n- [ ] Core flows work in portrait and landscape.\n- [ ] Touch targets are at least `44x44px`; fixed/sticky UI does not hide content.\n- [ ] Verified on latest Chrome, Safari (iOS), and Firefox.\n\n**Accessibility compliance (WCAG 2.2 AA)**\n- [ ] Automated checks (axe/Lighthouse) report `0` critical/serious issues.\n- [ ] Full keyboard path works (tab order, visible focus, no keyboard traps).\n- [ ] Contrast passes AA (`4.5:1` normal text, `3:1` large text/UI components).\n- [ ] Forms/media/semantics are complete (labels, errors, alt text, headings, landmarks).\n- [ ] Screen-reader smoke test passes for primary journey (NVDA or VoiceOver).\n\n**Performance budget**\n- [ ] p75 mobile Web Vitals: `LCP <= 2.5s`, `INP <= 200ms`, `CLS <= 0.1`.\n- [ ] Initial-load budget: JS `<= 170KB` gz, CSS `<= 60KB` gz.\n- [ ] No long main-thread task over `200ms` during first interaction flow.\n- [ ] CI blocks merge on budget regression.\n\n**Documentation completeness**\n- [ ] PR includes feature goal, acceptance criteria, and out-of-scope notes.\n- [ ] Evidence attached: responsive screenshots, accessibility report, performance report.\n- [ ] User/dev docs updated (README/changelog/config/env changes).\n- [ ] Test plan and results recorded, including known limitations.\n- [ ] Rollback or feature-flag plan documented.",
+  "finishedAt": "2026-02-28T08:54:23.058474+00:00"
+}

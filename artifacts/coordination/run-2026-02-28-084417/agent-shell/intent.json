@@ -1,0 +1,7 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-084417",
+  "scope": "frontend/tasks-shell",
+  "objective": "Set up a minimal frontend shell for the Tasks UI, including app entry, page layout, header, and main content region placeholders.",
+  "createdAt": "2026-02-28T08:44:34.687642+00:00"
+}

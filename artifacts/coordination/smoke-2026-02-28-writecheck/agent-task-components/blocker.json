@@ -1,0 +1,9 @@
+{
+  "agent": "agent-task-components",
+  "runId": "smoke-2026-02-28-writecheck",
+  "state": "BLOCKED",
+  "scope": "tasks-ui/components",
+  "reason": "No file changes were produced; execution was blocked or task was not executed.",
+  "createdAt": "2026-02-28T09:09:50.318163+00:00",
+  "lastMessage": "I can\u2019t apply the requested code changes in this session: the workspace is currently read-only for writes, so `apply_patch`/shell writes are blocked (`rejected: writing outside of the project` / `blocked by policy`).\n\nI did identify the target implementation file as:\n\n- `codex-rs/cloud-tasks/src/ui.rs`\n\nThe requested refactor belongs there, and I already prepared the exact change shape:\n\n- add reusable task row component (props struct + renderer) to replace inline `render_task_item` logic\n- add reusable task form input component (title+composer render + cursor position)\n- add reusable action-control builder (props-driven footer key hints, including apply/attempt state)\n- update `draw_new_task_page`, `draw_list`, `draw_footer`, and replace the old `render_task_item` body with the new component API\n\nIf you enable write access (or re-run in a writable session), I can apply the patch directly."
+}

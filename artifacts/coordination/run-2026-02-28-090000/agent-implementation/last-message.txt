@@ -1,0 +1,111 @@
+I can’t apply edits in this session because the workspace is read-only (`New-Item`/`apply_patch` writes are blocked by policy), so no file was changed.  
+The platform block is the reason I can’t satisfy “must create/update at least one file” directly right now.
+
+Planned scaffold (ready to apply) is in `codex-rs/cloud-tasks/src/ui.rs`:
+
+```rust
+fn use_simple_tasks_ui() -> bool {
+    std::env::var("CODEX_CLOUD_TASKS_SIMPLE_UI")
+        .map(|value| matches!(
+            value.as_str(),
+            "1" | "true" | "TRUE" | "True" | "on" | "ON" | "yes" | "YES"
+        ))
+        .unwrap_or(false)
+}
+
+pub fn draw(frame: &mut Frame, app: &mut App) {
+    if use_simple_tasks_ui() {
+        draw_simple_tasks_ui(frame, app);
+        return;
+    }
+
+    // existing full UI path unchanged
+    let area = frame.area();
+    ...
+}
+
+fn draw_simple_tasks_ui(frame: &mut Frame, app: &mut App) {
+    let area = frame.area();
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Min(1), Constraint::Length(2)])
+        .split(area);
+
+    if app.new_task.is_some() {
+        frame.render_widget(
+            Paragraph::new("New Task mode is not shown in simple UI. Press Esc to close it."),
+            chunks[0],
+        );
+    } else {
+        draw_simple_task_list(frame, chunks[0], app);
+    }
+    draw_simple_footer(frame, chunks[1], app);
+}
+
+fn draw_simple_task_list(frame: &mut Frame, area: Rect, app: &App) {
+    let mut items: Vec<ListItem> = Vec::new();
+    for (idx, task) in app.tasks.iter().enumerate() {
+        let status = match task.status {
+            TaskStatus::Ready => "[READY]".green(),
+            TaskStatus::Pending => "[PENDING]".magenta(),
+            TaskStatus::Applied => "[APPLIED]".blue(),
+            TaskStatus::Error => "[ERROR]".red(),
+        };
+        let marker = if idx == app.selected { ">" } else { " " };
+        let mut line = Line::from(vec![
+            marker.cyan().bold(),
+            " ".into(),
+            status,
+            " ".into(),
+            task.title.clone().into(),
+        ]);
+        if idx == app.selected {
+            line = line.bold();
+        }
+        items.push(ListItem::new(line));
+    }
+    if items.is_empty() {
+        items.push(ListItem::new("No tasks loaded. Press r to refresh.".dim()));
+    }
+
+    let block = Block::default().borders(Borders::ALL).title("Tasks");
+    frame.render_widget(block.clone(), area);
+    let list = List::new(items)
+        .highlight_symbol(" ")
+        .highlight_style(Style::default().bold());
+    let mut state = ListState::default().with_selected(Some(
+        app.selected.min(app.tasks.len().saturating_sub(1)),
+    ));
+    if app.tasks.is_empty() {
+        state = ListState::default().with_selected(None);
+    }
+    frame.render_stateful_widget(list, block.inner(area), &mut state);
+}
+
+fn draw_simple_footer(frame: &mut Frame, area: Rect, app: &App) {
+    let mut status = app.status.replace('\n', " ");
+    if status.len() > 1200 {
+        status.truncate(1200);
+        status.push('…');
+    }
+    let help = Paragraph::new(Line::from(vec![
+        "↑/↓".dim(),
+        " Navigate  ".into(),
+        "r".dim(),
+        ": Refresh  ".into(),
+        "Enter".dim(),
+        ": Open  ".into(),
+        "q".dim(),
+        ": Quit".into(),
+    ]));
+    let rows = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([Constraint::Length(1), Constraint::Length(1)])
+        .split(area);
+    frame.render_widget(help, rows[0]);
+    frame.render_widget(Clear, rows[1]);
+    frame.render_widget(Paragraph::new(status), rows[1]);
+}
+```
+
+If you switch the workspace to writable, I can apply this patch directly to `codex-rs/cloud-tasks/src/ui.rs` and then proceed with the requested `just fmt`/targeted test steps.

@@ -1,0 +1,5 @@
+Contract drift detected.
+Expected file: C:\1Reju\Coding\HACKATHONS\Codex 2026\CollaborationProject\CodexHackathon_WeNeedInterns\codexHackathon\contracts\app-schema.expected.json
+Generated file: C:\1Reju\Coding\HACKATHONS\Codex 2026\CollaborationProject\CodexHackathon_WeNeedInterns\codexHackathon\artifacts\pr-packets\run-2026-02-28-084457\generated-schema\json\codex_app_server_protocol.schemas.json
+Expected hash: 7676abc91b268e97c20529182c4fa8b85a39124b70380b671137db8bb588274f
+Generated hash: 22aa225404e67ef7bc8fa5afa9fc30768b3bf5e79053844d2cc73084f4cc6f94

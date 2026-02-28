@@ -1,0 +1,7 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "agentCount": 1,
+  "exitCode": 2,
+  "state": "BLOCKED",
+  "parsed": false
+}

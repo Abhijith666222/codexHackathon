@@ -1,0 +1,9 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-084457",
+  "state": "BLOCKED",
+  "scope": "frontend/tasks-ui/shell",
+  "reason": "No file changes were produced; execution was blocked or task was not executed.",
+  "createdAt": "2026-02-28T08:46:20.482314+00:00",
+  "lastMessage": "Blocked by the current environment settings, so no code changes were possible.\n\nWhat I verified:\n- `frontend/tasks-ui/shell` does not exist in this worktree.\n- Write attempts were rejected by policy:\n  - `New-Item -ItemType Directory -Path frontend/tasks-ui/shell -Force` \u2192 blocked by policy\n  - `apply_patch` adding `frontend/tasks-ui/shell/.keep` \u2192 rejected by approval/settings\n\nTo proceed, I need a writable session (or pre-created writable scope at `frontend/tasks-ui/shell`). Once that is available, I can scaffold the structure, app entry point, and Tasks page route/container in that scope only."
+}

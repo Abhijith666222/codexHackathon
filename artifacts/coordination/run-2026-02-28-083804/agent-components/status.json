@@ -1,0 +1,13 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/components",
+  "state": "BLOCKED",
+  "threadId": "019ca366-47e1-7ff1-b84d-06b8b1b72b3b",
+  "startedAt": "2026-02-28T08:38:34.005636+00:00",
+  "finishedAt": "2026-02-28T08:39:34.479502+00:00",
+  "durationMs": 60171,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:39:34.534466+00:00",
+  "blockerReason": "Platform write restriction detected from agent output."
+}

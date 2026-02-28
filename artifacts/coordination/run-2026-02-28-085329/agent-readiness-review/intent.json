@@ -1,0 +1,7 @@
+{
+  "agent": "agent-readiness-review",
+  "runId": "run-2026-02-28-085329",
+  "scope": "validation",
+  "objective": "Establish pre-feature quality checks for responsive behavior, accessibility compliance, performance budget, and documentation completeness.",
+  "createdAt": "2026-02-28T08:53:56.077368+00:00"
+}

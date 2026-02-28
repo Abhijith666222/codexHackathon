@@ -1,0 +1,7 @@
+{
+  "agent": "final-integration",
+  "runId": "run-2026-02-28-075357",
+  "scope": "app composition + docs",
+  "objective": "Integrate components into the app screen, connect to state layer, add quick smoke checklist, and document how to run the scaffold.",
+  "createdAt": "2026-02-28T07:54:11.193058+00:00"
+}

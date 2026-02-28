@@ -1,0 +1,1549 @@
+
+# agent-a
+diff --git a/tasks-frontend/bootstrap/index.html b/tasks-frontend/bootstrap/index.html
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/index.html
+@@ -0,0 +1,12 @@
++<!doctype html>
++<html lang="en">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>Tasks</title>
++  </head>
++  <body>
++    <div id="root"></div>
++    <script type="module" src="/src/main.tsx"></script>
++  </body>
++</html>
+
+diff --git a/tasks-frontend/bootstrap/package.json b/tasks-frontend/bootstrap/package.json
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/package.json
+@@ -0,0 +1,23 @@
++{
++  "name": "tasks-frontend",
++  "version": "0.0.1",
++  "private": true,
++  "type": "module",
++  "scripts": {
++    "dev": "vite",
++    "build": "tsc -b && vite build",
++    "preview": "vite preview"
++  },
++  "dependencies": {
++    "react": "^18.3.1",
++    "react-dom": "^18.3.1",
++    "react-router-dom": "^6.28.0"
++  },
++  "devDependencies": {
++    "@types/react": "^18.3.7",
++    "@types/react-dom": "^18.3.1",
++    "@vitejs/plugin-react": "^4.4.1",
++    "typescript": "^5.8.3",
++    "vite": "^6.1.0"
++  }
++}
+
+diff --git a/tasks-frontend/bootstrap/src/App.tsx b/tasks-frontend/bootstrap/src/App.tsx
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/src/App.tsx
+@@ -0,0 +1,14 @@
++import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
++
++import { TasksPage } from "./pages/TasksPage";
++
++export function App() {
++  return (
++    <BrowserRouter>
++      <Routes>
++        <Route path="/" element={<TasksPage />} />
++        <Route path="*" element={<Navigate to="/" replace />} />
++      </Routes>
++    </BrowserRouter>
++  );
++}
+
+diff --git a/tasks-frontend/bootstrap/src/main.tsx b/tasks-frontend/bootstrap/src/main.tsx
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/src/main.tsx
+@@ -0,0 +1,16 @@
++import { StrictMode } from "react";
++import { createRoot } from "react-dom/client";
++
++import { App } from "./App";
++import "./styles.css";
++
++const rootEl = document.getElementById("root");
++if (!rootEl) {
++  throw new Error('Root element with id "root" was not found.');
++}
++
++createRoot(rootEl).render(
++  <StrictMode>
++    <App />
++  </StrictMode>,
++);
+
+diff --git a/tasks-frontend/bootstrap/src/pages/TasksPage.tsx b/tasks-frontend/bootstrap/src/pages/TasksPage.tsx
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/src/pages/TasksPage.tsx
+@@ -0,0 +1,8 @@
++export function TasksPage() {
++  return (
++    <main className="tasks-page">
++      <h1>Tasks</h1>
++      <p>Default and only route currently renders this page.</p>
++    </main>
++  );
++}
+
+diff --git a/tasks-frontend/bootstrap/src/styles.css b/tasks-frontend/bootstrap/src/styles.css
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/src/styles.css
+@@ -0,0 +1,15 @@
++body {
++  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
++    sans-serif;
++  margin: 0;
++}
++
++#root {
++  min-height: 100vh;
++  padding: 2rem;
++}
++
++.tasks-page {
++  max-width: 640px;
++  margin: 0 auto;
++}
+
+diff --git a/tasks-frontend/bootstrap/tsconfig.json b/tasks-frontend/bootstrap/tsconfig.json
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/tsconfig.json
+@@ -0,0 +1,17 @@
++{
++  "compilerOptions": {
++    "target": "ES2022",
++    "module": "ESNext",
++    "moduleResolution": "bundler",
++    "lib": ["DOM", "ES2022"],
++    "jsx": "react-jsx",
++    "strict": true,
++    "noEmit": true,
++    "skipLibCheck": true,
++    "baseUrl": ".",
++    "paths": {
++      "@/*": ["./src/*"]
++    }
++  },
++  "include": ["src"]
++}
+
+diff --git a/tasks-frontend/bootstrap/vite.config.ts b/tasks-frontend/bootstrap/vite.config.ts
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/bootstrap/vite.config.ts
+@@ -0,0 +1,6 @@
++import react from "@vitejs/plugin-react";
++import { defineConfig } from "vite";
++
++export default defineConfig({
++  plugins: [react()],
++});
+
+# agent-b
+diff --git a/tasks-frontend/pages/index.html b/tasks-frontend/pages/index.html
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/pages/index.html
+@@ -0,0 +1,348 @@
++<!doctype html>
++<html lang="en">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
++    <title>Tasks</title>
++    <style>
++      :root {
++        --bg: #0f1024;
++        --panel: #1a1d3b;
++        --panel-soft: #252a57;
++        --line: rgba(255, 255, 255, 0.14);
++        --text: #eef1ff;
++        --muted: #a4aedf;
++        --accent: #5ac8ff;
++        --accent-2: #6b8cff;
++      }
++
++      * {
++        box-sizing: border-box;
++      }
++
++      body {
++        margin: 0;
++        min-height: 100vh;
++        font-family: "Inter", "Segoe UI", Roboto, sans-serif;
++        color: var(--text);
++        background:
++          radial-gradient(circle at 10% 20%, rgba(90, 200, 255, 0.18), transparent 32%),
++          radial-gradient(circle at 90% 0%, rgba(107, 140, 255, 0.18), transparent 36%),
++          var(--bg);
++      }
++
++      .shell {
++        max-width: 1180px;
++        margin: 0 auto;
++        padding: 2rem;
++        display: grid;
++        gap: 1rem;
++      }
++
++      .topbar {
++        background: linear-gradient(120deg, #171b43, #23295a);
++        border: 1px solid var(--line);
++        border-radius: 18px;
++        padding: 1.2rem 1.4rem;
++        display: flex;
++        justify-content: space-between;
++        align-items: center;
++      }
++
++      .topbar h1 {
++        margin: 0;
++        font-size: clamp(1.5rem, 3vw, 2rem);
++        letter-spacing: 0.01em;
++      }
++
++      .topbar span {
++        color: var(--muted);
++        font-size: 0.95rem;
++      }
++
++      .layout {
++        display: grid;
++        grid-template-columns: 280px minmax(0, 1fr);
++        gap: 1rem;
++        align-items: start;
++      }
++
++      .panel {
++        background: rgba(26, 29, 59, 0.85);
++        border: 1px solid var(--line);
++        border-radius: 16px;
++        padding: 1rem;
++      }
++
++      .panel h2 {
++        margin: 0 0 1rem;
++        font-size: 1.05rem;
++      }
++
++      .pill {
++        display: inline-flex;
++        align-items: center;
++        gap: 0.4rem;
++        margin-left: 0.5rem;
++        padding: 0.25rem 0.6rem;
++        border-radius: 999px;
++        font-size: 0.78rem;
++        color: #101126;
++        background: var(--accent);
++        font-weight: 700;
++      }
++
++      .label {
++        margin-top: 0.85rem;
++        display: block;
++        font-size: 0.85rem;
++        color: var(--muted);
++      }
++
++      input,
++      select,
++      textarea,
++      button {
++        width: 100%;
++        margin-top: 0.45rem;
++        border-radius: 10px;
++        border: 1px solid var(--line);
++        background: #10142e;
++        color: var(--text);
++        font: inherit;
++      }
++
++      input,
++      select,
++      textarea {
++        padding: 0.63rem 0.75rem;
++      }
++
++      textarea {
++        resize: vertical;
++        min-height: 72px;
++      }
++
++      .btn-row {
++        margin-top: 1rem;
++        display: flex;
++        gap: 0.65rem;
++      }
++
++      button {
++        cursor: not-allowed;
++        padding: 0.68rem 1rem;
++        color: #f3f5ff;
++        border: none;
++      }
++
++      .btn-primary {
++        background: linear-gradient(120deg, #5ac8ff, #6b8cff);
++      }
++
++      .btn-subtle {
++        background: var(--panel-soft);
++      }
++
++      .control-note {
++        margin-top: 0.7rem;
++        font-size: 0.8rem;
++        color: var(--muted);
++      }
++
++      .dashboard {
++        display: grid;
++        gap: 1rem;
++        grid-template-columns: repeat(3, minmax(0, 1fr));
++      }
++
++      .task-column {
++        background: linear-gradient(180deg, rgba(33, 37, 75, 0.85), rgba(26, 29, 59, 0.85));
++        border: 1px solid var(--line);
++        border-radius: 14px;
++        min-height: 420px;
++        padding: 0.9rem;
++      }
++
++      .task-column h3 {
++        margin: 0;
++        font-size: 0.95rem;
++        display: flex;
++        justify-content: space-between;
++      }
++
++      .count {
++        background: rgba(255, 255, 255, 0.12);
++        border-radius: 999px;
++        padding: 0.15rem 0.55rem;
++        font-size: 0.78rem;
++      }
++
++      .task-card {
++        margin-top: 0.85rem;
++        padding: 0.7rem;
++        border-radius: 10px;
++        border: 1px solid rgba(255, 255, 255, 0.14);
++        background: var(--panel-soft);
++      }
++
++      .task-card h4 {
++        margin: 0 0 0.4rem;
++        font-size: 0.95rem;
++      }
++
++      .meta {
++        color: var(--muted);
++        font-size: 0.8rem;
++        margin-bottom: 0.4rem;
++      }
++
++      .task-card p {
++        margin: 0;
++        font-size: 0.86rem;
++        line-height: 1.4;
++        color: #d7dcff;
++      }
++
++      .placeholder {
++        margin-top: 1rem;
++        border: 1px dashed rgba(255, 255, 255, 0.3);
++        border-radius: 10px;
++        padding: 0.9rem;
++        font-size: 0.85rem;
++        color: var(--muted);
++        background: rgba(255, 255, 255, 0.02);
++      }
++
++      .view-actions {
++        display: flex;
++        gap: 0.6rem;
++        margin-top: 0.6rem;
++      }
++
++      .view-actions button {
++        width: auto;
++        cursor: not-allowed;
++      }
++
++      @media (max-width: 980px) {
++        .layout {
++          grid-template-columns: 1fr;
++        }
++
++        .dashboard {
++          grid-template-columns: 1fr;
++        }
++
++        .shell {
++          padding: 1rem;
++        }
++      }
++    </style>
++  </head>
++  <body>
++    <div class="shell">
++      <section class="topbar">
++        <div>
++          <h1>Tasks Workspace</h1>
++          <span>Single-page interface • static layout and placeholders</span>
++        </div>
++        <div>
++          <span class="pill">Build phase</span>
++        </div>
++      </section>
++
++      <main class="layout">
++        <aside class="panel">
++          <h2>Task Controls</h2>
++          <label class="label" for="task-title">Create task</label>
++          <input id="task-title" type="text" placeholder="Sprint planning notes" />
++          <label class="label" for="task-priority">Priority</label>
++          <select id="task-priority">
++            <option>Low</option>
++            <option selected>Normal</option>
++            <option>High</option>
++          </select>
++          <label class="label" for="task-owner">Assignee</label>
++          <input id="task-owner" type="text" placeholder="Alex Park" />
++          <label class="label" for="task-notes">Description</label>
++          <textarea id="task-notes" placeholder="Define acceptance and constraints..."></textarea>
++          <div class="btn-row">
++            <button class="btn-primary" type="button">Create task</button>
++            <button class="btn-subtle" type="button">Clear</button>
++          </div>
++          <p class="control-note">Create control is static placeholder for now.</p>
++
++          <div class="placeholder">
++            <strong>View placeholder</strong>
++            <p>Filter, sort, and search inputs will render the task board from backend data in later iterations.</p>
++          </div>
++        </aside>
++
++        <section class="panel">
++          <div class="dashboard">
++            <article class="task-column">
++              <h3>
++                Backlog
++                <span class="count">2</span>
++              </h3>
++              <div class="task-card">
++                <h4>Design onboarding screen</h4>
++                <div class="meta">Due: Feb 29 • Owner: Alex</div>
++                <p>Draft the interaction flow and static wireframe.</p>
++              </div>
++              <div class="task-card">
++                <h4>Prepare API contract</h4>
++                <div class="meta">Due: Mar 1 • Owner: Morgan</div>
++                <p>Align response schemas and error payload conventions.</p>
++              </div>
++            </article>
++
++            <article class="task-column">
++              <h3>
++                In progress
++                <span class="count">1</span>
++              </h3>
++              <div class="task-card">
++                <h4>Build create form</h4>
++                <div class="meta">Due: Feb 28 • Owner: Priya</div>
++                <p>Static UI shell for task composition completed.</p>
++              </div>
++            </article>
++
++            <article class="task-column">
++              <h3>
++                Done
++                <span class="count">3</span>
++              </h3>
++              <div class="task-card">
++                <h4>Review scope</h4>
++                <div class="meta">Completed: Feb 26 • Owner: Team</div>
++                <p>Finalized page-level layout and confirmed accessible placeholders.</p>
++              </div>
++              <div class="task-card">
++                <h4>Initial styling pass</h4>
++                <div class="meta">Completed: Feb 27 • Owner: Team</div>
++                <p>Implemented responsive shell, gradients, and section structure.</p>
++              </div>
++              <div class="task-card">
++                <h4>Navigation shell</h4>
++                <div class="meta">Completed: Feb 27 • Owner: Team</div>
++                <p>Added status lanes and panel grid for task groupings.</p>
++              </div>
++            </article>
++          </div>
++
++          <div class="placeholder">
++            <strong>View mode placeholder</strong>
++            <p>Static list cards are currently hard-coded. Connect to a data source to swap these cards with real tasks.</p>
++            <div class="view-actions">
++              <button class="btn-subtle" type="button">Kanban (placeholder)</button>
++              <button class="btn-subtle" type="button">List (placeholder)</button>
++            </div>
++          </div>
++        </section>
++      </main>
++    </div>
++  </body>
++</html>
+
+# agent-c
+diff --git a/tasks-frontend/components/action-buttons.js b/tasks-frontend/components/action-buttons.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/action-buttons.js
+@@ -0,0 +1,88 @@
++const ACTIONS = {
++  complete: {
++    label: "Mark done",
++    className: "action-buttons__button action-buttons__button--done",
++  },
++  edit: {
++    label: "Edit",
++    className: "action-buttons__button action-buttons__button--edit",
++  },
++  delete: {
++    label: "Archive",
++    className: "action-buttons__button action-buttons__button--delete",
++  },
++};
++
++class ActionButtons extends HTMLElement {
++  static get observedAttributes() {
++    return ["actions", "task-id", "task-title"];
++  }
++
++  constructor() {
++    super();
++    this._onClick = this._onClick.bind(this);
++  }
++
++  connectedCallback() {
++    this.render();
++    this.addEventListener("click", this._onClick);
++  }
++
++  disconnectedCallback() {
++    this.removeEventListener("click", this._onClick);
++  }
++
++  attributeChangedCallback() {
++    this.render();
++  }
++
++  _parseActions() {
++    const actionsAttr = this.getAttribute("actions");
++    if (!actionsAttr) {
++      return ["complete", "edit", "delete"];
++    }
++
++    return actionsAttr
++      .split(",")
++      .map((action) => action.trim())
++      .filter(Boolean)
++      .filter((action) => ACTIONS[action]);
++  }
++
++  _onClick(event) {
++    const button = event.target.closest("button[data-action]");
++    if (!button) {
++      return;
++    }
++
++    const action = button.dataset.action;
++    const taskId = this.getAttribute("task-id") || "";
++    const taskTitle = this.getAttribute("task-title") || "";
++
++    this.dispatchEvent(
++      new CustomEvent("task-action", {
++        bubbles: true,
++        composed: true,
++        detail: {
++          action,
++          taskId,
++          taskTitle,
++        },
++      }),
++    );
++  }
++
++  render() {
++    const actions = this._parseActions();
++    const buttons = actions
++      .map((action) => {
++        const actionData = ACTIONS[action];
++        return `<button type="button" data-action="${action}" class="${actionData.className}" aria-label="${actionData.label}">${actionData.label}</button>`;
++      })
++      .join("");
++
++    this.innerHTML = `<div class="action-buttons">${buttons}</div>`;
++  }
++}
++
++customElements.define("action-buttons", ActionButtons);
+
+diff --git a/tasks-frontend/components/section-header.js b/tasks-frontend/components/section-header.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/section-header.js
+@@ -0,0 +1,26 @@
++class SectionHeader extends HTMLElement {
++  static get observedAttributes() {
++    return ["title", "subtitle"];
++  }
++
++  connectedCallback() {
++    this.classList.add("section-header");
++    this.render();
++  }
++
++  attributeChangedCallback() {
++    this.render();
++  }
++
++  render() {
++    const title = this.getAttribute("title") || "Section";
++    const subtitle = this.getAttribute("subtitle") || "";
++
++    this.innerHTML = `
++      <h2 class="section-header__title">${title}</h2>
++      ${subtitle ? `<p class="section-header__subtitle">${subtitle}</p>` : ""}
++    `;
++  }
++}
++
++customElements.define("section-header", SectionHeader);
+
+diff --git a/tasks-frontend/components/task-list.js b/tasks-frontend/components/task-list.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/task-list.js
+@@ -0,0 +1,68 @@
++class TaskList extends HTMLElement {
++  static get observedAttributes() {
++    return ["section"];
++  }
++
++  constructor() {
++    super();
++    this._tasks = [];
++  }
++
++  connectedCallback() {
++    this.classList.add("task-list");
++    this.render();
++  }
++
++  set tasks(value) {
++    if (!Array.isArray(value)) {
++      this._tasks = [];
++    } else {
++      this._tasks = value;
++    }
++    this.render();
++  }
++
++  get tasks() {
++    return this._tasks;
++  }
++
++  render() {
++    this.innerHTML = "";
++
++    if (!this._tasks.length) {
++      this.innerHTML = `<p class="task-list__empty">No tasks in this section.</p>`;
++      return;
++    }
++
++    const list = document.createElement("ul");
++    list.className = "task-list__items";
++
++    for (const task of this._tasks) {
++      const row = document.createElement("li");
++      const item = document.createElement("task-row");
++
++      row.className = "task-list__entry";
++      row.appendChild(item);
++
++      item.setAttribute("task-id", task.id || "");
++      item.setAttribute("title", task.title || "Untitled task");
++      item.setAttribute("status", task.status || "todo");
++      item.setAttribute("due", task.due || "");
++      item.setAttribute("owner", task.owner || "Unassigned");
++      item.setAttribute("notes", task.notes || "");
++      list.appendChild(row);
++    }
++
++    this.appendChild(list);
++  }
++
++  get sectionName() {
++    return this.getAttribute("data-section") || "default";
++  }
++
++  getTaskCount() {
++    return this._tasks.length;
++  }
++}
++
++customElements.define("task-list", TaskList);
+
+diff --git a/tasks-frontend/components/task-row.js b/tasks-frontend/components/task-row.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/task-row.js
+@@ -0,0 +1,60 @@
++class TaskRow extends HTMLElement {
++  static get observedAttributes() {
++    return ["task-id", "title", "status", "due", "owner", "notes"];
++  }
++
++  connectedCallback() {
++    this.classList.add("task-row");
++    this.render();
++  }
++
++  attributeChangedCallback() {
++    this.render();
++  }
++
++  _statusMeta(status) {
++    const normalized = (status || "todo").toLowerCase();
++    if (normalized === "completed" || normalized === "done") {
++      return { label: "Completed", className: "is-complete" };
++    }
++    if (normalized === "in-progress" || normalized === "in progress") {
++      return { label: "In progress", className: "is-in-progress" };
++    }
++    return { label: "To do", className: "is-todo" };
++  }
++
++  render() {
++    const taskId = this.getAttribute("task-id") || "";
++    const title = this.getAttribute("title") || "Untitled task";
++    const status = this.getAttribute("status") || "todo";
++    const due = this.getAttribute("due") || "No date";
++    const owner = this.getAttribute("owner") || "Unassigned";
++    const notes = this.getAttribute("notes") || "";
++    const statusMeta = this._statusMeta(status);
++    const isCompleted =
++      statusMeta.className === "is-complete" ? "task-row--completed" : "";
++
++    this.innerHTML = `
++      <article class="task-row__card ${isCompleted}">
++        <header class="task-row__header">
++          <h3 class="task-row__title">${title}</h3>
++          <span class="task-row__status ${statusMeta.className}">
++            ${statusMeta.label}
++          </span>
++        </header>
++        <p class="task-row__meta">
++          <span>Due: ${due}</span>
++          <span>Owner: ${owner}</span>
++        </p>
++        ${notes ? `<p class="task-row__notes">${notes}</p>` : ""}
++        <action-buttons
++          actions="complete,edit,delete"
++          task-id="${taskId}"
++          task-title="${title}">
++        </action-buttons>
++      </article>
++    `;
++  }
++}
++
++customElements.define("task-row", TaskRow);
+
+diff --git a/tasks-frontend/components/tasks-page.css b/tasks-frontend/components/tasks-page.css
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/tasks-page.css
+@@ -0,0 +1,201 @@
++:root {
++  --accent: #5b6cf0;
++  --accent-2: #9e6bff;
++  --danger: #ff5c77;
++  --success: #2ec4b6;
++  --surface: rgba(13, 17, 32, 0.74);
++  --surface-2: rgba(15, 21, 39, 0.72);
++  --text-primary: #f4f6ff;
++  --text-muted: #b7c4ff;
++  --border: rgba(161, 176, 255, 0.26);
++}
++
++*,
++*::before,
++*::after {
++  box-sizing: border-box;
++}
++
++body {
++  margin: 0;
++  min-height: 100vh;
++  color: var(--text-primary);
++  background:
++    radial-gradient(circle at 12% 20%, #2a3b77 0%, transparent 35%),
++    radial-gradient(circle at 85% 8%, #5b2a89 0%, transparent 30%),
++    linear-gradient(135deg, #0a0f1e, #1e2a4f);
++  font-family: "Trebuchet MS", "Segoe UI", "Arial Rounded MT", sans-serif;
++}
++
++.page-shell {
++  max-width: 960px;
++  margin: 0 auto;
++  padding: 2rem 1.2rem 3rem;
++}
++
++.page-title {
++  margin: 0 0 1rem;
++  font-size: clamp(1.9rem, 3vw, 2.5rem);
++  letter-spacing: 0.02em;
++}
++
++.tasks-grid {
++  display: grid;
++  gap: 1rem;
++}
++
++@media (min-width: 840px) {
++  .tasks-grid {
++    grid-template-columns: repeat(2, minmax(280px, 1fr));
++  }
++}
++
++.tasks-section-card {
++  background: var(--surface);
++  border: 1px solid var(--border);
++  border-radius: 1rem;
++  backdrop-filter: blur(10px);
++  padding: 1rem;
++}
++
++.section-header {
++  margin: 0 0 0.85rem;
++  padding-bottom: 0.7rem;
++  border-bottom: 1px solid var(--border);
++}
++
++.section-header__title {
++  margin: 0;
++  font-size: 1.25rem;
++}
++
++.section-header__subtitle {
++  margin: 0.25rem 0 0;
++  color: var(--text-muted);
++  font-size: 0.95rem;
++}
++
++.task-list__empty {
++  margin: 0;
++  color: var(--text-muted);
++  font-size: 0.95rem;
++}
++
++.task-list__items {
++  list-style: none;
++  margin: 0;
++  padding: 0;
++}
++
++.task-list__entry {
++  margin: 0;
++  padding: 0;
++}
++
++.task-row {
++  display: block;
++}
++
++.task-row__card {
++  display: grid;
++  gap: 0.6rem;
++  padding: 0.8rem;
++  margin-bottom: 0.65rem;
++  border-radius: 0.8rem;
++  background: var(--surface-2);
++  border: 1px solid transparent;
++  transition: border-color 0.2s ease, transform 0.2s ease;
++}
++
++.task-row__card:hover {
++  border-color: color-mix(in oklab, var(--accent), #fff 18%);
++  transform: translateY(-1px);
++}
++
++.task-row__header {
++  display: flex;
++  justify-content: space-between;
++  align-items: baseline;
++  gap: 0.6rem;
++}
++
++.task-row__title {
++  margin: 0;
++  font-size: 1rem;
++}
++
++.task-row__status {
++  padding: 0.2rem 0.6rem;
++  border-radius: 999px;
++  font-size: 0.76rem;
++  font-weight: 700;
++  color: var(--text-primary);
++}
++
++.task-row__status.is-todo {
++  background: rgba(123, 130, 255, 0.22);
++}
++
++.task-row__status.is-in-progress {
++  background: rgba(248, 181, 80, 0.23);
++}
++
++.task-row__status.is-complete {
++  background: rgba(46, 196, 182, 0.22);
++}
++
++.task-row--completed .task-row__title {
++  color: #94a8ff;
++  text-decoration: line-through;
++}
++
++.task-row__meta {
++  margin: 0;
++  display: flex;
++  justify-content: space-between;
++  gap: 0.4rem;
++  flex-wrap: wrap;
++  color: var(--text-muted);
++  font-size: 0.85rem;
++}
++
++.task-row__notes {
++  margin: 0;
++  color: #d0dcff;
++  line-height: 1.45;
++  font-size: 0.92rem;
++}
++
++.action-buttons {
++  display: flex;
++  gap: 0.5rem;
++  flex-wrap: wrap;
++}
++
++.action-buttons__button {
++  border: none;
++  cursor: pointer;
++  padding: 0.42rem 0.65rem;
++  border-radius: 0.6rem;
++  font-weight: 600;
++  color: white;
++  transition: transform 0.15s ease, filter 0.15s ease;
++  font-size: 0.8rem;
++}
++
++.action-buttons__button:hover {
++  transform: translateY(-1px);
++  filter: brightness(1.06);
++}
++
++.action-buttons__button--done {
++  background: linear-gradient(135deg, #1ea6ff, var(--success));
++}
++
++.action-buttons__button--edit {
++  background: linear-gradient(135deg, #8f78ff, #4f7dff);
++}
++
++.action-buttons__button--delete {
++  background: linear-gradient(135deg, #ff7b89, var(--danger));
++}
+
+diff --git a/tasks-frontend/components/tasks-page.html b/tasks-frontend/components/tasks-page.html
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/tasks-page.html
+@@ -0,0 +1,37 @@
++<!doctype html>
++<html lang="en">
++  <head>
++    <meta charset="UTF-8" />
++    <meta
++      name="viewport"
++      content="width=device-width, initial-scale=1.0"
++    />
++    <title>Tasks</title>
++    <link rel="stylesheet" href="tasks-page.css" />
++  </head>
++  <body>
++    <main class="page-shell">
++      <h1 class="page-title">Tasks</h1>
++      <div class="tasks-grid">
++        <section class="tasks-section-card">
++          <section-header
++            data-section="today"
++            title="Today"
++            subtitle="Loading…"
++          ></section-header>
++          <task-list data-section="today"></task-list>
++        </section>
++
++        <section class="tasks-section-card">
++          <section-header
++            data-section="upcoming"
++            title="Upcoming"
++            subtitle="Loading…"
++          ></section-header>
++          <task-list data-section="upcoming"></task-list>
++        </section>
++      </div>
++    </main>
++    <script type="module" src="tasks-page.js"></script>
++  </body>
++</html>
+
+diff --git a/tasks-frontend/components/tasks-page.js b/tasks-frontend/components/tasks-page.js
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/components/tasks-page.js
+@@ -0,0 +1,140 @@
++import "./section-header.js";
++import "./action-buttons.js";
++import "./task-row.js";
++import "./task-list.js";
++
++const tasksBySection = {
++  today: [
++    {
++      id: "t1",
++      title: "Review project kickoff notes",
++      status: "completed",
++      due: "9:00 AM",
++      owner: "Iris",
++      notes: "Collect open questions and share timeline updates.",
++    },
++    {
++      id: "t2",
++      title: "Ship reusable task row component",
++      status: "in-progress",
++      due: "11:30 AM",
++      owner: "Sam",
++      notes: "Keep data payload stable and easy to map into future APIs.",
++    },
++    {
++      id: "t3",
++      title: "Block out sprint review prep",
++      status: "todo",
++      due: "3:00 PM",
++      owner: "Nina",
++      notes: "Finalize agenda and gather demo screenshots.",
++    },
++  ],
++  upcoming: [
++    {
++      id: "u1",
++      title: "Draft user onboarding copy",
++      status: "todo",
++      due: "Tomorrow, 10:00 AM",
++      owner: "Dara",
++      notes: "Use concise action verbs and keep tone consistent.",
++    },
++    {
++      id: "u2",
++      title: "Audit task list accessibility",
++      status: "todo",
++      due: "Tomorrow, 2:00 PM",
++      owner: "Dev Team",
++      notes: "Check contrast, focus states, and keyboard interactions.",
++    },
++  ],
++};
++
++const sections = Object.keys(tasksBySection);
++
++function normalizeStatus(status) {
++  if (status === "done") {
++    return "completed";
++  }
++  return status;
++}
++
++function cloneTasks(tasks) {
++  return tasks.map((task) => ({ ...task }));
++}
++
++function getTaskList(section) {
++  return document.querySelector(`task-list[data-section="${section}"]`);
++}
++
++function getSectionHeader(section) {
++  return document.querySelector(`section-header[data-section="${section}"]`);
++}
++
++function renderSection(section) {
++  const list = getTaskList(section);
++  const header = getSectionHeader(section);
++  const sectionTasks = tasksBySection[section] || [];
++
++  if (!list || !header) {
++    return;
++  }
++
++  const preparedTasks = sectionTasks.map((task) => ({
++    ...task,
++    status: normalizeStatus(task.status),
++  }));
++  list.tasks = preparedTasks;
++  header.setAttribute("subtitle", `${preparedTasks.length} tasks`);
++}
++
++function handleTaskAction(event) {
++  const { action, taskId } = event.detail || {};
++  const list = event.currentTarget;
++  const section = list.getAttribute("data-section");
++
++  if (!section || !taskId || !tasksBySection[section]) {
++    return;
++  }
++
++  const sectionTasks = tasksBySection[section];
++  const taskIndex = sectionTasks.findIndex((task) => task.id === taskId);
++  if (taskIndex < 0) {
++    return;
++  }
++
++  if (action === "complete") {
++    const current = sectionTasks[taskIndex].status;
++    sectionTasks[taskIndex].status =
++      current === "completed" ? "todo" : "completed";
++  }
++
++  if (action === "edit") {
++    const currentTitle = sectionTasks[taskIndex].title;
++    const nextTitle = prompt(
++      `Rename task "${currentTitle}"`,
++      currentTitle,
++    );
++    if (nextTitle && nextTitle.trim()) {
++      sectionTasks[taskIndex].title = nextTitle.trim();
++    }
++  }
++
++  if (action === "delete") {
++    sectionTasks.splice(taskIndex, 1);
++  }
++
++  renderSection(section);
++}
++
++for (const section of sections) {
++  const list = getTaskList(section);
++  if (list) {
++    list.tasks = cloneTasks(tasksBySection[section]);
++    list.addEventListener("task-action", handleTaskAction);
++  }
++}
++
++for (const section of sections) {
++  renderSection(section);
++}
+
+# agent-d
+diff --git a/tasks-frontend/styles/tasks-page.css b/tasks-frontend/styles/tasks-page.css
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/tasks-frontend/styles/tasks-page.css
+@@ -0,0 +1,347 @@
++﻿:root {
++  --tasks-bg: #0f1024;
++  --tasks-panel: #1a1d3b;
++  --tasks-panel-soft: #252a57;
++  --tasks-line: rgba(255, 255, 255, 0.14);
++  --tasks-text: #eef1ff;
++  --tasks-text-strong: #f8faff;
++  --tasks-muted: #a4aedf;
++  --tasks-accent: #5ac8ff;
++  --tasks-accent-alt: #6b8cff;
++}
++
++*,
++*::before,
++*::after {
++  box-sizing: border-box;
++}
++
++.tasks-page {
++  margin: 0;
++  min-height: 100vh;
++  color: var(--tasks-text);
++  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
++  background:
++    radial-gradient(circle at 10% 20%, rgba(90, 200, 255, 0.18), transparent 32%),
++    radial-gradient(circle at 90% 0%, rgba(107, 140, 255, 0.18), transparent 36%),
++    var(--tasks-bg);
++  line-height: 1.45;
++}
++
++.tasks-shell {
++  max-width: 1180px;
++  margin: 0 auto;
++  padding: 2rem;
++  display: grid;
++  gap: 1rem;
++}
++
++.tasks-topbar {
++  background: linear-gradient(120deg, #171b43, #23295a);
++  border: 1px solid var(--tasks-line);
++  border-radius: 18px;
++  padding: 1.2rem 1.4rem;
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  gap: 1rem;
++}
++
++.tasks-topbar h1 {
++  margin: 0;
++  font-size: clamp(1.45rem, 3vw, 2rem);
++  letter-spacing: 0.01em;
++  color: var(--tasks-text-strong);
++}
++
++.tasks-topbar p {
++  margin: 0.4rem 0 0;
++  color: var(--tasks-muted);
++}
++
++.tasks-badge {
++  display: inline-flex;
++  align-items: center;
++  gap: 0.4rem;
++  margin-left: 0.5rem;
++  padding: 0.25rem 0.6rem;
++  border-radius: 999px;
++  font-size: 0.78rem;
++  color: #101126;
++  background: var(--tasks-accent);
++  font-weight: 700;
++}
++
++.tasks-layout {
++  display: grid;
++  grid-template-columns: 280px minmax(0, 1fr);
++  gap: 1rem;
++  align-items: start;
++}
++
++.tasks-panel {
++  background: rgba(26, 29, 59, 0.85);
++  border: 1px solid var(--tasks-line);
++  border-radius: 16px;
++  padding: 1rem;
++}
++
++.tasks-panel h2 {
++  margin: 0 0 1rem;
++  font-size: 1.05rem;
++}
++
++.tasks-board {
++  display: grid;
++  gap: 1rem;
++  grid-template-columns: repeat(3, minmax(0, 1fr));
++}
++
++.tasks-column {
++  background: linear-gradient(180deg, rgba(33, 37, 75, 0.85), rgba(26, 29, 59, 0.85));
++  border: 1px solid var(--tasks-line);
++  border-radius: 14px;
++  min-height: 420px;
++  padding: 0.9rem;
++  display: flex;
++  flex-direction: column;
++  gap: 0.8rem;
++}
++
++.tasks-column h3 {
++  margin: 0;
++  font-size: 0.95rem;
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  gap: 0.6rem;
++}
++
++.tasks-count {
++  border-radius: 999px;
++  background: rgba(255, 255, 255, 0.12);
++  padding: 0.15rem 0.55rem;
++  font-size: 0.78rem;
++}
++
++.tasks-list {
++  display: grid;
++  gap: 0.75rem;
++}
++
++.tasks-card {
++  padding: 0.7rem;
++  border-radius: 10px;
++  border: 1px solid rgba(255, 255, 255, 0.14);
++  background: var(--tasks-panel-soft);
++}
++
++.tasks-card h3,
++.tasks-card h4 {
++  margin: 0 0 0.4rem;
++  font-size: 0.95rem;
++  color: var(--tasks-text-strong);
++}
++
++.tasks-meta {
++  margin-bottom: 0.4rem;
++  color: var(--tasks-muted);
++  font-size: 0.8rem;
++}
++
++.tasks-card p {
++  margin: 0;
++  font-size: 0.86rem;
++  line-height: 1.4;
++  color: #d7dcff;
++}
++
++.tasks-form label {
++  display: block;
++  margin-top: 0.85rem;
++  font-size: 0.85rem;
++  color: var(--tasks-muted);
++}
++
++.tasks-input,
++.tasks-select,
++.tasks-textarea,
++.tasks-button {
++  width: 100%;
++  margin-top: 0.45rem;
++  border-radius: 10px;
++  border: 1px solid var(--tasks-line);
++  background: #10142e;
++  color: var(--tasks-text);
++  font: inherit;
++}
++
++.tasks-input,
++.tasks-select,
++.tasks-textarea {
++  padding: 0.63rem 0.75rem;
++}
++
++.tasks-textarea {
++  min-height: 72px;
++  resize: vertical;
++}
++
++.tasks-actions {
++  margin-top: 1rem;
++  display: flex;
++  gap: 0.65rem;
++  flex-wrap: wrap;
++}
++
++.tasks-button {
++  cursor: pointer;
++  padding: 0.68rem 1rem;
++  color: #f3f5ff;
++  border: none;
++}
++
++.tasks-button-primary {
++  background: linear-gradient(120deg, var(--tasks-accent), var(--tasks-accent-alt));
++}
++
++.tasks-button-subtle {
++  background: var(--tasks-panel-soft);
++}
++
++.tasks-note {
++  margin-top: 0.7rem;
++  font-size: 0.8rem;
++  color: var(--tasks-muted);
++}
++
++.tasks-placeholder {
++  margin-top: 1rem;
++  border: 1px dashed rgba(255, 255, 255, 0.3);
++  border-radius: 10px;
++  padding: 0.9rem;
++  font-size: 0.85rem;
++  color: var(--tasks-muted);
++  background: rgba(255, 255, 255, 0.02);
++}
++
++.tasks-view-actions {
++  margin-top: 0.6rem;
++  display: flex;
++  flex-wrap: wrap;
++  gap: 0.6rem;
++}
++
++.tasks-view-actions .tasks-button {
++  width: auto;
++}
++
++.tasks-table-shell {
++  margin-top: 1rem;
++  overflow-x: auto;
++  border: 1px solid var(--tasks-line);
++  border-radius: 12px;
++  background: rgba(20, 24, 51, 0.65);
++}
++
++.tasks-table {
++  width: 100%;
++  border-collapse: collapse;
++  min-width: 620px;
++  font-size: 0.88rem;
++}
++
++.tasks-table th,
++.tasks-table td {
++  text-align: left;
++  padding: 0.72rem 0.75rem;
++  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
++  vertical-align: top;
++}
++
++.tasks-table th {
++  font-weight: 700;
++  color: var(--tasks-text-strong);
++  background: rgba(0, 0, 0, 0.12);
++}
++
++.tasks-table tr:last-child td {
++  border-bottom: none;
++}
++
++@media (max-width: 980px) {
++  .tasks-shell {
++    padding: 1rem;
++  }
++
++  .tasks-layout {
++    grid-template-columns: 1fr;
++  }
++
++  .tasks-board {
++    grid-template-columns: 1fr;
++  }
++}
++
++@media (max-width: 600px) {
++  .tasks-topbar {
++    flex-direction: column;
++    align-items: flex-start;
++  }
++
++  .tasks-topbar h1 {
++    font-size: 1.3rem;
++  }
++
++  .tasks-badge {
++    margin-left: 0;
++  }
++
++  .tasks-actions,
++  .tasks-view-actions {
++    flex-direction: column;
++  }
++
++  .tasks-actions .tasks-button,
++  .tasks-view-actions .tasks-button {
++    width: 100%;
++  }
++
++  .tasks-table-shell {
++    border-radius: 10px;
++  }
++
++  .tasks-table {
++    min-width: auto;
++    display: block;
++    overflow: hidden;
++  }
++
++  .tasks-table thead {
++    display: none;
++  }
++
++  .tasks-table tr {
++    display: grid;
++    gap: 0.4rem;
++    padding: 0.6rem;
++    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
++  }
++
++  .tasks-table td {
++    display: block;
++    padding: 0;
++    border-bottom: none;
++  }
++
++  .tasks-table td::before {
++    content: attr(data-label);
++    display: block;
++    margin-bottom: 0.2rem;
++    color: var(--tasks-muted);
++    font-size: 0.72rem;
++    font-weight: 700;
++    text-transform: uppercase;
++    letter-spacing: 0.05em;
++  }
++}

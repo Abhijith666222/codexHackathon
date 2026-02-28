@@ -1,0 +1,12 @@
+{
+  "agent": "agent-creator",
+  "runId": "smoke-2026-02-28-bypass-simple-v2",
+  "scope": "codex-rs/SMOKE_WRITE.md",
+  "state": "DONE",
+  "threadId": "019ca389-0d75-7710-9f2c-53060238ecf3",
+  "startedAt": "2026-02-28T09:16:33.597936+00:00",
+  "finishedAt": "2026-02-28T09:16:39.801353+00:00",
+  "durationMs": 5919,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T09:16:39.860410+00:00"
+}

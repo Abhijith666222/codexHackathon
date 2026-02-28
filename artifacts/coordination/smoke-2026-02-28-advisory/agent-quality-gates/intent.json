@@ -1,0 +1,7 @@
+{
+  "agent": "agent-quality-gates",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "quality",
+  "objective": "add per-phase validation checks for accessibility, responsiveness, performance, and release readiness",
+  "createdAt": "2026-02-28T08:47:38.450639+00:00"
+}

@@ -1,0 +1,7 @@
+{
+  "agent": "agent-state",
+  "runId": "run-2026-02-28-090153",
+  "scope": "codex-rs/tui/src/state",
+  "objective": "Define/extend task-domain UI state and reducers: async fetch lifecycle, selected task state, pagination/filter placeholders, and state transitions consumed by the new screen.",
+  "createdAt": "2026-02-28T09:02:15.761798+00:00"
+}

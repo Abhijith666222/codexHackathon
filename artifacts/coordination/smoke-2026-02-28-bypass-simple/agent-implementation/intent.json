@@ -1,0 +1,7 @@
+{
+  "agent": "agent-implementation",
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "scope": "codex-rs",
+  "objective": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+  "createdAt": "2026-02-28T09:15:32.830021+00:00"
+}

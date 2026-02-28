@@ -1,0 +1,7 @@
+{
+  "agent": "tasks-state-model",
+  "runId": "run-2026-02-28-075357",
+  "scope": "tasks data layer and state",
+  "objective": "Define a simple Task model, in-memory mock store, and action handlers for add/edit/toggle/delete operations used by the UI.",
+  "createdAt": "2026-02-28T07:54:07.410694+00:00"
+}

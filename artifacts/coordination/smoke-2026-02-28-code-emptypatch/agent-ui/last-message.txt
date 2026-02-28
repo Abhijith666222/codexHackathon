@@ -1,0 +1,10 @@
+Blocked by platform constraints; I couldn’t make the requested code changes.
+
+What I verified:
+1. `todo-app/todo-ui` does not exist in this workspace (or sibling worktrees).
+2. Write operations are disallowed here:
+   - `New-Item ... todo-app\todo-ui` was rejected (`blocked by policy`).
+   - `apply_patch` was rejected (`writing outside of the project; rejected by user approval settings`).
+   - `Set-Content ...` was rejected (`blocked by policy`).
+
+If you provide a workspace where `todo-app/todo-ui` exists and writes are enabled, I can implement the full UI scaffold (render + add/toggle/delete wiring + styling + empty state) in one pass.

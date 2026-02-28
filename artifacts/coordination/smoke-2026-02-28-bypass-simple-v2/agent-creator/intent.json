@@ -1,0 +1,7 @@
+{
+  "agent": "agent-creator",
+  "runId": "smoke-2026-02-28-bypass-simple-v2",
+  "scope": "codex-rs/SMOKE_WRITE.md",
+  "objective": "Create codex-rs/SMOKE_WRITE.md and ensure it contains only the exact text `smoke` followed by a single newline.",
+  "createdAt": "2026-02-28T09:16:31.651566+00:00"
+}

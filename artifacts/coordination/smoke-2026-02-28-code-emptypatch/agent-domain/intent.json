@@ -1,0 +1,7 @@
+{
+  "agent": "agent-domain",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "scope": "todo-app/todo-domain",
+  "objective": "Implement the core todo model and state actions (create, toggle complete, remove, list) with clean interfaces that can be consumed by the UI layer.",
+  "createdAt": "2026-02-28T08:55:19.890266+00:00"
+}

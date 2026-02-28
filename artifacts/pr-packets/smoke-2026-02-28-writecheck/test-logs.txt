@@ -1,0 +1,7 @@
+run_id: smoke-2026-02-28-writecheck
+overall: BLOCKED
+planner_exit: 0
+scope_ok: True
+mergeable: True
+contract_status: FAIL
+artifact_missing: No agent produced any file changes.

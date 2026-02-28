@@ -1,0 +1,19 @@
+I can’t make the requested changes yet because this session is in read-only mode.  
+All write attempts (including creating `ui/components/...`) are blocked by sandbox policy, so no files could be created or updated.
+
+Proposed in-scope scaffold once write access is enabled (`ui/components` only):
+
+- `ui/components/src/lib/components.js` (reusable UI primitives: element builder, button, card, list helpers)
+- `ui/components/src/lib/router.js` (History API router + active nav wiring)
+- `ui/components/src/data/placeholderData.js` (seed data for screens)
+- `ui/components/src/routes.js` (route registry: `/`, `/internships`, `/messages`, `/settings`)
+- `ui/components/src/features/dashboard.js`
+- `ui/components/src/features/internships.js`
+- `ui/components/src/features/messages.js`
+- `ui/components/src/features/settings.js`
+- `ui/components/src/index.js` (app bootstrap)
+- `ui/components/public/index.html` (app mount point + module entry)
+- `ui/components/public/styles.css` (minimal styling)
+- `ui/components/README.md` (route and component notes)
+
+If you can provide a writable session, I’ll apply this scaffold immediately as a single patch.

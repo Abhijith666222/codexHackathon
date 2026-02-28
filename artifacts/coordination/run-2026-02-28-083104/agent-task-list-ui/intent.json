@@ -1,0 +1,7 @@
+{
+  "agent": "agent-task-list-ui",
+  "runId": "run-2026-02-28-083104",
+  "scope": "tasks-ui/components",
+  "objective": "Build reusable components for task rows, task list rendering, and simple add/edit/delete controls with lightweight interactions.",
+  "createdAt": "2026-02-28T08:31:13.427871+00:00"
+}

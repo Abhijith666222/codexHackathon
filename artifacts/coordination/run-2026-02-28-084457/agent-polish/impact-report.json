@@ -1,0 +1,9 @@
+{
+  "agent": "agent-polish",
+  "runId": "run-2026-02-28-084457",
+  "state": "BLOCKED",
+  "scope": "frontend/tasks-ui/polish",
+  "changedFiles": [],
+  "durationMs": 163173,
+  "error": "No file changes were produced; execution was blocked or task was not executed."
+}

@@ -1,0 +1,9 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple-v3",
+  "status": "SKIPPED",
+  "command": "skipped (no protocol-sensitive files changed)",
+  "exitCode": 0,
+  "timestamp": "2026-02-28T09:19:56.521566+00:00",
+  "stdout": "",
+  "stderr": ""
+}

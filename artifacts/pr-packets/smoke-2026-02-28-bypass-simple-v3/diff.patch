@@ -1,0 +1,10 @@
+
+# agent-implementation
+diff --git a/codex-rs/SMOKE_WRITE.md b/codex-rs/SMOKE_WRITE.md
+new file mode 100644
+index 0000000..0000000
+--- /dev/null
++++ b/codex-rs/SMOKE_WRITE.md
+@@ -0,0 +1,1 @@
++﻿smoke
++

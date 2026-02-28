@@ -1,0 +1,7 @@
+{
+  "agent": "agent-task-components",
+  "runId": "smoke-2026-02-28-writecheck",
+  "scope": "tasks-ui/components",
+  "objective": "Build reusable components for task item rows, task form input, and action buttons/controls with clear props and simple behavior.",
+  "createdAt": "2026-02-28T09:07:48.795398+00:00"
+}

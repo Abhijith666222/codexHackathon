@@ -1,0 +1,7 @@
+{
+  "agent": "agent-phase-sequencing",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "sequencing",
+  "objective": "define 4-6 implementation phases from discovery to polish, each with a clear deliverable and exit criteria",
+  "createdAt": "2026-02-28T08:47:34.197027+00:00"
+}

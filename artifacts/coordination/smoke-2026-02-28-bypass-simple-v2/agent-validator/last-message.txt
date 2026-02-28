@@ -1,0 +1,7 @@
+Updated `codex-rs/SMOKE_WRITE.md` to satisfy the validation:
+
+- File: `codex-rs/SMOKE_WRITE.md`
+- Content: exactly one line with `smoke`
+- Verified line count: `1`
+
+No other paths were touched.

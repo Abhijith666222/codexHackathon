@@ -1,0 +1,7 @@
+{
+  "agent": "agent-build-order",
+  "runId": "run-2026-02-28-085329",
+  "scope": "sequencing",
+  "objective": "Create an ordered scaffold checklist for layout foundation, reusable components, page shells, navigation, and mock data integration.",
+  "createdAt": "2026-02-28T08:53:54.111780+00:00"
+}

@@ -1,0 +1,9 @@
+{
+  "agent": "agent-ui",
+  "runId": "run-2026-02-28-090153",
+  "state": "BLOCKED",
+  "scope": "codex-rs/tui/src/ui",
+  "changedFiles": [],
+  "durationMs": 370950,
+  "error": "No file changes were produced; execution was blocked or task was not executed."
+}

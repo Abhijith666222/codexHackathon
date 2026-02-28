@@ -1,0 +1,192 @@
+I can’t apply the edit in this session because this workspace is read-only and `frontend/src/styles` does not currently exist in the checked-out tree, so there are no in-scope files to modify.
+
+If you want, I can apply immediately once write access is available. Proposed change (create `frontend/src/styles/base.css` in that scope):
+
+```css
+:root {
+  --font-stack: "Avenir Next", "Nunito Sans", "Segoe UI", sans-serif;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0b1120;
+  --subtle: #526079;
+  --line: #d8e0eb;
+  --brand: #2a5bd7;
+  --brand-soft: #e8f0ff;
+  --error: #7f1d1d;
+  --error-surface: #fef2f2;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.5rem;
+  --spacing-6: 2rem;
+  --radius: 0.6rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-stack);
+  color: var(--text);
+  background: var(--bg);
+}
+
+.app-shell {
+  max-width: min(72rem, 92vw);
+  margin: 0 auto;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+.stack {
+  display: grid;
+  gap: var(--spacing-4);
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--spacing-5);
+}
+
+.panel h1,
+.panel h2,
+.panel h3,
+.panel p {
+  margin: 0 0 var(--spacing-3);
+}
+
+.panel h1 {
+  font-size: clamp(1.45rem, 2.4vw, 1.9rem);
+  line-height: 1.2;
+}
+
+.panel h2 {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  line-height: 1.3;
+}
+
+.panel p {
+  color: var(--subtle);
+  font-size: clamp(0.95rem, 1.6vw, 1rem);
+  line-height: 1.55;
+}
+
+.state-panel {
+  display: grid;
+  place-items: center;
+  min-height: 16rem;
+  text-align: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-6);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+}
+
+.state-title {
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-weight: 650;
+}
+
+.state-message {
+  max-width: 42ch;
+  margin: 0 auto;
+}
+
+.state-loading {
+  color: var(--subtle);
+}
+
+.state-loading::before {
+  content: "";
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 3px solid var(--line);
+  border-top-color: var(--brand);
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  margin-inline-end: var(--spacing-2);
+  vertical-align: text-bottom;
+}
+
+.state-error {
+  color: var(--error);
+  background: var(--error-surface);
+  border-color: color-mix(in hsl, var(--error) 30%, var(--line) 70%);
+}
+
+.state-error .state-title {
+  color: var(--error);
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: var(--brand);
+  color: #ffffff;
+  font-family: inherit;
+  font-weight: 600;
+  padding: 0.55rem 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.btn:hover {
+  background: color-mix(in hsl, var(--brand) 88%, black 12%);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn:focus-visible {
+  outline: 3px solid color-mix(in hsl, var(--brand) 30%, white 70%);
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .state-panel {
+    min-height: 12rem;
+    padding: var(--spacing-5);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+```
+
+If you want, reply with write-permitted access (or point me to the exact existing frontend path), and I’ll apply this directly.

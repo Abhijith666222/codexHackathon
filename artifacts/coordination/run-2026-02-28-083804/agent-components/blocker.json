@@ -1,0 +1,9 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-083804",
+  "state": "BLOCKED",
+  "scope": "ui/components",
+  "reason": "Platform write restriction detected from agent output.",
+  "createdAt": "2026-02-28T08:39:34.532507+00:00",
+  "lastMessage": "I can\u2019t make the requested changes yet because this session is in read-only mode.  \nAll write attempts (including creating `ui/components/...`) are blocked by sandbox policy, so no files could be created or updated.\n\nProposed in-scope scaffold once write access is enabled (`ui/components` only):\n\n- `ui/components/src/lib/components.js` (reusable UI primitives: element builder, button, card, list helpers)\n- `ui/components/src/lib/router.js` (History API router + active nav wiring)\n- `ui/components/src/data/placeholderData.js` (seed data for screens)\n- `ui/components/src/routes.js` (route registry: `/`, `/internships`, `/messages`, `/settings`)\n- `ui/components/src/features/dashboard.js`\n- `ui/components/src/features/internships.js`\n- `ui/components/src/features/messages.js`\n- `ui/components/src/features/settings.js`\n- `ui/components/src/index.js` (app bootstrap)\n- `ui/components/public/index.html` (app mount point + module entry)\n- `ui/components/public/styles.css` (minimal styling)\n- `ui/components/README.md` (route and component notes)\n\nIf you can provide a writable session, I\u2019ll apply this scaffold immediately as a single patch."
+}

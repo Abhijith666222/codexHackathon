@@ -1,0 +1,15 @@
+Implemented in-scope change:
+
+- Added `tasks-frontend/styles/tasks-page.css`
+
+What it includes:
+- Baseline visual system with CSS variables, typography, spacing, borders, gradients, and card surfaces.
+- Card/list layout classes (`.tasks-card`, `.tasks-list`, `.tasks-column`, `.tasks-board`) for task board style.
+- Table-like layout classes (`.tasks-table-shell`, `.tasks-table`, `.tasks-table th/td`) for tabular task views.
+- Form/control styling (`.tasks-input`, `.tasks-select`, `.tasks-textarea`, `.tasks-button*`) and placeholder/support sections.
+- Responsive behavior:
+  - Two-column → single-column layout at `max-width: 980px`
+  - Compact top bar, stacked controls/actions, and mobile-friendly table row-to-card transformation at `max-width: 600px`
+
+I did not modify files outside `tasks-frontend/styles`.  
+If you want, I can also update the page markup to use these class names and hook the stylesheet in directly.

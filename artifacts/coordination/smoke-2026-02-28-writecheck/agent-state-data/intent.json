@@ -1,0 +1,7 @@
+{
+  "agent": "agent-state-data",
+  "runId": "smoke-2026-02-28-writecheck",
+  "scope": "tasks-ui/state",
+  "objective": "Implement lightweight task data model and local UI state flow (static seed data, add/edit/complete toggles, and state updates).",
+  "createdAt": "2026-02-28T09:07:53.000319+00:00"
+}

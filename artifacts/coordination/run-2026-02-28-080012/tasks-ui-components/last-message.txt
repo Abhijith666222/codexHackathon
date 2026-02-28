@@ -1,0 +1,297 @@
+I can’t write files in this session: the workspace is read-only, and both `New-Item`/`Set-Content` and `apply_patch` are blocked from creating/updating files.
+
+I prepared a complete scaffold you can apply under `frontend/src` only:
+
+`frontend/src/types/task.ts`
+```ts
+export type Task = {
+  id: string;
+  title: string;
+  notes?: string;
+  completed: boolean;
+};
+```
+
+`frontend/src/data/mockTasks.ts`
+```ts
+import { Task } from "../types/task";
+
+export const initialTasks: Task[] = [
+  {
+    id: "task-1",
+    title: "Draft project plan",
+    notes: "Outline milestones and risks for the upcoming sprint.",
+    completed: false,
+  },
+  {
+    id: "task-2",
+    title: "Wire API contract",
+    notes: "Define endpoints for create/list/update tasks.",
+    completed: true,
+  },
+  {
+    id: "task-3",
+    title: "Review UI accessibility",
+    notes: "Ensure keyboard interaction and ARIA labels are in place.",
+    completed: false,
+  },
+];
+```
+
+`frontend/src/components/TaskInput.tsx`
+```tsx
+import { FormEvent, useState } from "react";
+import { Task } from "../types/task";
+
+type TaskInputProps = {
+  onAddTask: (title: string, notes: string) => void;
+};
+
+export const TaskInput = ({ onAddTask }: TaskInputProps) => {
+  const [title, setTitle] = useState("");
+  const [notes, setNotes] = useState("");
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    const normalizedTitle = title.trim();
+    if (!normalizedTitle) {
+      return;
+    }
+
+    onAddTask(normalizedTitle, notes.trim());
+    setTitle("");
+    setNotes("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="task-input">
+      <label>
+        Task title
+        <input
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+          placeholder="Add a task..."
+        />
+      </label>
+      <label>
+        Notes
+        <textarea
+          value={notes}
+          onChange={(event) => setNotes(event.target.value)}
+          placeholder="Optional notes"
+          rows={3}
+        />
+      </label>
+      <button type="submit" disabled={!title.trim()}>
+        Add task
+      </button>
+    </form>
+  );
+};
+```
+
+`frontend/src/components/TaskItem.tsx`
+```tsx
+import { Task } from "../types/task";
+
+type TaskItemProps = {
+  task: Task;
+  onToggleDone: (taskId: string) => void;
+};
+
+export const TaskItem = ({ task, onToggleDone }: TaskItemProps) => (
+  <li className="task-item">
+    <label>
+      <input
+        type="checkbox"
+        checked={task.completed}
+        onChange={() => onToggleDone(task.id)}
+      />
+      <span className={task.completed ? "completed" : undefined}>{task.title}</span>
+    </label>
+    {task.notes && <p className="task-notes">{task.notes}</p>}
+  </li>
+);
+```
+
+`frontend/src/components/TaskList.tsx`
+```tsx
+import { Task } from "../types/task";
+import { TaskItem } from "./TaskItem";
+
+type TaskListProps = {
+  tasks: Task[];
+  onToggleDone: (taskId: string) => void;
+};
+
+export const TaskList = ({ tasks, onToggleDone }: TaskListProps) => {
+  if (tasks.length === 0) {
+    return <p className="empty-state">No tasks yet. Add one to get started.</p>;
+  }
+
+  return (
+    <ul className="task-list">
+      {tasks.map((task) => (
+        <TaskItem key={task.id} task={task} onToggleDone={onToggleDone} />
+      ))}
+    </ul>
+  );
+};
+```
+
+`frontend/src/layouts/AppShell.tsx`
+```tsx
+import { Link, Outlet } from "react-router-dom";
+
+export const AppShell = () => (
+  <div className="app-shell">
+    <header className="app-shell__header">
+      <h1>Task Workspace</h1>
+      <nav>
+        <Link to="/tasks">Tasks</Link>
+      </nav>
+    </header>
+    <main className="app-shell__content">
+      <Outlet />
+    </main>
+  </div>
+);
+```
+
+`frontend/src/routes/TasksRoute.tsx`
+```tsx
+import { useState } from "react";
+import { initialTasks } from "../data/mockTasks";
+import { Task } from "../types/task";
+import { TaskInput } from "../components/TaskInput";
+import { TaskList } from "../components/TaskList";
+
+const createMockTask = (title: string, notes: string): Task => ({
+  id: `task-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+  title,
+  notes: notes || undefined,
+  completed: false,
+});
+
+export const TasksRoute = () => {
+  const [tasks, setTasks] = useState(initialTasks);
+
+  return (
+    <section className="tasks-route">
+      <h2>Task Center</h2>
+      <TaskInput
+        onAddTask={(title, notes) => {
+          setTasks((prev) => [createMockTask(title, notes), ...prev]);
+        }}
+      />
+      <TaskList
+        tasks={tasks}
+        onToggleDone={(taskId) => {
+          setTasks((prev) =>
+            prev.map((task) =>
+              task.id === taskId ? { ...task, completed: !task.completed } : task
+            )
+          );
+        }}
+      />
+    </section>
+  );
+};
+```
+
+`frontend/src/App.tsx`
+```tsx
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AppShell } from "./layouts/AppShell";
+import { TasksRoute } from "./routes/TasksRoute";
+
+export const App = () => (
+  <Routes>
+    <Route element={<AppShell />}>
+      <Route index element={<Navigate to="/tasks" replace />} />
+      <Route path="/tasks" element={<TasksRoute />} />
+      <Route path="*" element={<p className="route-fallback">Page not found.</p>} />
+    </Route>
+  </Routes>
+);
+```
+
+`frontend/src/main.tsx`
+```tsx
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { App } from "./App";
+import "./styles.css";
+
+const root = document.getElementById("root");
+if (!root) {
+  throw new Error("Missing #root mount point.");
+}
+
+createRoot(root).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
+);
+```
+
+`frontend/src/styles.css`
+```css
+#root {
+  min-height: 100vh;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+.app-shell {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-shell__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.task-input {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.task-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.task-item {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.task-item .completed {
+  text-decoration: line-through;
+  color: #666;
+}
+
+.task-notes {
+  margin: 0.5rem 0 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.completed-state {
+  margin: 0.5rem 0;
+}
+```
+
+If you switch this workspace to writable, I’ll apply these files exactly in one patch under `frontend/src` without touching any other paths.

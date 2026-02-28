@@ -1,0 +1,194 @@
+`tasks-ui/shell` changes could not be written in this session because the workspace is read-only.
+
+- `New-Item` is rejected by policy for writes.
+- `apply_patch` is rejected with: `writing outside of the project; rejected by user approval settings`.
+
+So no files were modified.
+
+If you enable write access, create this scaffold under `tasks-ui/shell`:
+
+`tasks-ui/shell/index.html`
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tasks UI</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+```
+
+`tasks-ui/shell/package.json`
+```json
+{
+  "name": "tasks-ui-shell",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.28.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.8.2",
+    "vite": "^5.4.10"
+  }
+}
+```
+
+`tasks-ui/shell/tsconfig.json`
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "allowJs": false,
+    "noEmit": true
+  },
+  "include": ["src/**/*", "vite.config.ts"]
+}
+```
+
+`tasks-ui/shell/vite.config.ts`
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+});
+```
+
+`tasks-ui/shell/src/main.tsx`
+```tsx
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './styles.css';
+
+createRoot(document.getElementById('root')!).render(<App />);
+```
+
+`tasks-ui/shell/src/App.tsx`
+```tsx
+import { BrowserRouter, Link, Navigate, Route, Routes } from 'react-router-dom';
+import { TasksPlaceholder } from './views/TasksPlaceholder';
+
+function AppShell() {
+  return (
+    <div className="app-shell">
+      <aside className="sidebar">
+        <h1>Tasks</h1>
+        <nav>
+          <Link to="/tasks">Tasks</Link>
+        </nav>
+      </aside>
+      <main className="content">
+        <header className="topbar">
+          <h2>Tasks Workspace</h2>
+        </header>
+        <section className="route-view">
+          <Routes>
+            <Route path="/" element={<Navigate to="/tasks" replace />} />
+            <Route path="/tasks" element={<TasksPlaceholder />} />
+            <Route path="*" element={<p>Route not found</p>} />
+          </Routes>
+        </section>
+      </main>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
+  );
+}
+```
+
+`tasks-ui/shell/src/views/TasksPlaceholder.tsx`
+```tsx
+export function TasksPlaceholder() {
+  return (
+    <div className="placeholder-view">
+      <h3>Tasks View</h3>
+      <p>Task list placeholder.</p>
+      <ul>
+        <li>Task #1 (placeholder)</li>
+        <li>Task #2 (placeholder)</li>
+        <li>Task #3 (placeholder)</li>
+      </ul>
+    </div>
+  );
+}
+```
+
+`tasks-ui/shell/src/styles.css`
+```css
+:root {
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #f5f7fb;
+  color: #111827;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 24px;
+}
+
+.sidebar a {
+  color: #e5e7eb;
+  text-decoration: none;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.topbar {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.route-view {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+}
+```
+
+Reply `ready` and I’ll apply this immediately once write access is available.

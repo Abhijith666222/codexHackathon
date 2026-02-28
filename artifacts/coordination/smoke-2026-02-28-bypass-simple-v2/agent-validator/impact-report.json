@@ -1,0 +1,11 @@
+{
+  "agent": "agent-validator",
+  "runId": "smoke-2026-02-28-bypass-simple-v2",
+  "state": "BLOCKED",
+  "scope": "codex-rs/verification-smoke",
+  "changedFiles": [
+    "codex-rs/SMOKE_WRITE.md"
+  ],
+  "durationMs": 33306,
+  "error": "Scope violation: edited codex-rs/SMOKE_WRITE.md"
+}

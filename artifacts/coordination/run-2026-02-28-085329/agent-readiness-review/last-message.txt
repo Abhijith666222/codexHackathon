@@ -1,0 +1,27 @@
+**Pre-Feature Validation Gate**
+
+**Responsive behavior**
+- [ ] No horizontal scroll/clipping at `320`, `375`, `768`, `1024`, and `1440` widths.
+- [ ] Core flows work in portrait and landscape.
+- [ ] Touch targets are at least `44x44px`; fixed/sticky UI does not hide content.
+- [ ] Verified on latest Chrome, Safari (iOS), and Firefox.
+
+**Accessibility compliance (WCAG 2.2 AA)**
+- [ ] Automated checks (axe/Lighthouse) report `0` critical/serious issues.
+- [ ] Full keyboard path works (tab order, visible focus, no keyboard traps).
+- [ ] Contrast passes AA (`4.5:1` normal text, `3:1` large text/UI components).
+- [ ] Forms/media/semantics are complete (labels, errors, alt text, headings, landmarks).
+- [ ] Screen-reader smoke test passes for primary journey (NVDA or VoiceOver).
+
+**Performance budget**
+- [ ] p75 mobile Web Vitals: `LCP <= 2.5s`, `INP <= 200ms`, `CLS <= 0.1`.
+- [ ] Initial-load budget: JS `<= 170KB` gz, CSS `<= 60KB` gz.
+- [ ] No long main-thread task over `200ms` during first interaction flow.
+- [ ] CI blocks merge on budget regression.
+
+**Documentation completeness**
+- [ ] PR includes feature goal, acceptance criteria, and out-of-scope notes.
+- [ ] Evidence attached: responsive screenshots, accessibility report, performance report.
+- [ ] User/dev docs updated (README/changelog/config/env changes).
+- [ ] Test plan and results recorded, including known limitations.
+- [ ] Rollback or feature-flag plan documented.

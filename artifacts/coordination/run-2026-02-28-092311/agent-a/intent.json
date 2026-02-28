@@ -1,0 +1,7 @@
+{
+  "agent": "agent-a",
+  "runId": "run-2026-02-28-092311",
+  "scope": "tasks-frontend/bootstrap",
+  "objective": "Set up the single-page app shell: entrypoint, root mount, dependency setup, and route/render entry so the Tasks page is the default and only route.",
+  "createdAt": "2026-02-28T09:23:35.888015+00:00"
+}

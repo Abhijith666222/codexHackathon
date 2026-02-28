@@ -1,0 +1,66 @@
+{
+  "runId": "run-2026-02-28-080012",
+  "task": "SCAFFOLD a simple Tasks frontend UI",
+  "state": "BLOCKED",
+  "scopeRulesOk": false,
+  "scopeIssues": [
+    "scope overlap: tasks-ui-spec:frontend and tasks-ui-components:frontend/src",
+    "scope overlap: tasks-ui-spec:frontend and tasks-state-layer:frontend/src",
+    "scope overlap: tasks-ui-spec:frontend and tasks-style-ux:frontend/src/styles",
+    "scope overlap: tasks-ui-components:frontend/src and tasks-state-layer:frontend/src",
+    "scope overlap: tasks-ui-components:frontend/src and tasks-style-ux:frontend/src/styles",
+    "scope overlap: tasks-state-layer:frontend/src and tasks-style-ux:frontend/src/styles"
+  ],
+  "artifactErrors": [],
+  "mergeability": {
+    "passed": false,
+    "details": [
+      {
+        "agent": "tasks-ui-spec",
+        "patch": "C:\\Users\\Reju\\AppData\\Local\\Temp\\run-2026-02-28-080012-merge-1i3r0qi9\\tasks-ui-spec.patch",
+        "checkCode": 128,
+        "checkStdout": "",
+        "checkStderr": "error: No valid patches in input (allow with \"--allow-empty\")\n"
+      }
+    ]
+  },
+  "contract": {
+    "status": "FAIL",
+    "command": "cargo run -p codex-app-server-protocol --bin write_schema_fixtures -- --schema-root artifacts/pr-packets/run-2026-02-28-080012/generated-schema",
+    "exitCode": 1
+  },
+  "agents": [
+    {
+      "name": "tasks-ui-spec",
+      "scope": "frontend",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    },
+    {
+      "name": "tasks-ui-components",
+      "scope": "frontend/src",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    },
+    {
+      "name": "tasks-state-layer",
+      "scope": "frontend/src",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    },
+    {
+      "name": "tasks-style-ux",
+      "scope": "frontend/src/styles",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    }
+  ]
+}

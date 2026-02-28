@@ -1,0 +1,7 @@
+{
+  "agent": "agent-setup",
+  "runId": "run-2026-02-28-083727",
+  "scope": "tasks-ui/bootstrap",
+  "objective": "Scaffold the frontend project foundation: configure build/runtime entrypoint, basic routing mount, and initial layout container for task management pages.",
+  "createdAt": "2026-02-28T08:37:35.675733+00:00"
+}

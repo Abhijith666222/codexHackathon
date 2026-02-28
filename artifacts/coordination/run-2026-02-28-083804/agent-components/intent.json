@@ -1,0 +1,7 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/components",
+  "objective": "Build a minimal reusable component library and scaffold initial feature screens with placeholder data and navigation wiring for each route.",
+  "createdAt": "2026-02-28T08:38:34.000785+00:00"
+}

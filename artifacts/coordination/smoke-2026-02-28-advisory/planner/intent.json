@@ -1,0 +1,46 @@
+{
+  "runId": "smoke-2026-02-28-advisory",
+  "task": "Give me a concise checklist to scaffold a UI in phases.",
+  "plannerResult": {
+    "raw_task": "Give me a concise checklist to scaffold a UI in phases.",
+    "subtasks": [
+      {
+        "name": "agent-phase-sequencing",
+        "scope": "sequencing",
+        "objective": "define 4-6 implementation phases from discovery to polish, each with a clear deliverable and exit criteria"
+      },
+      {
+        "name": "agent-ui-foundations",
+        "scope": "foundations",
+        "objective": "produce a concise setup checklist for layout structure, component primitives, design tokens, navigation, and data/state boundaries"
+      },
+      {
+        "name": "agent-quality-gates",
+        "scope": "quality",
+        "objective": "add per-phase validation checks for accessibility, responsiveness, performance, and release readiness"
+      }
+    ]
+  },
+  "plannerParseAttempts": 1,
+  "fallbackUsed": false,
+  "normalizedPlan": {
+    "subtasks": [
+      {
+        "name": "agent-phase-sequencing",
+        "scope": "sequencing",
+        "objective": "define 4-6 implementation phases from discovery to polish, each with a clear deliverable and exit criteria"
+      },
+      {
+        "name": "agent-ui-foundations",
+        "scope": "foundations",
+        "objective": "produce a concise setup checklist for layout structure, component primitives, design tokens, navigation, and data/state boundaries"
+      },
+      {
+        "name": "agent-quality-gates",
+        "scope": "quality",
+        "objective": "add per-phase validation checks for accessibility, responsiveness, performance, and release readiness"
+      }
+    ]
+  },
+  "parsedAt": "2026-02-28T08:47:32.282045+00:00"
+}

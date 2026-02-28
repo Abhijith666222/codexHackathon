@@ -1,0 +1,7 @@
+{
+  "agent": "agent-ui-shell",
+  "runId": "run-2026-02-28-083104",
+  "scope": "tasks-ui/pages",
+  "objective": "Create the base app entry and layout scaffold for the Tasks app, including root container, title/header, and high-level page structure.",
+  "createdAt": "2026-02-28T08:31:11.486877+00:00"
+}

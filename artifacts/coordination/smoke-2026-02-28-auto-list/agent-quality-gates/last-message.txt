@@ -1,0 +1,31 @@
+**Validation Readiness Checks**
+
+**Responsiveness**
+- [ ] Key UI actions (open modal, submit form, route change) complete within `<=150ms p95` on a standard dev machine.
+- [ ] API-backed interactions return first meaningful UI feedback (spinner/skeleton/toast) within `<=100ms`.
+- [ ] No long main-thread tasks over `50ms` during common flows.
+- [ ] Input fields remain responsive while background fetches are running.
+
+**Accessibility**
+- [ ] Full keyboard-only navigation works (Tab/Shift+Tab/Enter/Escape) with visible focus on every interactive element.
+- [ ] Color contrast meets WCAG AA (`4.5:1` normal text, `3:1` large text/UI components).
+- [ ] All controls have accessible names; images/icons have correct `alt` or `aria-hidden`.
+- [ ] Heading order is logical; form fields have labels and error messages are announced.
+- [ ] Screen reader smoke test passes on core flows (at least one flow each in NVDA/VoiceOver).
+- [ ] Motion respects `prefers-reduced-motion`.
+
+**Performance Basics**
+- [ ] Core Web Vitals targets met in CI/lab: `LCP <=2.5s`, `INP <=200ms`, `CLS <=0.1`.
+- [ ] Initial JS/CSS bundle stays within agreed budget (set explicit KB thresholds per app).
+- [ ] Images are compressed, sized correctly, and lazy-loaded offscreen.
+- [ ] Gzip/Brotli and caching headers are enabled for static assets.
+- [ ] No obvious memory leaks in a 5–10 minute usage session.
+
+**CI / Lint / Test Guardrails**
+- [ ] Branch protection requires passing `lint`, `typecheck`, `unit`, and `integration/e2e smoke` checks.
+- [ ] Accessibility checks run in CI (axe/pa11y/Lighthouse a11y gate on key pages).
+- [ ] Performance budget check runs in CI and fails on regression beyond threshold.
+- [ ] Test flake policy exists: auto-retry once, then mark flaky with owner ticket.
+- [ ] Coverage gate enforced (for example: global minimum + changed-lines threshold).
+- [ ] Dependency/security scans run on PR and main (SCA + secret scan).
+- [ ] No direct merge to main; PR review and required checks are mandatory.

@@ -1,0 +1,9 @@
+{
+  "runId": "smoke-2026-02-28-auto-list",
+  "status": "PASS",
+  "command": "skipped (advisory task mode)",
+  "exitCode": 0,
+  "timestamp": "2026-02-28T08:52:16.637611+00:00",
+  "stdout": "",
+  "stderr": ""
+}

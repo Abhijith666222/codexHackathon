@@ -1,0 +1,20 @@
+I’m blocked from writing files in this workspace (all write attempts are rejected by the environment), so I can’t create/update `tasks-ui/components` yet.
+
+I located the existing Cloud Tasks UI to refactor in:
+
+- `codex-rs/cloud-tasks/src/ui.rs`
+- `codex-rs/cloud-tasks/src/app.rs`
+- `codex-rs/cloud-tasks/src/new_task.rs`
+
+Planned component split (ready to apply once write access is available):
+
+- `tasks-ui/components/task_item.rs`
+  - Reusable task row renderer for status/title/meta/summary lines.
+- `tasks-ui/components/task_list.rs`
+  - Reusable list renderer + empty/loading states + percent scroller title metadata.
+- `tasks-ui/components/new_task_form.rs`
+  - Reusable add-task composer header, body, cursor placement, env/attempts chips.
+- `tasks-ui/components/loading.rs`
+  - Reusable spinner + loading/empty states for list, details, env modal flows.
+
+I can implement this exactly in the scoped directory and wire `ui.rs` to use those components once file writes are allowed.

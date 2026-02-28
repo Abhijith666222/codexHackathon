@@ -1,0 +1,12 @@
+{
+  "agent": "agent-bootstrap",
+  "runId": "run-2026-02-28-082138",
+  "scope": "tasks-ui/shell",
+  "state": "DONE",
+  "threadId": "019ca356-f751-7610-b169-633990a2bd8c",
+  "startedAt": "2026-02-28T08:21:50.516671+00:00",
+  "finishedAt": "2026-02-28T08:23:12.464353+00:00",
+  "durationMs": 81946,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:23:12.770882+00:00"
+}

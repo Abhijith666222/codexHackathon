@@ -1,0 +1,63 @@
+{
+  "runId": "smoke-2026-02-28-auto-list",
+  "task": "Give me a list of things I need to do to scaffold UI",
+  "taskMode": "advisory",
+  "state": "DONE",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [],
+  "mergeability": {
+    "passed": true,
+    "details": [
+      {
+        "mode": "advisory",
+        "note": "Mergeability skipped for advisory guidance tasks."
+      }
+    ],
+    "mergedDiff": "",
+    "patches": []
+  },
+  "contract": {
+    "status": "PASS",
+    "command": "skipped (advisory task mode)",
+    "exitCode": 0
+  },
+  "agents": [
+    {
+      "name": "agent-requirements-brief",
+      "scope": "requirements",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "**UI Scaffold Requirements Brief**\n\n- **Product goals (define first)**\n- State the primary user outcome in one sentence: \u201cUsers can ___ in under ___ minutes.\u201d\n- Pick 1 primary success metric (activation, task completion, conversion, retention, etc.).\n- Pick 2 guardrail metrics (error rate, drop-off, support tickets, performance).\n- Define MVP scope: must-have vs explicitly out-of-scope for v1.\n\n- **Target users (prioritize)**\n- Identify 1 primary persona (role, skill level, motivation, pain point).\n- Identify 1 secondary persona only if it changes navigation or permissions.\n- Capture usage context: device, session length, frequency, environment.\n- List accessibility needs relevant to your audience (keyboard-only, contrast, screen reader).\n\n- **Core screens your scaffold should cover**\n- Entry: landing/welcome + sign-in/sign-up.\n- First-run: onboarding/setup (or skip path).\n- Main workspace/dashboard (primary value view).\n- Core flow screens: list/index, detail view, create/edit form.\n- Supporting: search/filter/sort state.\n- Account/settings/profile.\n- System states: loading, empty, error, success/confirmation, offline/no-permission.\n- Help/feedback/contact or issue-report entry point.\n\n- **Constraints to lock before UI build**\n- Platform targets: web/mobile/responsive breakpoints.\n- Design system constraints: typography, color tokens, spacing scale, components.\n- Technical constraints: framework, routing model, auth provider, API shape.\n- Non-functionals: performance budgets, accessibility target (WCAG level), localization need.\n- Compliance/security constraints: data sensitivity, logging, retention, legal copy.\n\n- **Definition of done for scaffold**\n- Every core user task maps to a screen and route.\n- All critical states (loading/empty/error/success) are represented.\n- Navigation and information architecture are testable end-to-end.\n- Reusable layout/components are identified for future feature work."
+    },
+    {
+      "name": "agent-tech-stack-decisions",
+      "scope": "tooling",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "**Recommended default (most teams)**\n- Framework: `Next.js` (App Router) + `TypeScript` with `strict` enabled.\n- Styling: `Tailwind CSS` + CSS variables for design tokens (color, spacing, radius, typography).\n- Component library: `shadcn/ui` (Radix-based primitives you own in-repo).\n- Routing: built-in Next routing (file-based).\n- State: `TanStack Query` for server state, `Zustand` for shared client UI state, local `useState` by default.\n- Forms/validation: `React Hook Form` + `Zod`.\n\n**If SSR/SEO is not needed (SPA)**\n- Framework: `Vite` + `React` + `TypeScript`.\n- Routing: `React Router`.\n- Keep the same styling/components/state choices above.\n\n**Project conventions to decide before scaffolding**\n- Package manager: `pnpm`.\n- Lint/format: `ESLint` + `Prettier` (or `Biome`, but only one formatter).\n- Tests: `Vitest` + Testing Library; `Playwright` for e2e.\n- API contracts: shared `zod` schemas for request/response validation.\n- Structure: feature-first (`src/features/*`), shared UI in `src/components/ui`.\n- CI gates: `typecheck`, `lint`, `test`, `build` on every PR.\n- Env hygiene: commit `.env.example`; validate env at app startup.\n\n**Pre-scaffold checklist**\n- Confirm SSR/SEO requirements (`Next.js` vs `Vite`).\n- Confirm design ownership level (`shadcn/ui` vs heavier pre-styled kit like MUI).\n- Confirm server-data complexity (if moderate+, use `TanStack Query`).\n- Define token set before generating UI components."
+    },
+    {
+      "name": "agent-scaffold-checklist",
+      "scope": "sequencing",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "- [ ] Define scope and stack: framework, routing style, styling system, and target platforms.\n- [ ] Create top-level structure: `app/` or `src/`, `components/`, `layouts/`, `pages/`, `features/`, `lib/`, `assets/`, `styles/`, `tests/`.\n- [ ] Add project-wide config: linting, formatting, path aliases, env handling, and build scripts.\n- [ ] Establish design tokens: spacing, typography, colors, radii, shadows, breakpoints.\n- [ ] Build layout primitives first: `Container`, `Stack`, `Inline`, `Grid`, `Section`, `Spacer`.\n- [ ] Add app shell layout: header, content region, footer, and optional sidebar slots.\n- [ ] Define navigation model: route map, labels, icons, access rules, and active-state logic.\n- [ ] Implement navigation UI: top nav/side nav + mobile menu + breadcrumbs.\n- [ ] Scaffold shared UI components: `Button`, `Input`, `Select`, `Card`, `Modal/Drawer`, `Tabs`, `Table`, `EmptyState`, `Loader`.\n- [ ] Add shared behavior utilities: form validation wrappers, API client layer, error boundary, toast/notification API.\n- [ ] Create placeholder pages for all routes with consistent page template (title, description, primary action, empty/loading states).\n- [ ] Wire each nav item to its placeholder page and verify deep-linking/back-forward behavior.\n- [ ] Add sample fixture/mock data so skeleton pages render realistic structure.\n- [ ] Add baseline tests: route rendering, nav active states, shared component smoke tests.\n- [ ] Run final scaffold review: naming consistency, import boundaries, and \u201cready-for-feature\u201d checklist sign-off."
+    },
+    {
+      "name": "agent-quality-gates",
+      "scope": "validation",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "**Validation Readiness Checks**\n\n**Responsiveness**\n- [ ] Key UI actions (open modal, submit form, route change) complete within `<=150ms p95` on a standard dev machine.\n- [ ] API-backed interactions return first meaningful UI feedback (spinner/skeleton/toast) within `<=100ms`.\n- [ ] No long main-thread tasks over `50ms` during common flows.\n- [ ] Input fields remain responsive while background fetches are running.\n\n**Accessibility**\n- [ ] Full keyboard-only navigation works (Tab/Shift+Tab/Enter/Escape) with visible focus on every interactive element.\n- [ ] Color contrast meets WCAG AA (`4.5:1` normal text, `3:1` large text/UI components).\n- [ ] All controls have accessible names; images/icons have correct `alt` or `aria-hidden`.\n- [ ] Heading order is logical; form fields have labels and error messages are announced.\n- [ ] Screen reader smoke test passes on core flows (at least one flow each in NVDA/VoiceOver).\n- [ ] Motion respects `prefers-reduced-motion`.\n\n**Performance Basics**\n- [ ] Core Web Vitals targets met in CI/lab: `LCP <=2.5s`, `INP <=200ms`, `CLS <=0.1`.\n- [ ] Initial JS/CSS bundle stays within agreed budget (set explicit KB thresholds per app).\n- [ ] Images are compressed, sized correctly, and lazy-loaded offscreen.\n- [ ] Gzip/Brotli and caching headers are enabled for static assets.\n- [ ] No obvious memory leaks in a 5\u201310 minute usage session.\n\n**CI / Lint / Test Guardrails**\n- [ ] Branch protection requires passing `lint`, `typecheck`, `unit`, and `integration/e2e smoke` checks.\n- [ ] Accessibility checks run in CI (axe/pa11y/Lighthouse a11y gate on key pages).\n- [ ] Performance budget check runs in CI and fails on regression beyond threshold.\n- [ ] Test flake policy exists: auto-retry once, then mark flaky with owner ticket.\n- [ ] Coverage gate enforced (for example: global minimum + changed-lines threshold).\n- [ ] Dependency/security scans run on PR and main (SCA + secret scan).\n- [ ] No direct merge to main; PR review and required checks are mandatory."
+    }
+  ]
+}

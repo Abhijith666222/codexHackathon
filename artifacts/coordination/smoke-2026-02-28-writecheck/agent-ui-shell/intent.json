@@ -1,0 +1,7 @@
+{
+  "agent": "agent-ui-shell",
+  "runId": "smoke-2026-02-28-writecheck",
+  "scope": "tasks-ui/pages",
+  "objective": "Create the task list page skeleton, global layout, and route entry points for the new Tasks UI.",
+  "createdAt": "2026-02-28T09:07:46.810329+00:00"
+}

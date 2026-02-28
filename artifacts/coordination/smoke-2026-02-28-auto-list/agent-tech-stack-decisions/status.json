@@ -1,0 +1,12 @@
+{
+  "agent": "agent-tech-stack-decisions",
+  "runId": "smoke-2026-02-28-auto-list",
+  "scope": "tooling",
+  "state": "DONE",
+  "threadId": "019ca372-78ec-74b3-89ef-7fc181535324",
+  "startedAt": "2026-02-28T08:51:53.779796+00:00",
+  "finishedAt": "2026-02-28T08:52:16.392579+00:00",
+  "durationMs": 22369,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:52:16.441458+00:00"
+}

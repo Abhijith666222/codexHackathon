@@ -1,0 +1,56 @@
+{
+  "runId": "smoke-2026-02-28-auto-list",
+  "task": "Give me a list of things I need to do to scaffold UI",
+  "plannerResult": {
+    "raw_task": "Give me a list of things I need to do to scaffold UI",
+    "subtasks": [
+      {
+        "name": "agent-requirements-brief",
+        "scope": "requirements",
+        "objective": "identify product goals, target users, core screens, and constraints to define what the UI scaffold must cover"
+      },
+      {
+        "name": "agent-tech-stack-decisions",
+        "scope": "tooling",
+        "objective": "recommend framework, styling approach, component library, routing/state choices, and project conventions before scaffolding"
+      },
+      {
+        "name": "agent-scaffold-checklist",
+        "scope": "sequencing",
+        "objective": "produce an ordered checklist to set up project skeleton, layout primitives, navigation, shared components, and placeholder pages"
+      },
+      {
+        "name": "agent-quality-gates",
+        "scope": "validation",
+        "objective": "define readiness checks for responsiveness, accessibility, performance basics, and CI/lint/test guardrails"
+      }
+    ]
+  },
+  "plannerParseAttempts": 1,
+  "fallbackUsed": false,
+  "normalizedPlan": {
+    "subtasks": [
+      {
+        "name": "agent-requirements-brief",
+        "scope": "requirements",
+        "objective": "identify product goals, target users, core screens, and constraints to define what the UI scaffold must cover"
+      },
+      {
+        "name": "agent-tech-stack-decisions",
+        "scope": "tooling",
+        "objective": "recommend framework, styling approach, component library, routing/state choices, and project conventions before scaffolding"
+      },
+      {
+        "name": "agent-scaffold-checklist",
+        "scope": "sequencing",
+        "objective": "produce an ordered checklist to set up project skeleton, layout primitives, navigation, shared components, and placeholder pages"
+      },
+      {
+        "name": "agent-quality-gates",
+        "scope": "validation",
+        "objective": "define readiness checks for responsiveness, accessibility, performance basics, and CI/lint/test guardrails"
+      }
+    ]
+  },
+  "parsedAt": "2026-02-28T08:51:46.197406+00:00"
+}

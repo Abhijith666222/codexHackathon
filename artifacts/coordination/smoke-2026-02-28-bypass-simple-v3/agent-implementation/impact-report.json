@@ -1,0 +1,14 @@
+{
+  "agent": "agent-implementation",
+  "runId": "smoke-2026-02-28-bypass-simple-v3",
+  "state": "DONE",
+  "scope": "codex-rs/SMOKE_WRITE.md",
+  "changedFiles": [
+    "codex-rs/SMOKE_WRITE.md"
+  ],
+  "durationMs": 5183,
+  "exitCode": 0,
+  "threadId": "019ca38c-048b-7d22-a26c-90617e8e757e",
+  "lastMessage": "Created `codex-rs/SMOKE_WRITE.md` with exactly one line:\n\n`smoke`",
+  "finishedAt": "2026-02-28T09:19:53.419903+00:00"
+}

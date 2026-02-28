@@ -1,0 +1,54 @@
+{
+  "runId": "smoke-2026-02-28-advisory",
+  "task": "Give me a concise checklist to scaffold a UI in phases.",
+  "taskMode": "advisory",
+  "state": "DONE",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [],
+  "mergeability": {
+    "passed": true,
+    "details": [
+      {
+        "mode": "advisory",
+        "note": "Mergeability skipped for advisory guidance tasks."
+      }
+    ],
+    "mergedDiff": "",
+    "patches": []
+  },
+  "contract": {
+    "status": "PASS",
+    "command": "skipped (advisory task mode)",
+    "exitCode": 0
+  },
+  "agents": [
+    {
+      "name": "agent-phase-sequencing",
+      "scope": "sequencing",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "- **Phase 1 - Discovery & Alignment**: Deliverable: a problem brief with goals, constraints, stakeholders, dependencies, and success metrics. Exit criteria: scope baseline approved, assumptions documented, top risks logged.\n- **Phase 2 - Solution Design & Sequencing**: Deliverable: architecture/design doc plus a prioritized phase plan (milestones, owners, dependencies). Exit criteria: design review passed, tradeoffs accepted, each milestone has clear acceptance criteria.\n- **Phase 3 - Foundation Build**: Deliverable: working skeleton with core models/contracts, basic workflows, and CI/lint/test setup. Exit criteria: one end-to-end happy path works locally, foundation tests pass, no critical blockers remain.\n- **Phase 4 - Feature Completion & Hardening**: Deliverable: agreed MVP feature set with validation, error handling, and observability. Exit criteria: committed stories completed, integration tests green, reliability/performance checks meet targets.\n- **Phase 5 - Polish & Release Readiness**: Deliverable: UX/content polish, documentation/runbook, release notes, and rollout plan. Exit criteria: stakeholder/UAT sign-off, monitoring and alerts live, rollback plan verified.\n\n- **Cross-phase checklist**: every phase closes only when outputs are reviewable, quality gates are green for that phase, unresolved risks have owners/dates, and next-phase inputs are complete."
+    },
+    {
+      "name": "agent-ui-foundations",
+      "scope": "foundations",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "**Layout Structure**\n- [ ] Define an app shell: `Header | Nav | Main | Optional Aside | Footer`.\n- [ ] Standardize page containers (`max-width`, horizontal padding, responsive breakpoints).\n- [ ] Pick one spacing scale (e.g., 4/8px rhythm) and apply it everywhere.\n- [ ] Establish layout primitives (`Stack`, `Inline`, `Grid`, `Container`, `Spacer`).\n- [ ] Add page-level loading, empty, and error slots in the shell.\n\n**Component Primitives**\n- [ ] Ship core primitives first: `Button`, `Input`, `Select`, `Checkbox`, `Radio`, `Textarea`, `Modal`, `Tooltip`, `Tabs`, `Toast`.\n- [ ] Ensure all primitives support `disabled`, `loading`, `error`, `success`, and size variants.\n- [ ] Enforce accessibility defaults: labels, keyboard nav, focus-visible, ARIA where needed.\n- [ ] Keep primitives style-agnostic and compose them into feature components later.\n- [ ] Add visual/interaction tests for each primitive state.\n\n**Design Tokens**\n- [ ] Create token tiers: `base` (raw values) and `semantic` (usage-driven names).\n- [ ] Cover token categories: color, typography, spacing, radius, shadow, border, motion, z-index.\n- [ ] Use semantic names (`bg.surface`, `text.muted`, `border.default`) over hard-coded values.\n- [ ] Define light/dark (or brand) themes via token swaps, not component overrides.\n- [ ] Store tokens in one source of truth and generate platform outputs from it.\n\n**Navigation**\n- [ ] Define route map and ownership (`public`, `authenticated`, `admin`, etc.).\n- [ ] Choose persistent nav pattern (`top`, `side`, `hybrid`) and mobile behavior.\n- [ ] Ensure active route, breadcrumbs, and back behavior are consistent.\n- [ ] Support deep-linking for key views and filter states.\n- [ ] Add route guards plus route-level loading/error boundaries.\n\n**Data/State Boundaries**\n- [ ] Separate server state (API/cache) from UI state (local interaction).\n- [ ] Centralize data fetching/caching strategy (query keys, TTL, invalidation).\n- [ ] Keep mutations close to features; normalize optimistic updates and rollback rules.\n- [ ] Avoid global state for ephemeral UI state; scope state to nearest feature boundary.\n- [ ] Define clear contracts for data shape, error types, and retry behavior."
+    },
+    {
+      "name": "agent-quality-gates",
+      "scope": "quality",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null,
+      "lastMessage": "- [ ] `Phase 0: Requirements` \u2014 Accessibility criteria mapped to WCAG 2.2 AA; target breakpoints/devices agreed; performance budgets defined; release owner + rollback owner assigned.\n- [ ] `Phase 1: Design` \u2014 Contrast/focus order reviewed; layouts validated at `320/375/768/1024/1440`; expected perf impact estimated; monitoring/analytics requirements defined.\n- [ ] `Phase 2: Build (Local)` \u2014 Keyboard-only + labels/ARIA checks pass; no overflow/cutoff at target widths; bundle/render changes within budget; feature flags and migration safety verified.\n- [ ] `Phase 3: PR/CI Gate` \u2014 `0` critical automated accessibility violations; viewport/screenshot regression checks pass; Lighthouse/Web Vitals gate passes (`LCP <2.5s`, `INP <200ms`, `CLS <0.1` target); tests/docs/changelog/runbook updates included.\n- [ ] `Phase 4: Staging/UAT` \u2014 Screen reader smoke test on key flows; real-device responsive spot checks complete; synthetic + load checks meet SLO; deploy + rollback dry run successful.\n- [ ] `Phase 5: Release Go/No-Go` \u2014 No open Sev1/Sev2 quality issues; canary metrics within budget; approvals captured; on-call + rollback trigger thresholds confirmed.\n- [ ] `Phase 6: Post-Release (24\u201372h)` \u2014 Monitor accessibility feedback, responsive regressions, and live performance p75; log findings in post-release review with action owners."
+    }
+  ]
+}

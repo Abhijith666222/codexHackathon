@@ -1,0 +1,7 @@
+{
+  "agent": "agent-snapshots",
+  "runId": "run-2026-02-28-090153",
+  "scope": "codex-rs/tui/tests",
+  "objective": "Add/adjust render-focused tests or snapshot coverage for the new Tasks views and wire any required fixture data for deterministic task UI output.",
+  "createdAt": "2026-02-28T09:02:20.702906+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/shell",
+  "state": "DONE",
+  "threadId": "019ca366-47cf-75b1-865a-28152a62b5a6",
+  "startedAt": "2026-02-28T08:38:34.004695+00:00",
+  "finishedAt": "2026-02-28T08:39:39.163288+00:00",
+  "durationMs": 64882,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:39:39.214610+00:00"
+}

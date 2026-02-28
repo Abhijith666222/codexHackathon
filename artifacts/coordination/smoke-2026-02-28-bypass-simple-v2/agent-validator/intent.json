@@ -1,0 +1,7 @@
+{
+  "agent": "agent-validator",
+  "runId": "smoke-2026-02-28-bypass-simple-v2",
+  "scope": "codex-rs/verification-smoke",
+  "objective": "Validate that codex-rs/SMOKE_WRITE.md contains exactly one line and that line is exactly `smoke`; do not touch any other path.",
+  "createdAt": "2026-02-28T09:16:33.595979+00:00"
+}

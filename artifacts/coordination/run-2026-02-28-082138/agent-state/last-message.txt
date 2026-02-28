@@ -1,0 +1,10 @@
+I can’t complete the requested code changes yet due workspace constraints:
+
+1. `tasks-ui/data` does not exist in this checkout (I scanned `agent-state` and sibling `codex-worktrees` for that path and found no match).
+2. Write operations are blocked in this session (read-only policy): write commands are rejected and `apply_patch` is not allowed.
+
+So I was unable to create/update any file in `tasks-ui/data` as requested.
+
+If you want me to proceed, I need one of:
+1. The correct existing scope path (e.g., if this should map to an existing crate/module like `codex-rs/cloud-tasks` or `codex-rs/core/src/tasks`), or
+2. Write-enabled access for this workspace so I can add `tasks-ui/data` and implement the model/state/API wiring directly.

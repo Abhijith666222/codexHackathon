@@ -1,0 +1,17 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "task": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+  "plannerResult": {},
+  "plannerParseAttempts": 2,
+  "fallbackUsed": true,
+  "normalizedPlan": {
+    "subtasks": [
+      {
+        "name": "agent-implementation",
+        "scope": "codex-rs",
+        "objective": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke"
+      }
+    ]
+  },
+  "parsedAt": "2026-02-28T09:15:30.127161+00:00"
+}

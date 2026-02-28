@@ -1,0 +1,22 @@
+- **Selected baseline (fits existing `pnpm` + Prettier monorepo setup):** `React` + `TypeScript` + `Vite` (SPA-first, fast local dev, low config overhead).
+- **Styling approach:** `Tailwind CSS` + CSS variables for design tokens (`--color-*`, `--space-*`, `--radius-*`) + `clsx` + `tailwind-merge` for safe class composition.
+- **Component variants:** `class-variance-authority (cva)` for consistent size/intent/state variants.
+- **Routing:** `react-router` (data/router APIs), route-level code splitting with lazy routes by default.
+- **State strategy:** `TanStack Query` for server/cache state; `Zustand` for UI/session-local state; avoid global state for form state.
+- **Forms/validation:** `react-hook-form` + `zod` (single schema used for validation + types).
+- **Linting/formatting:** `ESLint` flat config (`typescript-eslint`, `react-hooks`, `jsx-a11y`, `import`) + `Prettier` (Prettier owns formatting, ESLint owns correctness).
+- **Testing baseline:** `Vitest` + `@testing-library/react` + `@testing-library/jest-dom` + `MSW` for component/integration tests; `Playwright` for smoke E2E.
+- **TypeScript standards:** `strict: true`, `noUncheckedIndexedAccess: true`, `exactOptionalPropertyTypes: true`, path alias `@/*`, no `any` without explicit TODO.
+- **Project structure standard:** `src/app`, `src/pages`, `src/features`, `src/components`, `src/lib`, `src/styles`, `src/test`.
+- **Quality gates in CI:** `typecheck`, `lint`, `test`, `build` must all pass on PRs.
+- **Definition of done for new UI work:** includes loading/error/empty states, accessibility checks (keyboard + labels), and at least one test per user-facing behavior.
+
+- [ ] Initialize Vite React TS app in workspace package.
+- [ ] Add Tailwind, token variables, and base style reset.
+- [ ] Wire React Router with route-level lazy loading.
+- [ ] Add QueryClient provider + API client wrapper.
+- [ ] Add Zustand store pattern (one store per feature where needed).
+- [ ] Configure ESLint flat + Prettier integration.
+- [ ] Configure Vitest + Testing Library + MSW.
+- [ ] Add Playwright smoke suite (`/`, one core flow).
+- [ ] Add CI job running `pnpm lint && pnpm test && pnpm build`.

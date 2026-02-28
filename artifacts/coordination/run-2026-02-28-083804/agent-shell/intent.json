@@ -1,0 +1,7 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/shell",
+  "objective": "Create the app shell: routing, layout primitives, theme tokens/design system baseline, and global providers/state boundaries.",
+  "createdAt": "2026-02-28T08:38:31.881507+00:00"
+}

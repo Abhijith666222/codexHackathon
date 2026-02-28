@@ -1,0 +1,32 @@
+I can’t apply the change in this run: the workspace is enforcing write protection for this session.
+
+I confirmed it with both write paths:
+- `shell` write commands fail with “rejected by policy”
+- `apply_patch` also fails with “writing outside of the project; rejected by user approval settings”
+
+So I can’t actually modify files here unless write access is enabled.
+
+Proposed integration (needs write access) is:
+
+- `codex-rs/tui/src/slash_command.rs`
+  - Add `SlashCommand::Tasks`
+  - Add description in `description()`
+  - Add route availability rules in `available_during_task()` and visibility handling as needed
+
+- `codex-rs/tui/src/app_event.rs`
+  - Add route event(s), e.g. `OpenTasks` and optionally `CloseTasks`
+
+- `codex-rs/tui/src/chatwidget.rs`
+  - In `dispatch_command`, add:
+    - `SlashCommand::Tasks => self.app_event_tx.send(AppEvent::OpenTasks);`
+
+- `codex-rs/tui/src/app.rs`
+  - Add app route enum, e.g. `AppRoute { Chat, Tasks }`, and store current route in `App`
+  - Initialize default route to `Chat` in app constructor + test constructors
+  - Add `AppEvent::OpenTasks` handling in `handle_event`
+  - Add task-route key entrypoint in `handle_key_event` (e.g. `Ctrl+Shift+T`)
+  - Add route-aware dispatch in `handle_tui_event`
+    - when route is `Tasks`, render a task screen in draw path and consume key events to exit route (Esc/q/Ctrl+C)
+  - Keep normal route rendering/interaction behind existing chat overlay/event logic
+
+If you want, I can apply this exact patch immediately once write access is available.

@@ -1,0 +1,8 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-082138",
+  "state": "BLOCKED",
+  "scope": "tasks-ui/components",
+  "changedFiles": [],
+  "durationMs": 103058
+}

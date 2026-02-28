@@ -1,0 +1,25 @@
+{
+  "raw_task": "SCAFFOLD a simple Tasks frontend UI",
+  "subtasks": [
+    {
+      "name": "agent-ui-shell",
+      "scope": "tasks-ui/pages",
+      "objective": "Create the base app entry and layout scaffold for the Tasks app, including root container, title/header, and high-level page structure."
+    },
+    {
+      "name": "agent-task-list-ui",
+      "scope": "tasks-ui/components",
+      "objective": "Build reusable components for task rows, task list rendering, and simple add/edit/delete controls with lightweight interactions."
+    },
+    {
+      "name": "agent-task-state",
+      "scope": "tasks-ui/state",
+      "objective": "Define initial in-memory task model/schema and local state management for creating, toggling, and removing tasks."
+    },
+    {
+      "name": "agent-task-style",
+      "scope": "tasks-ui/styles",
+      "objective": "Create minimal styling for readable layout, spacing, buttons, and task states (e.g., pending/completed), plus responsive behavior."
+    }
+  ]
+}

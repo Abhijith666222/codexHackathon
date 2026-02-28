@@ -1,0 +1,89 @@
+{
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "task": "Implement a tiny todo app scaffold",
+  "taskMode": "code",
+  "state": "BLOCKED",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [
+    "No agent produced any file changes."
+  ],
+  "mergeability": {
+    "passed": true,
+    "details": [
+      {
+        "agent": "agent-scaffold",
+        "skipped": "empty patch",
+        "checkCode": 0,
+        "applyCode": 0
+      },
+      {
+        "agent": "agent-domain",
+        "skipped": "empty patch",
+        "checkCode": 0,
+        "applyCode": 0
+      },
+      {
+        "agent": "agent-ui",
+        "skipped": "empty patch",
+        "checkCode": 0,
+        "applyCode": 0
+      },
+      {
+        "agent": "agent-docs",
+        "skipped": "empty patch",
+        "checkCode": 0,
+        "applyCode": 0
+      },
+      {
+        "mode": "skip",
+        "reason": "all patches empty"
+      }
+    ],
+    "mergedDiff": "",
+    "patches": []
+  },
+  "contract": {
+    "status": "FAIL",
+    "command": "cargo run -p codex-app-server-protocol --bin write_schema_fixtures -- --schema-root artifacts/pr-packets/smoke-2026-02-28-code-emptypatch/generated-schema",
+    "exitCode": 1
+  },
+  "agents": [
+    {
+      "name": "agent-scaffold",
+      "scope": "todo-app/app-shell",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "No file changes were produced; execution was blocked or task was not executed.",
+      "lastMessage": "Blocked by platform permissions, so I could not apply the scaffold changes.\n\nWhat I verified:\n- `todo-app` does not currently exist under the repo root.\n- Creating `todo-app/app-shell` via shell command was rejected (`blocked by policy`).\n- Creating files via patch was also rejected (`rejected by user approval settings`).\n\nI\u2019m ready to implement the full scaffold immediately, but I need a writable workspace (or adjusted approval settings) first. Once write access is enabled, I\u2019ll create `todo-app/app-shell` with:\n- base folder layout\n- `package.json` scripts for build/run\n- main entrypoint\n- placeholder config files for a minimal runnable app"
+    },
+    {
+      "name": "agent-domain",
+      "scope": "todo-app/todo-domain",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "No file changes were produced; execution was blocked or task was not executed.",
+      "lastMessage": "Blocked by workspace constraints, so I could not implement the changes yet.\n\nWhat I verified:\n1. `todo-app/todo-domain` does not exist in this checkout (no `todo*` files/dirs found).\n2. Write operations are disabled by policy in this session:\n   - `New-Item -ItemType Directory -Path \"todo-app\\\\todo-domain\" -Force` \u2192 `rejected: blocked by policy`\n   - `apply_patch` to add `todo-app/todo-domain/.write-test` \u2192 `patch rejected ... approval settings`\n\nCurrent repo state is unchanged (`git status --short` is empty).\n\nIf you provide a writable workspace (or the correct checkout containing `todo-app/todo-domain`), I can implement the todo model and actions immediately."
+    },
+    {
+      "name": "agent-ui",
+      "scope": "todo-app/todo-ui",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "No file changes were produced; execution was blocked or task was not executed.",
+      "lastMessage": "Blocked by platform constraints; I couldn\u2019t make the requested code changes.\n\nWhat I verified:\n1. `todo-app/todo-ui` does not exist in this workspace (or sibling worktrees).\n2. Write operations are disallowed here:\n   - `New-Item ... todo-app\\todo-ui` was rejected (`blocked by policy`).\n   - `apply_patch` was rejected (`writing outside of the project; rejected by user approval settings`).\n   - `Set-Content ...` was rejected (`blocked by policy`).\n\nIf you provide a workspace where `todo-app/todo-ui` exists and writes are enabled, I can implement the full UI scaffold (render + add/toggle/delete wiring + styling + empty state) in one pass."
+    },
+    {
+      "name": "agent-docs",
+      "scope": "todo-app/project-docs",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "No file changes were produced; execution was blocked or task was not executed.",
+      "lastMessage": "Blocked by platform constraints; I could not make the required documentation change.\n\nWhat I verified:\n- `todo-app/project-docs` does not exist in this checkout.\n- Write attempts are denied:\n  - Shell create attempt (`New-Item -ItemType Directory -Force -Path \"todo-app/project-docs\"`) was rejected by policy.\n  - `apply_patch` add-file attempt for `todo-app/project-docs/README.md` was rejected: `writing outside of the project; rejected by user approval settings`.\n\nBecause of this, I could not create/update any file in your requested scope.\n\nNext steps to unblock:\n1. Provide a writable workspace (or relax approval settings for file writes).\n2. Ensure `todo-app/project-docs` exists in this worktree, or confirm the correct scope path.\n3. I\u2019ll then immediately add a concise setup/usage doc with run commands, current scaffold capabilities, and clearly marked next-step enhancements."
+    }
+  ]
+}

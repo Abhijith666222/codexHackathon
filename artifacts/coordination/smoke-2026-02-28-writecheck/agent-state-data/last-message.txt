@@ -1,0 +1,137 @@
+I can’t write files in this environment right now: the filesystem is read-only (writes are blocked), so I’m blocked by platform from creating `tasks-ui/state/*`.
+
+I also confirmed `tasks-ui` does not exist in this checkout, so I would need to create `tasks-ui/state` first.
+
+If you allow write access, here is the implementation I’d apply in one file.
+
+`tasks-ui/state/taskState.ts`:
+```ts
+export type TaskId = string;
+
+export interface Task {
+  id: TaskId;
+  title: string;
+  completed: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TaskState {
+  tasks: Task[];
+}
+
+export type TaskAction =
+  | { type: "task/add"; payload: { title: string } }
+  | { type: "task/edit"; payload: { id: TaskId; title: string } }
+  | { type: "task/toggle-complete"; payload: { id: TaskId } };
+
+const nowIso = (): string => new Date().toISOString();
+
+const nextId = (): TaskId => `task-${Math.random().toString(36).slice(2, 10)}-${Date.now()}`;
+
+export const seedTasks: Task[] = [
+  {
+    id: "task-1",
+    title: "Draft UI wireframe",
+    completed: false,
+    createdAt: "2026-02-28T00:00:00.000Z",
+    updatedAt: "2026-02-28T00:00:00.000Z",
+  },
+  {
+    id: "task-2",
+    title: "Implement reducer-based state updates",
+    completed: false,
+    createdAt: "2026-02-28T00:01:00.000Z",
+    updatedAt: "2026-02-28T00:01:00.000Z",
+  },
+  {
+    id: "task-3",
+    title: "Connect UI toggle handlers",
+    completed: true,
+    createdAt: "2026-02-28T00:02:00.000Z",
+    updatedAt: "2026-02-28T00:02:00.000Z",
+  },
+];
+
+export const createInitialTaskState = (): TaskState => ({
+  tasks: [...seedTasks],
+});
+
+const normalizeTaskTitle = (title: string): string => title.trim();
+
+const replaceTask = (tasks: Task[], id: TaskId, update: (task: Task) => Task): Task[] =>
+  tasks.map((task) => (task.id === id ? update(task) : task));
+
+export function reduceTaskState(state: TaskState, action: TaskAction): TaskState {
+  switch (action.type) {
+    case "task/add": {
+      const title = normalizeTaskLabel(action.payload.title);
+      if (!title) return state;
+
+      const created = nowIso();
+      return {
+        ...state,
+        tasks: [
+          ...state.tasks,
+          { id: nextId(), title, completed: false, createdAt: created, updatedAt: created },
+        ],
+      };
+    }
+
+    case "task/edit": {
+      const title = normalizeTaskLabel(action.payload.title);
+      if (!title) return state;
+
+      return {
+        ...state,
+        tasks: replaceTask(state.tasks, action.payload.id, (task) => ({
+          ...task,
+          title,
+          updatedAt: nowIso(),
+        })),
+      };
+    }
+
+    case "task/toggle-complete":
+      return {
+        ...state,
+        tasks: replaceTask(state.tasks, action.payload.id, (task) => ({
+          ...task,
+          completed: !task.completed,
+          updatedAt: nowIso(),
+        })),
+      };
+
+    default:
+      return state;
+  }
+}
+
+export const createTaskStateFlow = (seed: Task[] = seedTasks) => {
+  let state: TaskState = { tasks: [...seed] };
+  const listeners: Array<(next: TaskState) => void> = [];
+
+  const notify = () => listeners.forEach((listener) => listener(state));
+
+  return {
+    getState: (): TaskState => ({ ...state, tasks: [...state.tasks] }),
+    dispatch: (action: TaskAction) => {
+      state = reduceTaskState(state, action);
+      notify();
+    },
+    subscribe: (listener: (next: TaskState) => void) => {
+      listeners.push(listener);
+      return () => {
+        const index = listeners.indexOf(listener);
+        if (index >= 0) listeners.splice(index, 1);
+      };
+    },
+  };
+};
+
+function normalizeTaskLabel(value: string): string {
+  return value.trim();
+}
+```
+
+Say “enable write” and I’ll apply this directly in `tasks-ui/state/taskState.ts` (and can expand with selectors/UI helper functions next).

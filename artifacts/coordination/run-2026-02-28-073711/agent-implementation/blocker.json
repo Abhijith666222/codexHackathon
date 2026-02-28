@@ -1,0 +1,9 @@
+{
+  "agent": "agent-implementation",
+  "runId": "run-2026-02-28-073711",
+  "state": "BLOCKED",
+  "scope": "codex-rs",
+  "reason": "Agent exited with non-zero status.",
+  "createdAt": "2026-02-28T07:37:21.967480+00:00",
+  "lastMessage": ""
+}

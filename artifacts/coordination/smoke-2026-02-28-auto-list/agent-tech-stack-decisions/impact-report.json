@@ -1,0 +1,12 @@
+{
+  "agent": "agent-tech-stack-decisions",
+  "runId": "smoke-2026-02-28-auto-list",
+  "state": "DONE",
+  "scope": "tooling",
+  "changedFiles": [],
+  "durationMs": 22369,
+  "exitCode": 0,
+  "threadId": "019ca372-78ec-74b3-89ef-7fc181535324",
+  "lastMessage": "**Recommended default (most teams)**\n- Framework: `Next.js` (App Router) + `TypeScript` with `strict` enabled.\n- Styling: `Tailwind CSS` + CSS variables for design tokens (color, spacing, radius, typography).\n- Component library: `shadcn/ui` (Radix-based primitives you own in-repo).\n- Routing: built-in Next routing (file-based).\n- State: `TanStack Query` for server state, `Zustand` for shared client UI state, local `useState` by default.\n- Forms/validation: `React Hook Form` + `Zod`.\n\n**If SSR/SEO is not needed (SPA)**\n- Framework: `Vite` + `React` + `TypeScript`.\n- Routing: `React Router`.\n- Keep the same styling/components/state choices above.\n\n**Project conventions to decide before scaffolding**\n- Package manager: `pnpm`.\n- Lint/format: `ESLint` + `Prettier` (or `Biome`, but only one formatter).\n- Tests: `Vitest` + Testing Library; `Playwright` for e2e.\n- API contracts: shared `zod` schemas for request/response validation.\n- Structure: feature-first (`src/features/*`), shared UI in `src/components/ui`.\n- CI gates: `typecheck`, `lint`, `test`, `build` on every PR.\n- Env hygiene: commit `.env.example`; validate env at app startup.\n\n**Pre-scaffold checklist**\n- Confirm SSR/SEO requirements (`Next.js` vs `Vite`).\n- Confirm design ownership level (`shadcn/ui` vs heavier pre-styled kit like MUI).\n- Confirm server-data complexity (if moderate+, use `TanStack Query`).\n- Define token set before generating UI components.",
+  "finishedAt": "2026-02-28T08:52:16.392579+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "agent": "agent-quality-gates",
+  "runId": "smoke-2026-02-28-advisory",
+  "state": "DONE",
+  "scope": "quality",
+  "changedFiles": [],
+  "durationMs": 30753,
+  "exitCode": 0,
+  "threadId": "019ca36e-9395-7c03-9f79-17c69b412795",
+  "lastMessage": "- [ ] `Phase 0: Requirements` \u2014 Accessibility criteria mapped to WCAG 2.2 AA; target breakpoints/devices agreed; performance budgets defined; release owner + rollback owner assigned.\n- [ ] `Phase 1: Design` \u2014 Contrast/focus order reviewed; layouts validated at `320/375/768/1024/1440`; expected perf impact estimated; monitoring/analytics requirements defined.\n- [ ] `Phase 2: Build (Local)` \u2014 Keyboard-only + labels/ARIA checks pass; no overflow/cutoff at target widths; bundle/render changes within budget; feature flags and migration safety verified.\n- [ ] `Phase 3: PR/CI Gate` \u2014 `0` critical automated accessibility violations; viewport/screenshot regression checks pass; Lighthouse/Web Vitals gate passes (`LCP <2.5s`, `INP <200ms`, `CLS <0.1` target); tests/docs/changelog/runbook updates included.\n- [ ] `Phase 4: Staging/UAT` \u2014 Screen reader smoke test on key flows; real-device responsive spot checks complete; synthetic + load checks meet SLO; deploy + rollback dry run successful.\n- [ ] `Phase 5: Release Go/No-Go` \u2014 No open Sev1/Sev2 quality issues; canary metrics within budget; approvals captured; on-call + rollback trigger thresholds confirmed.\n- [ ] `Phase 6: Post-Release (24\u201372h)` \u2014 Monitor accessibility feedback, responsive regressions, and live performance p75; log findings in post-release review with action owners.",
+  "finishedAt": "2026-02-28T08:48:09.375639+00:00"
+}

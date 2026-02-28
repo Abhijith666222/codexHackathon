@@ -1,0 +1,9 @@
+{
+  "agent": "agent-validator",
+  "runId": "smoke-2026-02-28-bypass-simple-v2",
+  "state": "BLOCKED",
+  "scope": "codex-rs/verification-smoke",
+  "reason": "Scope violation: edited codex-rs/SMOKE_WRITE.md",
+  "createdAt": "2026-02-28T09:17:07.180596+00:00",
+  "lastMessage": "Updated `codex-rs/SMOKE_WRITE.md` to satisfy the validation:\n\n- File: `codex-rs/SMOKE_WRITE.md`\n- Content: exactly one line with `smoke`\n- Verified line count: `1`\n\nNo other paths were touched."
+}

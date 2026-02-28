@@ -1,0 +1,9 @@
+{
+  "agent": "agent-scaffold",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "state": "BLOCKED",
+  "scope": "todo-app/app-shell",
+  "changedFiles": [],
+  "durationMs": 58897,
+  "error": "No file changes were produced; execution was blocked or task was not executed."
+}

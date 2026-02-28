@@ -1,0 +1,7 @@
+{
+  "agent": "agent-data",
+  "runId": "run-2026-02-28-083727",
+  "scope": "tasks-ui/model",
+  "objective": "Define task domain model and local state/actions for CRUD flows (create, toggle complete, edit, delete) using in-memory/mock data.",
+  "createdAt": "2026-02-28T08:37:38.320732+00:00"
+}

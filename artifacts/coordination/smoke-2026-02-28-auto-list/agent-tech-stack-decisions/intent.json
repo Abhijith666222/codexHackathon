@@ -1,0 +1,7 @@
+{
+  "agent": "agent-tech-stack-decisions",
+  "runId": "smoke-2026-02-28-auto-list",
+  "scope": "tooling",
+  "objective": "recommend framework, styling approach, component library, routing/state choices, and project conventions before scaffolding",
+  "createdAt": "2026-02-28T08:51:49.929405+00:00"
+}

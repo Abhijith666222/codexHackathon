@@ -1,0 +1,12 @@
+{
+  "agent": "agent-ui-foundations",
+  "runId": "smoke-2026-02-28-advisory",
+  "state": "DONE",
+  "scope": "foundations",
+  "changedFiles": [],
+  "durationMs": 17533,
+  "exitCode": 0,
+  "threadId": "019ca36e-9399-7492-adb6-559c9cf2b8c1",
+  "lastMessage": "**Layout Structure**\n- [ ] Define an app shell: `Header | Nav | Main | Optional Aside | Footer`.\n- [ ] Standardize page containers (`max-width`, horizontal padding, responsive breakpoints).\n- [ ] Pick one spacing scale (e.g., 4/8px rhythm) and apply it everywhere.\n- [ ] Establish layout primitives (`Stack`, `Inline`, `Grid`, `Container`, `Spacer`).\n- [ ] Add page-level loading, empty, and error slots in the shell.\n\n**Component Primitives**\n- [ ] Ship core primitives first: `Button`, `Input`, `Select`, `Checkbox`, `Radio`, `Textarea`, `Modal`, `Tooltip`, `Tabs`, `Toast`.\n- [ ] Ensure all primitives support `disabled`, `loading`, `error`, `success`, and size variants.\n- [ ] Enforce accessibility defaults: labels, keyboard nav, focus-visible, ARIA where needed.\n- [ ] Keep primitives style-agnostic and compose them into feature components later.\n- [ ] Add visual/interaction tests for each primitive state.\n\n**Design Tokens**\n- [ ] Create token tiers: `base` (raw values) and `semantic` (usage-driven names).\n- [ ] Cover token categories: color, typography, spacing, radius, shadow, border, motion, z-index.\n- [ ] Use semantic names (`bg.surface`, `text.muted`, `border.default`) over hard-coded values.\n- [ ] Define light/dark (or brand) themes via token swaps, not component overrides.\n- [ ] Store tokens in one source of truth and generate platform outputs from it.\n\n**Navigation**\n- [ ] Define route map and ownership (`public`, `authenticated`, `admin`, etc.).\n- [ ] Choose persistent nav pattern (`top`, `side`, `hybrid`) and mobile behavior.\n- [ ] Ensure active route, breadcrumbs, and back behavior are consistent.\n- [ ] Support deep-linking for key views and filter states.\n- [ ] Add route guards plus route-level loading/error boundaries.\n\n**Data/State Boundaries**\n- [ ] Separate server state (API/cache) from UI state (local interaction).\n- [ ] Centralize data fetching/caching strategy (query keys, TTL, invalidation).\n- [ ] Keep mutations close to features; normalize optimistic updates and rollback rules.\n- [ ] Avoid global state for ephemeral UI state; scope state to nearest feature boundary.\n- [ ] Define clear contracts for data shape, error types, and retry behavior.",
+  "finishedAt": "2026-02-28T08:47:56.132150+00:00"
+}

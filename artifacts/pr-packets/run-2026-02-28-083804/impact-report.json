@@ -1,0 +1,61 @@
+{
+  "runId": "run-2026-02-28-083804",
+  "task": "Give me a list of things I need to do to scaffold UI",
+  "state": "BLOCKED",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [
+    "No agent produced any file changes."
+  ],
+  "mergeability": {
+    "passed": false,
+    "details": [
+      {
+        "agent": "agent-discovery",
+        "patch": "C:\\Users\\Reju\\AppData\\Local\\Temp\\run-2026-02-28-083804-merge-iun672wd\\agent-discovery.patch",
+        "checkCode": 128,
+        "checkStdout": "",
+        "checkStderr": "error: No valid patches in input (allow with \"--allow-empty\")\n"
+      }
+    ]
+  },
+  "contract": {
+    "status": "ERROR",
+    "command": "node scripts/multiagent/contract-check.mjs",
+    "exitCode": 3221225786
+  },
+  "agents": [
+    {
+      "name": "agent-discovery",
+      "scope": "ui/requirements",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    },
+    {
+      "name": "agent-bootstrap",
+      "scope": "ui/bootstrap",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "Platform write restriction detected from agent output."
+    },
+    {
+      "name": "agent-shell",
+      "scope": "ui/shell",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    },
+    {
+      "name": "agent-components",
+      "scope": "ui/components",
+      "state": "BLOCKED",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": "Platform write restriction detected from agent output."
+    }
+  ]
+}

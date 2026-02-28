@@ -1,0 +1,7 @@
+{
+  "agent": "agent-docs",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "scope": "todo-app/project-docs",
+  "objective": "Write concise setup and usage documentation, including run commands, current scaffold capabilities, and clearly marked next-step enhancements.",
+  "createdAt": "2026-02-28T08:55:25.985789+00:00"
+}

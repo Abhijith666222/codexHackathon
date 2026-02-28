@@ -1,0 +1,7 @@
+{
+  "agent": "agent-c",
+  "runId": "run-2026-02-28-092311",
+  "scope": "tasks-frontend/components",
+  "objective": "Implement reusable UI pieces for the page (task row, task list, section header, action buttons) and compose them into the Tasks page.",
+  "createdAt": "2026-02-28T09:23:38.876900+00:00"
+}

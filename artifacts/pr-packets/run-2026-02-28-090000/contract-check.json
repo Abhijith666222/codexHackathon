@@ -1,0 +1,11 @@
+{
+  "runId": "run-2026-02-28-090000",
+  "status": "FAIL",
+  "command": "cargo run -p codex-app-server-protocol --bin write_schema_fixtures -- --schema-root artifacts/pr-packets/run-2026-02-28-090000/generated-schema",
+  "expectedHash": "7676abc91b268e97c20529182c4fa8b85a39124b70380b671137db8bb588274f",
+  "generatedHash": "22aa225404e67ef7bc8fa5afa9fc30768b3bf5e79053844d2cc73084f4cc6f94",
+  "exitCode": 1,
+  "durationMs": 3177,
+  "diffPath": "artifacts/pr-packets/run-2026-02-28-090000/contract-check.diff.txt",
+  "timestamp": "2026-02-28T08:14:17.222Z"
+}

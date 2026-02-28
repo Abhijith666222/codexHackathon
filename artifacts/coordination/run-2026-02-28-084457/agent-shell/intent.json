@@ -1,0 +1,7 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-084457",
+  "scope": "frontend/tasks-ui/shell",
+  "objective": "Set up the frontend scaffold with project structure, app entry point, and a Tasks page route/container.",
+  "createdAt": "2026-02-28T08:45:18.202130+00:00"
+}

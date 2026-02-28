@@ -1,0 +1,12 @@
+{
+  "agent": "agent-scaffold-checklist",
+  "runId": "smoke-2026-02-28-auto-list",
+  "state": "DONE",
+  "scope": "sequencing",
+  "changedFiles": [],
+  "durationMs": 15790,
+  "exitCode": 0,
+  "threadId": "019ca372-78eb-7ba2-909a-a93261d3ffff",
+  "lastMessage": "- [ ] Define scope and stack: framework, routing style, styling system, and target platforms.\n- [ ] Create top-level structure: `app/` or `src/`, `components/`, `layouts/`, `pages/`, `features/`, `lib/`, `assets/`, `styles/`, `tests/`.\n- [ ] Add project-wide config: linting, formatting, path aliases, env handling, and build scripts.\n- [ ] Establish design tokens: spacing, typography, colors, radii, shadows, breakpoints.\n- [ ] Build layout primitives first: `Container`, `Stack`, `Inline`, `Grid`, `Section`, `Spacer`.\n- [ ] Add app shell layout: header, content region, footer, and optional sidebar slots.\n- [ ] Define navigation model: route map, labels, icons, access rules, and active-state logic.\n- [ ] Implement navigation UI: top nav/side nav + mobile menu + breadcrumbs.\n- [ ] Scaffold shared UI components: `Button`, `Input`, `Select`, `Card`, `Modal/Drawer`, `Tabs`, `Table`, `EmptyState`, `Loader`.\n- [ ] Add shared behavior utilities: form validation wrappers, API client layer, error boundary, toast/notification API.\n- [ ] Create placeholder pages for all routes with consistent page template (title, description, primary action, empty/loading states).\n- [ ] Wire each nav item to its placeholder page and verify deep-linking/back-forward behavior.\n- [ ] Add sample fixture/mock data so skeleton pages render realistic structure.\n- [ ] Add baseline tests: route rendering, nav active states, shared component smoke tests.\n- [ ] Run final scaffold review: naming consistency, import boundaries, and \u201cready-for-feature\u201d checklist sign-off.",
+  "finishedAt": "2026-02-28T08:52:09.828278+00:00"
+}

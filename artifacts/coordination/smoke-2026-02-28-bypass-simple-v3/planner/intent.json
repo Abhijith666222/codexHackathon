@@ -1,0 +1,31 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple-v3",
+  "task": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+  "plannerResult": {
+    "raw_task": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+    "subtasks": [
+      {
+        "name": "agent-a",
+        "scope": "codex-rs/SMOKE_WRITE.md",
+        "objective": "Create or overwrite codex-rs/SMOKE_WRITE.md so it contains exactly one line with the literal text \"smoke\"."
+      },
+      {
+        "name": "agent-b",
+        "scope": "codex-rs/verification/smoke-write.md",
+        "objective": "Validate that codex-rs/SMOKE_WRITE.md exists and contains only one line with exactly \"smoke\"."
+      }
+    ]
+  },
+  "plannerParseAttempts": 1,
+  "fallbackUsed": false,
+  "normalizedPlan": {
+    "subtasks": [
+      {
+        "name": "agent-implementation",
+        "scope": "codex-rs/SMOKE_WRITE.md",
+        "objective": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke"
+      }
+    ]
+  },
+  "parsedAt": "2026-02-28T09:19:46.426220+00:00"
+}

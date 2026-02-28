@@ -1,0 +1,7 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-084457",
+  "scope": "frontend/tasks-ui/components",
+  "objective": "Implement basic Tasks UI components: add-task form, task list, and task item with complete/incomplete visual states using mock/local state.",
+  "createdAt": "2026-02-28T08:45:20.197757+00:00"
+}

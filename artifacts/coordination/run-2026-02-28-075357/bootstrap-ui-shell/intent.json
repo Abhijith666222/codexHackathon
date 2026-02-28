@@ -1,0 +1,7 @@
+{
+  "agent": "bootstrap-ui-shell",
+  "runId": "run-2026-02-28-075357",
+  "scope": "frontend app scaffold and routing",
+  "objective": "Set up the initial frontend project structure, app entrypoint, basic navigation, and global layout with placeholder route for Tasks.",
+  "createdAt": "2026-02-28T07:54:05.266056+00:00"
+}

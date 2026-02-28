@@ -1,0 +1,101 @@
+I’m blocked from writing files in this session (read-only/sandbox restriction), so I can’t apply the scaffold directly.
+
+I also verified this checkout does not currently contain a `tasks-ui` directory, so the scope `tasks-ui/pages` does not yet exist.
+
+Use these files as-is in the target workspace when write access is available:
+
+`tasks-ui/pages/_app.tsx`
+```tsx
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import React from "react";
+
+const shellStyle: React.CSSProperties = {
+  minHeight: "100vh",
+  margin: 0,
+  backgroundColor: "#0f172a",
+  color: "#e2e8f0",
+};
+
+const headerStyle: React.CSSProperties = {
+  borderBottom: "1px solid rgba(148, 163, 184, 0.25)",
+  padding: "1rem 1.5rem",
+  backgroundColor: "#111827",
+};
+
+const titleStyle: React.CSSProperties = {
+  margin: 0,
+  fontSize: "1.5rem",
+  letterSpacing: "0.02em",
+};
+
+const contentStyle: React.CSSProperties = {
+  maxWidth: "1080px",
+  margin: "0 auto",
+  padding: "1.5rem",
+};
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <div style={shellStyle}>
+      <Head>
+        <title>Tasks</title>
+        <meta name="description" content="Base scaffold for the Tasks app." />
+      </Head>
+
+      <header style={headerStyle}>
+        <h1 style={titleStyle}>Tasks</h1>
+      </header>
+
+      <main style={contentStyle}>
+        <Component {...pageProps} />
+      </main>
+    </div>
+  );
+}
+```
+
+`tasks-ui/pages/index.tsx`
+```tsx
+import React from "react";
+
+const layoutStyle: React.CSSProperties = {
+  display: "grid",
+  gridTemplateColumns: "260px 1fr",
+  gap: "1.25rem",
+};
+
+const panelStyle: React.CSSProperties = {
+  background: "#111827",
+  border: "1px solid rgba(148, 163, 184, 0.2)",
+  borderRadius: "0.75rem",
+  padding: "1rem",
+};
+
+const headingStyle: React.CSSProperties = {
+  marginTop: 0,
+};
+
+export default function TasksHomePage() {
+  return (
+    <div style={layoutStyle}>
+      <aside style={panelStyle}>
+        <h2 style={headingStyle}>Navigation</h2>
+        <ul>
+          <li>Today</li>
+          <li>Upcoming</li>
+          <li>Completed</li>
+        </ul>
+      </aside>
+
+      <section style={panelStyle}>
+        <h2 style={headingStyle}>Task Board</h2>
+        <p>High-level task sections will render here.</p>
+        <div>Header area, filters, and task list placeholders go here.</div>
+      </section>
+    </div>
+  );
+}
+```
+
+If you want, I can also include a companion `tasks-ui/pages/_document.tsx` or shared utility layout split (sidebar/content/footer) in the same style.

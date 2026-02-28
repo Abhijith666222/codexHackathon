@@ -1,0 +1,130 @@
+I hit a hard platform restriction: this workspace is mounted read-only, so I can’t create/update files right now (`New-Item` and `apply_patch` are both blocked). That means I can’t implement the change directly in `tasks-ui/state` in this session.
+
+Proposed implementation (ready to apply once write is enabled):
+
+- `tasks-ui/state/task-model.ts`
+```ts
+export interface Task {
+  readonly id: string;
+  title: string;
+  description: string | null;
+  isDone: boolean;
+  createdAtMs: number;
+  updatedAtMs: number;
+}
+
+export interface NewTaskInput {
+  title: string;
+  description?: string;
+}
+
+export const taskModelSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "codex.task-state.model",
+  title: "Task",
+  type: "object",
+  additionalProperties: false,
+  required: ["id", "title", "description", "isDone", "createdAtMs", "updatedAtMs"],
+  properties: {
+    id: { type: "string", minLength: 1 },
+    title: { type: "string", minLength: 1 },
+    description: { type: ["string", "null"] },
+    isDone: { type: "boolean" },
+    createdAtMs: { type: "integer", minimum: 0 },
+    updatedAtMs: { type: "integer", minimum: 0 },
+  },
+} as const;
+
+export const taskStateSchema = {
+  $schema: "http://json-schema.org/draft-07/schema#",
+  $id: "codex.task-state",
+  title: "TaskState",
+  type: "object",
+  additionalProperties: false,
+  required: ["schemaVersion", "tasks"],
+  properties: {
+    schemaVersion: { type: "integer", const: 1 },
+    tasks: { type: "array", items: taskModelSchema },
+  },
+} as const;
+```
+
+- `tasks-ui/state/task-state.ts`
+```ts
+import { NewTaskInput, Task } from "./task-model";
+
+export interface TaskStateShape {
+  schemaVersion: number;
+  tasks: Task[];
+}
+
+export class InMemoryTaskState {
+  private tasks = new Map<string, Task>();
+  private nextId = 1;
+  private nextTaskId() {
+    return `task-${this.nextId++}`;
+  }
+
+  constructor(initial?: ReadonlyArray<Task>) {
+    initial?.forEach((task) => {
+      this.tasks.set(task.id, { ...task });
+    });
+  }
+
+  createTask(input: NewTaskInput): Task {
+    const now = Date.now();
+    const task: Task = {
+      id: this.nextTaskId(),
+      title: input.title,
+      description: input.description ?? null,
+      isDone: false,
+      createdAtMs: now,
+      updatedAtMs: now,
+    };
+    this.tasks.set(task.id, task);
+    return { ...task };
+  }
+
+  toggleTask(taskId: string): Task | null {
+    const existing = this.tasks.get(taskId);
+    if (!existing) {
+      return null;
+    }
+    const updated: Task = {
+      ...existing,
+      isDone: !existing.isDone,
+      updatedAtMs: Date.now(),
+    };
+    this.tasks.set(taskId, updated);
+    return { ...updated };
+  }
+
+  removeTask(taskId: string): boolean {
+    return this.tasks.delete(taskId);
+  }
+
+  listTasks(): Task[] {
+    return Array.from(this.tasks.values()).map((task) => ({ ...task }));
+  }
+
+  getTask(taskId: string): Task | null {
+    const task = this.tasks.get(taskId);
+    return task ? { ...task } : null;
+  }
+
+  snapshot(): TaskStateShape {
+    return {
+      schemaVersion: 1,
+      tasks: this.listTasks(),
+    };
+  }
+}
+```
+
+- `tasks-ui/state/index.ts`
+```ts
+export * from "./task-model";
+export * from "./task-state";
+```
+
+If you can switch the workspace to writable, I’ll apply these changes directly in the repo.

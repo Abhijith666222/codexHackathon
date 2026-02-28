@@ -1,0 +1,12 @@
+{
+  "agent": "agent-stack-setup",
+  "runId": "run-2026-02-28-085329",
+  "scope": "tooling",
+  "state": "DONE",
+  "threadId": "019ca374-59e1-7053-a098-03725eceb9bb",
+  "startedAt": "2026-02-28T08:53:56.079690+00:00",
+  "finishedAt": "2026-02-28T08:55:21.086841+00:00",
+  "durationMs": 84832,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:55:21.170348+00:00"
+}

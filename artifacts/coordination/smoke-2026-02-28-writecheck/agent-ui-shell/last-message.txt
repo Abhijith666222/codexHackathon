@@ -1,0 +1,271 @@
+I’m blocked from writing files in this workspace (filesystem is read-only), so I couldn’t apply the changes directly.  
+Here is the ready-to-apply scoped implementation for `tasks-ui/pages`:
+
+```tsx
+// tasks-ui/pages/_app.tsx
+import type { AppProps } from "next/app";
+import Link from "next/link";
+
+const navItems = [
+  { href: "/tasks", label: "Tasks" },
+  { href: "/tasks/new", label: "Create Task" },
+];
+
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <div className="tasks-ui-shell">
+        <header className="top-nav">
+          <div className="brand">Tasks UI</div>
+          <nav>
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href}>
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+        </header>
+        <main>
+          <Component {...pageProps} />
+        </main>
+      </div>
+      <style jsx global>{`
+        :root {
+          font-family: Inter, system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+          color: #13213a;
+          background: #f3f6fb;
+        }
+
+        body {
+          margin: 0;
+        }
+
+        .tasks-ui-shell {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .top-nav {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 1.5rem;
+          background: #ffffff;
+          border-bottom: 1px solid #d8e1ee;
+          position: sticky;
+          top: 0;
+          z-index: 1;
+        }
+
+        .brand {
+          font-size: 1.2rem;
+          font-weight: 700;
+          letter-spacing: 0.01em;
+        }
+
+        .top-nav nav {
+          display: flex;
+          gap: 1.1rem;
+        }
+
+        .top-nav a {
+          color: #2a4f9c;
+          font-weight: 600;
+          text-decoration: none;
+        }
+
+        main {
+          width: min(960px, 92vw);
+          margin: 1.5rem auto;
+          padding-bottom: 2rem;
+        }
+
+        .page-card {
+          background: white;
+          border: 1px solid #d8e1ee;
+          border-radius: 12px;
+          padding: 1rem;
+        }
+
+        .task-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .task-item {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          gap: 0.5rem;
+          border-bottom: 1px solid #edf2f9;
+          padding: 0.75rem 0;
+          align-items: center;
+        }
+
+        .badge {
+          border-radius: 999px;
+          padding: 0.2rem 0.65rem;
+          font-size: 0.8rem;
+          font-weight: 600;
+          border: 1px solid #cad7ef;
+          width: fit-content;
+          background: #eef3fb;
+        }
+
+        input,
+        textarea,
+        select {
+          width: 100%;
+          border: 1px solid #c9d6ee;
+          border-radius: 8px;
+          padding: 0.5rem;
+          box-sizing: border-box;
+          font: inherit;
+        }
+
+        .button {
+          display: inline-block;
+          border: 0;
+          background: #2a4f9c;
+          color: white;
+          padding: 0.6rem 0.9rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      `}</style>
+    </>
+  );
+}
+```
+
+```tsx
+// tasks-ui/pages/index.tsx
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <section className="page-card">
+      <h1>Tasks UI</h1>
+      <p>
+        New tasks dashboard. Open the <Link href="/tasks">task list</Link> to continue.
+      </p>
+    </section>
+  );
+}
+```
+
+```tsx
+// tasks-ui/pages/tasks/index.tsx
+import Link from "next/link";
+
+type Task = {
+  id: string;
+  title: string;
+  owner: string;
+  dueDate: string;
+  status: "open" | "in_progress" | "done";
+};
+
+const tasks: Task[] = [
+  {
+    id: "task-1",
+    title: "Prepare onboarding checklist",
+    owner: "Design",
+    dueDate: "Feb 29, 2026",
+    status: "open",
+  },
+  {
+    id: "task-2",
+    title: "Add UI route entry points",
+    owner: "Frontend",
+    dueDate: "Mar 02, 2026",
+    status: "in_progress",
+  },
+  {
+    id: "task-3",
+    title: "Wire task completion endpoint",
+    owner: "Backend",
+    dueDate: "Mar 04, 2026",
+    status: "done",
+  },
+];
+
+export default function TasksListPage() {
+  return (
+    <section className="page-card">
+      <h1>Task List</h1>
+      <ul className="task-list">
+        {tasks.map((task) => (
+          <li key={task.id} className="task-item">
+            <div>
+              <strong>{task.title}</strong>
+              <div>
+                {task.owner} · due {task.dueDate}
+              </div>
+            </div>
+            <span className="badge">{task.status}</span>
+            <div style={{ gridColumn: "1 / -1", marginTop: "0.25rem" }}>
+              <Link href={`/tasks/${task.id}`} className="button">
+                Open task
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+```
+
+```tsx
+// tasks-ui/pages/tasks/[id].tsx
+import { useRouter } from "next/router";
+
+export default function TaskDetailPage() {
+  const { query } = useRouter();
+  const taskId = String(query.id ?? "unknown");
+
+  return (
+    <section className="page-card">
+      <h1>Task Detail</h1>
+      <p>Loading task <strong>{taskId}</strong>.</p>
+      <p>Replace this with task fetch + actions when API is available.</p>
+    </section>
+  );
+}
+```
+
+```tsx
+// tasks-ui/pages/tasks/new.tsx
+export default function NewTaskPage() {
+  return (
+    <section className="page-card">
+      <h1>Create Task</h1>
+      <form>
+        <div style={{ display: "grid", gap: "0.75rem" }}>
+          <label>
+            Title
+            <input placeholder="Task title" />
+          </label>
+          <label>
+            Owner
+            <input placeholder="Owner name" />
+          </label>
+          <label>
+            Description
+            <textarea placeholder="Brief description" rows={4} />
+          </label>
+          <button className="button" type="submit">
+            Save task
+          </button>
+        </div>
+      </form>
+    </section>
+  );
+}
+```
+
+1. If you can provide writable access, I’ll apply these directly in `tasks-ui/pages`.

@@ -1,0 +1,12 @@
+{
+  "agent": "agent-c",
+  "runId": "run-2026-02-28-092311",
+  "scope": "tasks-frontend/components",
+  "state": "DONE",
+  "threadId": "019ca38f-9413-7583-89ae-6a5547783b1a",
+  "startedAt": "2026-02-28T09:23:40.540754+00:00",
+  "finishedAt": "2026-02-28T09:25:05.587809+00:00",
+  "durationMs": 84748,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T09:25:05.645168+00:00"
+}

@@ -1,0 +1,7 @@
+{
+  "agent": "agent-quality-gates",
+  "runId": "smoke-2026-02-28-auto-list",
+  "scope": "validation",
+  "objective": "define readiness checks for responsiveness, accessibility, performance basics, and CI/lint/test guardrails",
+  "createdAt": "2026-02-28T08:51:53.777673+00:00"
+}

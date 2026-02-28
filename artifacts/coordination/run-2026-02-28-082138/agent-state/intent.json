@@ -1,0 +1,7 @@
+{
+  "agent": "agent-state",
+  "runId": "run-2026-02-28-082138",
+  "scope": "tasks-ui/data",
+  "objective": "Define initial client-side task model and state management: create in-memory task list shape, add create/read/update/delete primitives, and connect it to UI-facing APIs.",
+  "createdAt": "2026-02-28T08:21:46.728513+00:00"
+}

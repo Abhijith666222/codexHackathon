@@ -1,0 +1,31 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple",
+  "task": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+  "overallState": "BLOCKED",
+  "tick": 2,
+  "updatedAt": "2026-02-28T09:15:38.083365+00:00",
+  "planning": [
+    {
+      "name": "agent-implementation",
+      "scope": "codex-rs",
+      "objective": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke"
+    }
+  ],
+  "agents": [
+    {
+      "name": "agent-implementation",
+      "scope": "codex-rs",
+      "objective": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+      "status": "BLOCKED",
+      "threadId": null,
+      "exitCode": 2,
+      "changedFiles": 0,
+      "durationMs": 311,
+      "startedAt": "2026-02-28T09:15:32.831997+00:00",
+      "finishedAt": "2026-02-28T09:15:33.440560+00:00",
+      "blockerReason": "Agent exited with non-zero status.",
+      "latestMessage": "For more information, try '--help'."
+    }
+  ],
+  "taskMode": "code"
+}

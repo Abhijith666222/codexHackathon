@@ -1,0 +1,7 @@
+{
+  "agent": "agent-components",
+  "runId": "run-2026-02-28-083727",
+  "scope": "tasks-ui/components",
+  "objective": "Build reusable UI building blocks for the Tasks interface, including task item, task list, and task input form controls.",
+  "createdAt": "2026-02-28T08:37:40.602386+00:00"
+}

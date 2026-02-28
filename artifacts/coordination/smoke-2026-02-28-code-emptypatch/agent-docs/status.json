@@ -1,0 +1,13 @@
+{
+  "agent": "agent-docs",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "scope": "todo-app/project-docs",
+  "state": "BLOCKED",
+  "threadId": "019ca375-b6bf-7961-a351-b252259ede45",
+  "startedAt": "2026-02-28T08:55:25.994356+00:00",
+  "finishedAt": "2026-02-28T08:56:41.426283+00:00",
+  "durationMs": 74449,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:56:41.619133+00:00",
+  "blockerReason": "No file changes were produced; execution was blocked or task was not executed."
+}

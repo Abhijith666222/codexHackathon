@@ -1,0 +1,11 @@
+Blocked by workspace constraints, so I could not implement the changes yet.
+
+What I verified:
+1. `todo-app/todo-domain` does not exist in this checkout (no `todo*` files/dirs found).
+2. Write operations are disabled by policy in this session:
+   - `New-Item -ItemType Directory -Path "todo-app\\todo-domain" -Force` → `rejected: blocked by policy`
+   - `apply_patch` to add `todo-app/todo-domain/.write-test` → `patch rejected ... approval settings`
+
+Current repo state is unchanged (`git status --short` is empty).
+
+If you provide a writable workspace (or the correct checkout containing `todo-app/todo-domain`), I can implement the todo model and actions immediately.

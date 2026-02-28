@@ -1,0 +1,12 @@
+{
+  "agent": "agent-quality-gates",
+  "runId": "smoke-2026-02-28-auto-list",
+  "state": "DONE",
+  "scope": "validation",
+  "changedFiles": [],
+  "durationMs": 17993,
+  "exitCode": 0,
+  "threadId": "019ca372-78eb-78b1-9eca-9dbcb573487e",
+  "lastMessage": "**Validation Readiness Checks**\n\n**Responsiveness**\n- [ ] Key UI actions (open modal, submit form, route change) complete within `<=150ms p95` on a standard dev machine.\n- [ ] API-backed interactions return first meaningful UI feedback (spinner/skeleton/toast) within `<=100ms`.\n- [ ] No long main-thread tasks over `50ms` during common flows.\n- [ ] Input fields remain responsive while background fetches are running.\n\n**Accessibility**\n- [ ] Full keyboard-only navigation works (Tab/Shift+Tab/Enter/Escape) with visible focus on every interactive element.\n- [ ] Color contrast meets WCAG AA (`4.5:1` normal text, `3:1` large text/UI components).\n- [ ] All controls have accessible names; images/icons have correct `alt` or `aria-hidden`.\n- [ ] Heading order is logical; form fields have labels and error messages are announced.\n- [ ] Screen reader smoke test passes on core flows (at least one flow each in NVDA/VoiceOver).\n- [ ] Motion respects `prefers-reduced-motion`.\n\n**Performance Basics**\n- [ ] Core Web Vitals targets met in CI/lab: `LCP <=2.5s`, `INP <=200ms`, `CLS <=0.1`.\n- [ ] Initial JS/CSS bundle stays within agreed budget (set explicit KB thresholds per app).\n- [ ] Images are compressed, sized correctly, and lazy-loaded offscreen.\n- [ ] Gzip/Brotli and caching headers are enabled for static assets.\n- [ ] No obvious memory leaks in a 5\u201310 minute usage session.\n\n**CI / Lint / Test Guardrails**\n- [ ] Branch protection requires passing `lint`, `typecheck`, `unit`, and `integration/e2e smoke` checks.\n- [ ] Accessibility checks run in CI (axe/pa11y/Lighthouse a11y gate on key pages).\n- [ ] Performance budget check runs in CI and fails on regression beyond threshold.\n- [ ] Test flake policy exists: auto-retry once, then mark flaky with owner ticket.\n- [ ] Coverage gate enforced (for example: global minimum + changed-lines threshold).\n- [ ] Dependency/security scans run on PR and main (SCA + secret scan).\n- [ ] No direct merge to main; PR review and required checks are mandatory.",
+  "finishedAt": "2026-02-28T08:52:11.996502+00:00"
+}

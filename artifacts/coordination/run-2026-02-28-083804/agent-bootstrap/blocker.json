@@ -1,0 +1,9 @@
+{
+  "agent": "agent-bootstrap",
+  "runId": "run-2026-02-28-083804",
+  "state": "BLOCKED",
+  "scope": "ui/bootstrap",
+  "reason": "Platform write restriction detected from agent output.",
+  "createdAt": "2026-02-28T08:39:29.536763+00:00",
+  "lastMessage": "I\u2019m blocked from applying changes: this workspace is mounted read-only, so I cannot create or edit `ui/bootstrap/...` files here.\n\nScope findings:\n- `ui/bootstrap` does not exist yet in this workspace.\n- I can read existing repo tooling (`package.json`, `pnpm-workspace.yaml`, `sdk/typescript/*`, `.github/workflows/*`) and scaffold from that, but writes are currently blocked.\n\nIf you enable write access, I can apply a scoped scaffold in one patch with these files:\n- `ui/bootstrap/package.json` (React + Vite + ESLint + Prettier + Vitest scripts, typed env + hooks config)\n- `ui/bootstrap/vite.config.ts`\n- `ui/bootstrap/tsconfig.json`\n- `ui/bootstrap/tsconfig.app.json`\n- `ui/bootstrap/tsconfig.node.json`\n- `ui/bootstrap/vitest.config.ts`\n- `ui/bootstrap/.env.example`\n- `ui/bootstrap/.editorconfig`\n- `ui/bootstrap/.gitignore`\n- `ui/bootstrap/.prettierignore`\n- `ui/bootstrap/.prettierrc.cjs`\n- `ui/bootstrap/eslint.config.js`\n- `ui/bootstrap/index.html`\n- `ui/bootstrap/src/main.tsx`\n- `ui/bootstrap/src/App.tsx`\n- `ui/bootstrap/src/App.css`\n- `ui/bootstrap/src/index.css`\n- `ui/bootstrap/src/env.ts`\n- `ui/bootstrap/src/vite-env.d.ts`\n- `ui/bootstrap/src/test/setup.ts`\n- `ui/bootstrap/src/App.test.tsx`\n- `ui/bootstrap/.github/workflows/ci.yml`\n- `ui/bootstrap/README.md`\n\nReply with write-enabled permission and I\u2019ll apply the full patch immediately."
+}

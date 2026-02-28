@@ -1,0 +1,9 @@
+{
+  "runId": "run-2026-02-28-092311",
+  "status": "SKIPPED",
+  "command": "skipped (no protocol-sensitive files changed)",
+  "exitCode": 0,
+  "timestamp": "2026-02-28T09:25:53.748112+00:00",
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,9 @@
+{
+  "agent": "agent-docs",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "state": "BLOCKED",
+  "scope": "todo-app/project-docs",
+  "reason": "No file changes were produced; execution was blocked or task was not executed.",
+  "createdAt": "2026-02-28T08:56:41.616637+00:00",
+  "lastMessage": "Blocked by platform constraints; I could not make the required documentation change.\n\nWhat I verified:\n- `todo-app/project-docs` does not exist in this checkout.\n- Write attempts are denied:\n  - Shell create attempt (`New-Item -ItemType Directory -Force -Path \"todo-app/project-docs\"`) was rejected by policy.\n  - `apply_patch` add-file attempt for `todo-app/project-docs/README.md` was rejected: `writing outside of the project; rejected by user approval settings`.\n\nBecause of this, I could not create/update any file in your requested scope.\n\nNext steps to unblock:\n1. Provide a writable workspace (or relax approval settings for file writes).\n2. Ensure `todo-app/project-docs` exists in this worktree, or confirm the correct scope path.\n3. I\u2019ll then immediately add a concise setup/usage doc with run commands, current scaffold capabilities, and clearly marked next-step enhancements."
+}

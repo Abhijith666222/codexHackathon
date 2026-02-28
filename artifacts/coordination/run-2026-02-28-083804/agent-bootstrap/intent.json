@@ -1,0 +1,7 @@
+{
+  "agent": "agent-bootstrap",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/bootstrap",
+  "objective": "Initialize the UI project scaffold (framework setup, package manager scripts, lint/format/test tooling, environment and type settings, CI hooks).",
+  "createdAt": "2026-02-28T08:38:29.873478+00:00"
+}

@@ -1,0 +1,12 @@
+{
+  "agent": "agent-quality-gates",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "quality",
+  "state": "DONE",
+  "threadId": "019ca36e-9395-7c03-9f79-17c69b412795",
+  "startedAt": "2026-02-28T08:47:38.453748+00:00",
+  "finishedAt": "2026-02-28T08:48:09.375639+00:00",
+  "durationMs": 30753,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:48:09.424521+00:00"
+}

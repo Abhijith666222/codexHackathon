@@ -1,0 +1,482 @@
+I’m blocked from writing files in this environment (all write attempts were rejected by the sandbox policy), so I can’t create/update files directly.
+
+I prepared the exact component set you asked for; if you enable write access, apply these files under `tasks-ui/components`:
+
+`tasks-ui/components/task-types.js`
+```js
+/**
+ * Shared task model helpers for task list components.
+ */
+let taskCounter = 0;
+
+export function createTaskId(prefix = "task") {
+  const fallback = `${prefix}-${Date.now().toString(36)}-${taskCounter++}`;
+  if (typeof crypto === "object" && typeof crypto.randomUUID === "function") {
+    return `${prefix}-${crypto.randomUUID()}`;
+  }
+  return fallback;
+}
+
+export function normalizeTask(task = {}) {
+  return {
+    id: typeof task.id === "string" && task.id.trim() ? task.id : createTaskId(),
+    title: typeof task.title === "string" ? task.title.trim() : "",
+    description: typeof task.description === "string" ? task.description.trim() : "",
+    completed: Boolean(task.completed),
+  };
+}
+
+export function cloneTask(task) {
+  const normalized = normalizeTask(task);
+  return {
+    id: normalized.id,
+    title: normalized.title,
+    description: normalized.description,
+    completed: normalized.completed,
+  };
+}
+```
+
+`tasks-ui/components/task-row.js`
+```js
+import { cloneTask, normalizeTask } from "./task-types.js";
+
+function createTextInput({ label, value }) {
+  const wrapper = document.createElement("label");
+  wrapper.className = "task-row__field";
+  wrapper.textContent = label;
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = value;
+  input.required = true;
+  input.className = "task-row__input";
+  wrapper.appendChild(input);
+
+  return { wrapper, input };
+}
+
+function createTextarea({ label, value }) {
+  const wrapper = document.createElement("label");
+  wrapper.className = "task-row__field";
+  wrapper.textContent = label;
+
+  const textarea = document.createElement("textarea");
+  textarea.rows = 3;
+  textarea.value = value;
+  textarea.className = "task-row__textarea";
+  wrapper.appendChild(textarea);
+
+  return { wrapper, textarea };
+}
+
+export function createTaskRow(task, callbacks = {}) {
+  const row = document.createElement("li");
+  row.className = "task-row";
+
+  const state = cloneTask(normalizeTask(task));
+  let isEditing = false;
+
+  const rowShell = document.createElement("div");
+  rowShell.className = "task-row__shell";
+  row.appendChild(rowShell);
+
+  const completed = document.createElement("input");
+  completed.type = "checkbox";
+  completed.checked = state.completed;
+  completed.className = "task-row__checkbox";
+  rowShell.appendChild(completed);
+
+  const display = document.createElement("div");
+  display.className = "task-row__display";
+  rowShell.appendChild(display);
+
+  const titleEl = document.createElement("strong");
+  titleEl.className = "task-row__title";
+  display.appendChild(titleEl);
+
+  const descEl = document.createElement("p");
+  descEl.className = "task-row__description";
+  display.appendChild(descEl);
+
+  const controls = document.createElement("div");
+  controls.className = "task-row__controls";
+  rowShell.appendChild(controls);
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.textContent = "Edit";
+  editBtn.className = "task-row__edit";
+  controls.appendChild(editBtn);
+
+  const deleteBtn = document.createElement("button");
+  deleteBtn.type = "button";
+  deleteBtn.textContent = "Delete";
+  deleteBtn.className = "task-row__delete";
+  controls.appendChild(deleteBtn);
+
+  const editor = document.createElement("div");
+  editor.className = "task-row__editor";
+  row.appendChild(editor);
+  editor.hidden = true;
+
+  const { wrapper: titleField, input: editTitleInput } = createTextInput({
+    label: "Title",
+    value: state.title || "Untitled task",
+  });
+  const { wrapper: descField, textarea: editDescInput } = createTextarea({
+    label: "Description",
+    value: state.description || "",
+  });
+
+  editor.append(titleField, descField);
+
+  const editorActions = document.createElement("div");
+  editorActions.className = "task-row__editor-actions";
+  editor.appendChild(editorActions);
+
+  const saveBtn = document.createElement("button");
+  saveBtn.type = "button";
+  saveBtn.textContent = "Save";
+  saveBtn.className = "task-row__save";
+  editorActions.appendChild(saveBtn);
+
+  const cancelBtn = document.createElement("button");
+  cancelBtn.type = "button";
+  cancelBtn.textContent = "Cancel";
+  cancelBtn.className = "task-row__cancel";
+  editorActions.appendChild(cancelBtn);
+
+  row.dataset.taskId = state.id;
+  const applyToView = () => {
+    titleEl.textContent = state.title || "Untitled task";
+    descEl.textContent = state.description || "";
+    completed.checked = state.completed;
+    row.classList.toggle("task-row--done", state.completed);
+  };
+  applyToView();
+
+  const exitEditMode = () => {
+    isEditing = false;
+    editor.hidden = true;
+    rowShell.hidden = false;
+    editTitleInput.value = state.title || "";
+    editDescInput.value = state.description || "";
+  };
+
+  const enterEditMode = () => {
+    isEditing = true;
+    editor.hidden = false;
+    rowShell.hidden = true;
+    editTitleInput.value = state.title || "";
+    editDescInput.value = state.description || "";
+    editTitleInput.focus();
+  };
+
+  const save = () => {
+    const nextTitle = editTitleInput.value.trim();
+    const nextDescription = editDescInput.value.trim();
+
+    if (!nextTitle) {
+      editTitleInput.focus();
+      return;
+    }
+
+    state.title = nextTitle;
+    state.description = nextDescription;
+    applyToView();
+    exitEditMode();
+    callbacks.onSave?.(cloneTask(state));
+  };
+
+  completed.addEventListener("change", () => {
+    state.completed = completed.checked;
+    applyToView();
+    callbacks.onToggle?.(state.id, state.completed);
+  });
+
+  editBtn.addEventListener("click", () => {
+    callbacks.onEdit?.(cloneTask(state));
+    enterEditMode();
+  });
+
+  deleteBtn.addEventListener("click", () => callbacks.onDelete?.(state.id));
+
+  saveBtn.addEventListener("click", save);
+  cancelBtn.addEventListener("click", exitEditMode);
+
+  editor.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      exitEditMode();
+    }
+    if (event.key === "Enter" && event.ctrlKey) {
+      event.preventDefault();
+      save();
+    }
+  });
+
+  return {
+    element: row,
+    getTask: () => cloneTask(state),
+    setTask: (nextTask) => {
+      Object.assign(state, normalizeTask({ ...state, ...nextTask }));
+      applyToView();
+    },
+    get isEditing() {
+      return isEditing;
+    },
+    enterEditMode,
+    exitEditMode,
+    taskId: () => state.id,
+  };
+}
+```
+
+`tasks-ui/components/task-list.js`
+```js
+import { cloneTask, normalizeTask } from "./task-types.js";
+import { createTaskRow } from "./task-row.js";
+
+function buildTaskMap(tasks) {
+  const map = new Map();
+  tasks.forEach((task) => map.set(task.id, task));
+  return map;
+}
+
+export function createTaskList({
+  tasks = [],
+  onToggleTask,
+  onEditTask,
+  onSaveTask,
+  onDeleteTask,
+} = {}) {
+  const section = document.createElement("section");
+  section.className = "task-list";
+
+  const list = document.createElement("ul");
+  list.className = "task-list__rows";
+  section.appendChild(list);
+
+  const empty = document.createElement("p");
+  empty.className = "task-list__empty";
+  empty.textContent = "No tasks yet.";
+  section.appendChild(empty);
+
+  let state = tasks.map(normalizeTask);
+  let rows = new Map();
+
+  const syncEmpty = () => {
+    empty.hidden = state.length > 0;
+  };
+
+  const refresh = () => {
+    list.replaceChildren();
+    rows = new Map();
+
+    if (!state.length) {
+      syncEmpty();
+      return;
+    }
+
+    state.forEach((task) => {
+      const row = createTaskRow(task, {
+        onToggle: (taskId, checked) => {
+          state = state.map((existing) =>
+            existing.id === taskId ? { ...existing, completed: checked } : existing,
+          );
+          syncEmpty();
+          onToggleTask?.(taskId, checked, cloneTask(task));
+        },
+        onEdit: (editTask) => {
+          onEditTask?.(cloneTask(editTask));
+        },
+        onSave: (updatedTask) => {
+          state = state.map((existing) =>
+            existing.id === updatedTask.id ? updatedTask : existing,
+          );
+          onSaveTask?.(cloneTask(updatedTask));
+          syncEmpty();
+        },
+        onDelete: (taskId) => {
+          state = state.filter((existing) => existing.id !== taskId);
+          rows.delete(taskId);
+          const rowEl = document.getElementById(`task-${taskId}`);
+          if (rowEl) rowEl.remove();
+          syncEmpty();
+          onDeleteTask?.(taskId);
+        },
+      });
+
+      const rowEl = row.element;
+      rowEl.id = `task-${row.taskId()}`;
+      rows.set(row.taskId(), row);
+      list.appendChild(rowEl);
+    });
+
+    syncEmpty();
+  };
+
+  const api = {
+    element: section,
+    getTasks: () => state.map(cloneTask),
+    setTasks(nextTasks = []) {
+      state = nextTasks.map(normalizeTask);
+      refresh();
+    },
+    addTask(task) {
+      const normalized = normalizeTask(task);
+      state = [...state, normalized];
+      refresh();
+      return cloneTask(normalized);
+    },
+    updateTask(task) {
+      const normalized = normalizeTask(task);
+      state = state.map((existing) =>
+        existing.id === normalized.id ? normalized : existing,
+      );
+      const row = rows.get(normalized.id);
+      if (row) row.setTask(normalized);
+      syncEmpty();
+    },
+    removeTask(taskId) {
+      state = state.filter((task) => task.id !== taskId);
+      refresh();
+    },
+    getRow(taskId) {
+      return rows.get(taskId);
+    },
+    find(taskId) {
+      const map = buildTaskMap(state);
+      return map.get(taskId) ?? null;
+    },
+    refresh,
+  };
+
+  refresh();
+  return api;
+}
+```
+
+`tasks-ui/components/task-controls.js`
+```js
+import { normalizeTask } from "./task-types.js";
+
+export function createTaskControls({
+  onAddTask,
+  onUpdateTask,
+  addLabel = "Add task",
+  updateLabel = "Save task",
+  cancelLabel = "Cancel",
+} = {}) {
+  const form = document.createElement("form");
+  form.className = "task-controls";
+
+  const titleInput = document.createElement("input");
+  titleInput.type = "text";
+  titleInput.required = true;
+  titleInput.placeholder = "Task title";
+  titleInput.className = "task-controls__title";
+  titleInput.autocomplete = "off";
+  form.appendChild(titleInput);
+
+  const descriptionInput = document.createElement("textarea");
+  descriptionInput.rows = 3;
+  descriptionInput.placeholder = "Optional description";
+  descriptionInput.className = "task-controls__description";
+  form.appendChild(descriptionInput);
+
+  const actions = document.createElement("div");
+  actions.className = "task-controls__actions";
+  form.appendChild(actions);
+
+  const submitButton = document.createElement("button");
+  submitButton.type = "submit";
+  submitButton.textContent = addLabel;
+  submitButton.className = "task-controls__submit";
+  actions.appendChild(submitButton);
+
+  const cancelButton = document.createElement("button");
+  cancelButton.type = "button";
+  cancelButton.textContent = cancelLabel;
+  cancelButton.className = "task-controls__cancel";
+  cancelButton.hidden = true;
+  actions.appendChild(cancelButton);
+
+  let editingId = null;
+
+  const clearForm = () => {
+    titleInput.value = "";
+    descriptionInput.value = "";
+    editingId = null;
+    submitButton.textContent = addLabel;
+    cancelButton.hidden = true;
+  };
+
+  const loadTask = (task) => {
+    const normalized = normalizeTask(task);
+    editingId = normalized.id;
+    titleInput.value = normalized.title;
+    descriptionInput.value = normalized.description;
+    submitButton.textContent = updateLabel;
+    cancelButton.hidden = false;
+    titleInput.focus();
+  };
+
+  const buildPayload = () =>
+    normalizeTask({
+      id: editingId,
+      title: titleInput.value,
+      description: descriptionInput.value,
+    });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const payload = buildPayload();
+
+    if (!payload.title) {
+      titleInput.focus();
+      return;
+    }
+
+    if (editingId) {
+      onUpdateTask?.(payload.id, payload);
+    } else {
+      onAddTask?.(payload);
+    }
+
+    clearForm();
+  });
+
+  cancelButton.addEventListener("click", () => {
+    clearForm();
+  });
+
+  return {
+    element: form,
+    setTaskToEdit(task) {
+      if (!task) {
+        clearForm();
+      } else {
+        loadTask(task);
+      }
+    },
+    clear: clearForm,
+    getDraft() {
+      return buildPayload();
+    },
+    focus() {
+      titleInput.focus();
+    },
+  };
+}
+```
+
+`tasks-ui/components/index.js`
+```js
+export { cloneTask, createTaskId, normalizeTask } from "./task-types.js";
+export { createTaskRow } from "./task-row.js";
+export { createTaskList } from "./task-list.js";
+export { createTaskControls } from "./task-controls.js";
+```
+
+If you want, I can also add a minimal CSS file for these classes in the same directory once write access is available.

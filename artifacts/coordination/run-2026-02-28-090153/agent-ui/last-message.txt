@@ -1,0 +1,488 @@
+I’m blocked from applying changes in this session: the workspace is read-only, so I can’t create/write `codex-rs/tui/src/ui` files.
+
+I prepared a scoped patch you can apply in that directory. It introduces a `ui` module containing task frontend scaffolding with:
+
+- task list/detail/loading/empty/error view builders,
+- row rendering helpers,
+- list selection movement handling,
+- mark/dismiss/open hook wiring (closure callbacks),
+- state shapes that consume backend client task list/detail models.
+
+```diff
+*** Begin Patch
+*** Add File: codex-rs/tui/src/ui/mod.rs
++//! UI scaffolding modules for task-oriented views.
++
++pub mod tasks;
++
+*** End Patch
+```
+
+```diff
+*** Begin Patch
+*** Add File: codex-rs/tui/src/ui/tasks.rs
++use chrono::{TimeZone, Utc};
++use codex_backend_client::{
++    CodeTaskDetailsResponse, CodeTaskDetailsResponseExt, PaginatedListTaskListItem, TaskListItem,
++};
++use crossterm::event::{KeyCode, KeyEvent};
++use ratatui::style::Stylize;
++use ratatui::text::Line;
++use serde_json::Value;
++use textwrap::Options;
++
++type TaskActionHook = Box<dyn Fn(&str) + Send + Sync>;
++
++#[derive(Debug, Clone, Default)]
++pub struct TaskListState {
++    pub items: Vec<TaskListItem>,
++    pub cursor: Option<String>,
++    pub selected: usize,
++    pub scroll_top: usize,
++}
++
++impl TaskListState {
++    pub fn from_page(page: PaginatedListTaskListItem) -> Self {
++        Self {
++            items: page.items,
++            cursor: page.cursor,
++            selected: 0,
++            scroll_top: 0,
++        }
++    }
++
++    pub fn replace_from_page(&mut self, page: PaginatedListTaskListItem, viewport_rows: usize) {
++        self.items = page.items;
++        self.cursor = page.cursor;
++        self.selected = self.selected.min(self.items.len().saturating_sub(1));
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn is_empty(&self) -> bool {
++        self.items.is_empty()
++    }
++
++    pub fn selected_task(&self) -> Option<&TaskListItem> {
++        self.items.get(self.selected)
++    }
++
++    pub fn selected_id(&self) -> Option<&str> {
++        self.selected_task().map(|item| item.id.as_str())
++    }
++
++    pub fn move_up(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        self.selected = self.selected.saturating_sub(1);
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn move_down(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        self.selected = (self.selected + 1).min(self.items.len() - 1);
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn move_page_up(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        let step = viewport_rows.max(1);
++        self.selected = self.selected.saturating_sub(step);
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn move_page_down(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        let step = viewport_rows.max(1);
++        let max = self.items.len() - 1;
++        self.selected = (self.selected + step).min(max);
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn move_home(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        self.selected = 0;
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn move_end(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            return;
++        }
++        self.selected = self.items.len() - 1;
++        self.clamp_selection_and_scroll(viewport_rows);
++    }
++
++    pub fn clamp_selection_and_scroll(&mut self, viewport_rows: usize) {
++        if self.items.is_empty() {
++            self.selected = 0;
++            self.scroll_top = 0;
++            return;
++        }
++
++        let visible = viewport_rows.max(1);
++        let max_selected = self.items.len() - 1;
++        self.selected = self.selected.min(max_selected);
++
++        let max_scroll_top = self.items.len().saturating_sub(visible);
++        if self.scroll_top > max_scroll_top {
++            self.scroll_top = max_scroll_top;
++        }
++
++        if self.selected < self.scroll_top {
++            self.scroll_top = self.selected;
++        } else if self.selected >= self.scroll_top + visible {
++            self.scroll_top = self.selected.saturating_sub(visible - 1);
++        }
++    }
++
++    pub fn visible_items(&self, viewport_rows: usize) -> std::ops::Range<usize> {
++        let visible = viewport_rows.max(1);
++        let end = (self.scroll_top + visible).min(self.items.len());
++        self.scroll_top..end
++    }
++}
++
++#[derive(Default)]
++pub struct TaskListHooks {
++    pub on_open: Option<TaskActionHook>,
++    pub on_mark: Option<TaskActionHook>,
++    pub on_dismiss: Option<TaskActionHook>,
++}
++
++#[derive(Debug, Clone, PartialEq, Eq)]
++pub enum TaskListAction {
++    None,
++    Open(String),
++    Mark(String),
++    Dismiss(String),
++    Exit,
++    Retry,
++}
++
++pub struct TaskListController {
++    pub state: TaskListState,
++    pub hooks: TaskListHooks,
++}
++
++impl TaskListController {
++    pub fn new(page: PaginatedListTaskListItem, hooks: TaskListHooks) -> Self {
++        Self {
++            state: TaskListState::from_page(page),
++            hooks,
++        }
++    }
++
++    pub fn handle_key(&mut self, key: KeyEvent, viewport_rows: usize) -> TaskListAction {
++        let viewport_rows = viewport_rows.max(1);
++        self.state.clamp_selection_and_scroll(viewport_rows);
++
++        match key.code {
++            KeyCode::Esc => return TaskListAction::Exit,
++            KeyCode::Enter => {
++                if let Some(task_id) = self.state.selected_id() {
++                    if let Some(callback) = self.hooks.on_open.as_ref() {
++                        callback(task_id);
++                    }
++                    return TaskListAction::Open(task_id.to_string());
++                }
++            }
++            KeyCode::Char('m') | KeyCode::Char('M') => {
++                if let Some(task_id) = self.state.selected_id() {
++                    if let Some(callback) = self.hooks.on_mark.as_ref() {
++                        callback(task_id);
++                    }
++                    return TaskListAction::Mark(task_id.to_string());
++                }
++            }
++            KeyCode::Char('d') | KeyCode::Char('D') | KeyCode::Delete => {
++                if let Some(task_id) = self.state.selected_id() {
++                    if let Some(callback) = self.hooks.on_dismiss.as_ref() {
++                        callback(task_id);
++                    }
++                    return TaskListAction::Dismiss(task_id.to_string());
++                }
++            }
++            KeyCode::Char('r') | KeyCode::Char('R') => return TaskListAction::Retry,
++            KeyCode::Up => self.state.move_up(viewport_rows),
++            KeyCode::Down => self.state.move_down(viewport_rows),
++            KeyCode::PageUp => self.state.move_page_up(viewport_rows),
++            KeyCode::PageDown => self.state.move_page_down(viewport_rows),
++            KeyCode::Home => self.state.move_home(viewport_rows),
++            KeyCode::End => self.state.move_end(viewport_rows),
++            _ => {}
++        }
++
++        TaskListAction::None
++    }
++}
++
++#[derive(Debug, Clone)]
++pub struct TaskDetailState {
++    pub task_id: String,
++    pub details: CodeTaskDetailsResponse,
++}
++
++#[derive(Debug)]
++pub enum TaskViewState {
++    Loading,
++    Error(String),
++    Empty,
++    List(TaskListState),
++    Detail(TaskDetailState),
++}
++
++pub fn render_task_view(
++    state: &TaskViewState,
++    viewport_rows: usize,
++    width: u16,
++) -> Vec<Line<'static>> {
++    match state {
++        TaskViewState::Loading => loading_view(),
++        TaskViewState::Error(message) => error_view(message, width),
++        TaskViewState::Empty => empty_view(),
++        TaskViewState::List(list) => render_task_list(list, viewport_rows, width),
++        TaskViewState::Detail(detail) => render_task_detail(detail, width),
++    }
++}
++
++pub fn render_task_list(
++    state: &TaskListState,
++    viewport_rows: usize,
++    width: u16,
++) -> Vec<Line<'static>> {
++    if state.is_empty() {
++        return empty_view();
++    }
++
++    let mut rows = Vec::new();
++    let viewport_rows = viewport_rows.max(1);
++    let range = state.visible_items(viewport_rows);
++    for (local_offset, task) in state.items[range.clone()].iter().enumerate() {
++        let row_index = range.start + local_offset;
++        let is_selected = row_index == state.selected;
++        rows.extend(render_task_row(task, is_selected, width, row_index + 1));
++    }
++    rows
++}
++
++pub fn render_task_row(
++    item: &TaskListItem,
++    selected: bool,
++    width: u16,
++    row_number: usize,
++) -> Vec<Line<'static>> {
++    let row_width = width.max(1) as usize;
++    let title = if item.title.is_empty() {
++        "(untitled)"
++    } else {
++        item.title.as_str()
++    };
++    let status = status_text(item);
++    let first_prefix = format!("{row_number:>3}. ");
++    let marker = if selected { "> " } else { "  " };
++    let first_indent = format!("{first_prefix}{marker}");
++
++    let mut lines = Vec::new();
++    for (idx, mut line) in wrapped_lines(title, row_width, &first_indent, "      ").into_iter().enumerate() {
++        if idx == 0 {
++            line.spans.push(status.clone().into());
++        }
++        if selected {
++            highlight_selected_line(&mut line);
++        }
++        lines.push(line);
++    }
++
++    let mut meta_items = Vec::new();
++    meta_items.push(format!("id: {}", item.id));
++    if let Some(updated) = format_timestamp(item.updated_at.or(item.created_at)) {
++        meta_items.push(format!("updated {updated}"));
++    }
++    if item.archived {
++        meta_items.push("archived".to_string());
++    }
++    if item.has_unread_turn {
++        meta_items.push("unread".to_string());
++    }
++    let meta = meta_items.join("  ·  ");
++    for mut line in wrapped_lines(&meta, row_width, "    ", "    ") {
++        dim_line(&mut line);
++        if selected {
++            highlight_selected_line(&mut line);
++        }
++        lines.push(line);
++    }
++
++    lines
++}
++
++pub fn render_task_detail(detail: &TaskDetailState, width: u16) -> Vec<Line<'static>> {
++    let row_width = width.max(1) as usize;
++    let mut lines = Vec::new();
++    let task = &detail.details.task;
++
++    lines.push(Line::from(format!("Task {}", detail.task_id).bold()));
++    lines.push(Line::from(" ".into()));
++    lines.push(Line::from("Title".bold()));
++    lines.extend(wrapped_lines(
++        task.title.as_str(),
++        row_width,
++        "  ",
++        "    ",
++    ));
++
++    if let Some(ts) = format_timestamp(task.created_at) {
++        let mut line = Line::from(format!("  created: {ts}"));
++        dim_line(&mut line);
++        lines.push(line);
++    }
++    if let Some(prompt) = detail.details.user_text_prompt() {
++        lines.push(Line::from("Prompt".bold()));
++        lines.extend(wrapped_lines(&prompt, row_width, "  ", "    "));
++    }
++
++    let assistant_texts = detail.details.assistant_text_messages();
++    if !assistant_texts.is_empty() {
++        lines.push(Line::from("Assistant output".bold()));
++        for message in assistant_texts {
++            lines.extend(wrapped_lines(&message, row_width, "  ", "    "));
++        }
++    }
++
++    if let Some(error) = detail.details.assistant_error_message() {
++        let mut line = Line::from("Error".bold().red());
++        lines.push(line);
++        let mut error_line = Line::from(error.red());
++        for i in 0..wrapped_lines_count(&error, row_width) {
++            if i > 0 {}
++            error_line.style = error_line.style.red();
++        }
++        lines.extend(wrapped_lines(&error, row_width, "  ", "    "));
++    }
++
++    if let Some(diff) = detail.details.unified_diff() {
++        lines.push(Line::from("Diff".bold()));
++        lines.extend(wrapped_lines(&diff, row_width, "  ", "  "));
++    }
++
++    lines.push(" ".into());
++    lines.push("Press Esc to return".dim());
++    lines
++}
++
++pub fn loading_view() -> Vec<Line<'static>> {
++    vec![
++        Line::from("Loading tasks".cyan()),
++        Line::from(" ".into()),
++        Line::from("Fetching list and status ...".dim()),
++    ]
++}
++
++pub fn error_view(message: &str, width: u16) -> Vec<Line<'static>> {
++    let mut lines = Vec::new();
++    lines.push(Line::from("Failed to load tasks".red().bold()));
++    lines.extend(wrapped_lines(message, width.max(1) as usize, "  ", "    "));
++    lines
++}
++
++pub fn empty_view() -> Vec<Line<'static>> {
++    vec![
++        Line::from("No tasks found".dim()),
++        Line::from(" ".into()),
++        Line::from("Try reloading with `r`.".dim()),
++    ]
++}
++
++fn status_text(item: &TaskListItem) -> String {
++    if let Some(raw_status) = status_from_map(item) {
++        return raw_status;
++    }
++    if item.has_unread_turn {
++        "unread".to_string()
++    } else if item.archived {
++        "archived".to_string()
++    } else {
++        "active".to_string()
++    }
++}
++
++fn status_from_map(item: &TaskListItem) -> Option<String> {
++    item.task_status_display
++        .as_ref()
++        .and_then(|map| first_display_string(map.values()))
++}
++
++fn first_display_string(values: std::collections::hash_map::Values<String, Value>) -> Option<String> {
++    for value in values {
++        if let Some(value) = extract_stringish_value(value) {
++            return Some(value);
++        }
++    }
++    None
++}
++
++fn extract_stringish_value(value: &Value) -> Option<String> {
++    if let Some(s) = value.as_str() {
++        return Some(s.to_string());
++    }
++    if let Some(n) = value.as_i64() {
++        return Some(n.to_string());
++    }
++    if let Some(b) = value.as_bool() {
++        return Some(b.to_string());
++    }
++    None
++}
++
++fn format_timestamp(seconds: Option<f64>) -> Option<String> {
++    let seconds = seconds?;
++    if !seconds.is_finite() {
++        return None;
++    }
++    let unix = seconds.floor() as i64;
++    let nanos = ((seconds - unix as f64) * 1_000_000_000.0).clamp(0.0, 999_999_999.0) as u32;
++    Utc.timestamp_opt(unix, nanos)
++        .single()
++        .map(|ts| ts.format("%Y-%m-%d %H:%M UTC").to_string())
++}
++
++fn wrapped_lines(text: &str, width: usize, first_indent: &str, subsequent_indent: &str) -> Vec<Line<'static>> {
++    if text.is_empty() {
++        return Vec::new();
++    }
++    let options = Options::new(width.max(1))
++        .initial_indent(first_indent)
++        .subsequent_indent(subsequent_indent);
++    textwrap::wrap(text, options)
++        .into_iter()
++        .map(|line| Line::from(line.to_string()))
++        .collect()
++}
++
++fn wrapped_lines_count(text: &str, width: usize) -> usize {
++    wrapped_lines(text, width.max(1), "", "").len()
++}
++
++fn highlight_selected_line(line: &mut Line<'static>) {
++    line.spans
++        .iter_mut()
++        .for_each(|span| span.style = span.style.bold().cyan());
++}
++
++fn dim_line(line: &mut Line<'static>) {
++    line.spans.iter_mut().for_each(|span| span.style = span.style.dim());
++}
++
+*** End Patch
+```
+
+If you want, I can apply this immediately once write access is available in the workspace.

@@ -1,0 +1,7 @@
+{
+  "agent": "agent-bootstrap",
+  "runId": "run-2026-02-28-082138",
+  "scope": "tasks-ui/shell",
+  "objective": "Create project shell and entrypoint: initialize frontend app structure, mount root component, add basic page layout, and wire a simple placeholder route/view container for tasks.",
+  "createdAt": "2026-02-28T08:21:44.829127+00:00"
+}

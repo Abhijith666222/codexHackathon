@@ -1,0 +1,37 @@
+{
+  "runId": "run-2026-02-28-090000",
+  "task": "SCAFFOLD a simple Tasks frontend UI",
+  "state": "BLOCKED",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [
+    "No agent produced any file changes."
+  ],
+  "mergeability": {
+    "passed": false,
+    "details": [
+      {
+        "agent": "agent-implementation",
+        "patch": "C:\\Users\\Reju\\AppData\\Local\\Temp\\run-2026-02-28-090000-merge-lffsleaz\\agent-implementation.patch",
+        "checkCode": 128,
+        "checkStdout": "",
+        "checkStderr": "error: No valid patches in input (allow with \"--allow-empty\")\n"
+      }
+    ]
+  },
+  "contract": {
+    "status": "FAIL",
+    "command": "cargo run -p codex-app-server-protocol --bin write_schema_fixtures -- --schema-root artifacts/pr-packets/run-2026-02-28-090000/generated-schema",
+    "exitCode": 1
+  },
+  "agents": [
+    {
+      "name": "agent-implementation",
+      "scope": "codex-rs",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [],
+      "blockerReason": null
+    }
+  ]
+}

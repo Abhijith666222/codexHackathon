@@ -1,0 +1,20 @@
+- [ ] **1. Layout foundation**: define design tokens (`spacing`, `radius`, `font sizes`, `colors`, `breakpoints`) and global CSS/reset/theme variables.
+- [ ] **1. Layout foundation**: create core layout primitives (`Container`, `Stack`, `Grid`, `Section`, `Page`) with responsive behavior.
+- [ ] **1. Layout foundation**: verify page-level constraints (max width, gutters, mobile padding, sticky regions) before building feature UI.
+
+- [ ] **2. Reusable components**: scaffold base UI kit first (`Button`, `Input`, `Select`, `Textarea`, `Modal`, `Badge`, `Card`, `Table`, `EmptyState`, `Spinner`).
+- [ ] **2. Reusable components**: add shared states (`loading`, `empty`, `error`, `disabled`) and consistent variants (`sm/md/lg`, `primary/secondary/ghost`).
+- [ ] **2. Reusable components**: include accessibility defaults (`labeling`, keyboard focus, ARIA where needed) in base components, not per page.
+
+- [ ] **3. Page shells**: create route-level shells (`DashboardShell`, `AuthShell`, `SettingsShell`) with fixed regions (header, sidebar, content, footer).
+- [ ] **3. Page shells**: wire shells to placeholder pages using skeleton sections (filters, content blocks, side panels).
+- [ ] **3. Page shells**: confirm each shell supports loading and empty placeholders before real data logic.
+
+- [ ] **4. Navigation**: define route map and URL conventions (including dynamic params and query usage).
+- [ ] **4. Navigation**: implement primary nav components (top nav/sidebar, breadcrumbs, tab nav) from shared config objects.
+- [ ] **4. Navigation**: add guards/fallbacks (`404`, unauthorized, default redirects) and active-state highlighting.
+
+- [ ] **5. Mock data integration**: define typed mock models matching expected API contracts.
+- [ ] **5. Mock data integration**: implement data adapters/hooks so pages consume a stable interface (`useXData`) independent of source.
+- [ ] **5. Mock data integration**: connect mocks to page shells and components; validate loading/error/empty/success flows per route.
+- [ ] **5. Mock data integration**: keep fixtures realistic (pagination, partial data, missing fields) to surface layout/UX edge cases early.

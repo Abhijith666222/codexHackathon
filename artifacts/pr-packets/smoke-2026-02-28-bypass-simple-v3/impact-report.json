@@ -1,0 +1,46 @@
+{
+  "runId": "smoke-2026-02-28-bypass-simple-v3",
+  "task": "Create one file codex-rs/SMOKE_WRITE.md with exactly one line: smoke",
+  "taskMode": "code",
+  "state": "DONE",
+  "scopeRulesOk": true,
+  "scopeIssues": [],
+  "artifactErrors": [],
+  "mergeability": {
+    "passed": true,
+    "details": [
+      {
+        "agent": "agent-implementation",
+        "patch": "C:\\Users\\Reju\\AppData\\Local\\Temp\\smoke-2026-02-28-bypass-simple-v3-merge-798n0q0s\\agent-implementation.patch",
+        "checkCode": 0,
+        "checkStdout": "",
+        "checkStderr": "",
+        "applyCode": 0,
+        "applyStdout": "",
+        "applyStderr": "C:/Users/Reju/AppData/Local/Temp/smoke-2026-02-28-bypass-simple-v3-merge-798n0q0s/agent-implementation.patch:7: trailing whitespace.\n\ufeffsmoke\nwarning: 1 line adds whitespace errors.\n"
+      }
+    ],
+    "mergedDiff": "",
+    "patches": [
+      "C:\\Users\\Reju\\AppData\\Local\\Temp\\smoke-2026-02-28-bypass-simple-v3-merge-798n0q0s\\agent-implementation.patch"
+    ]
+  },
+  "contract": {
+    "status": "SKIPPED",
+    "command": "skipped (no protocol-sensitive files changed)",
+    "exitCode": 0
+  },
+  "agents": [
+    {
+      "name": "agent-implementation",
+      "scope": "codex-rs/SMOKE_WRITE.md",
+      "state": "DONE",
+      "exitCode": 0,
+      "changedFiles": [
+        "codex-rs/SMOKE_WRITE.md"
+      ],
+      "blockerReason": null,
+      "lastMessage": "Created `codex-rs/SMOKE_WRITE.md` with exactly one line:\n\n`smoke`"
+    }
+  ]
+}

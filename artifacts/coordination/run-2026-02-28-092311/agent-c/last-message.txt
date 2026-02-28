@@ -1,0 +1,22 @@
+Implemented.
+
+I added a new reusable component-based Tasks page entirely under `tasks-frontend/components`:
+
+- `tasks-frontend/components/section-header.js`
+- `tasks-frontend/components/action-buttons.js`
+- `tasks-frontend/components/task-row.js`
+- `tasks-frontend/components/task-list.js`
+- `tasks-frontend/components/tasks-page.js`
+- `tasks-frontend/components/tasks-page.css`
+- `tasks-frontend/components/tasks-page.html`
+
+What’s now included:
+- Reusable `section-header` component for section titles/subtitles.
+- Reusable `action-buttons` component with dispatching `task-action` events (`complete`, `edit`, `delete`).
+- Reusable `task-row` component for rendering each task with metadata and actions.
+- Reusable `task-list` component that renders multiple `task-row` items and updates on state changes.
+- `tasks-page.html` composes the above into a working Tasks page with two sections.
+- `tasks-page.js` wires interactions (toggle complete, rename via prompt, delete, section counts).
+
+To run:
+- Open `tasks-frontend/components/tasks-page.html` in a browser.

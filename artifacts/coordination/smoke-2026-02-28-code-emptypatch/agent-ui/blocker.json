@@ -1,0 +1,9 @@
+{
+  "agent": "agent-ui",
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "state": "BLOCKED",
+  "scope": "todo-app/todo-ui",
+  "reason": "No file changes were produced; execution was blocked or task was not executed.",
+  "createdAt": "2026-02-28T08:57:44.656912+00:00",
+  "lastMessage": "Blocked by platform constraints; I couldn\u2019t make the requested code changes.\n\nWhat I verified:\n1. `todo-app/todo-ui` does not exist in this workspace (or sibling worktrees).\n2. Write operations are disallowed here:\n   - `New-Item ... todo-app\\todo-ui` was rejected (`blocked by policy`).\n   - `apply_patch` was rejected (`writing outside of the project; rejected by user approval settings`).\n   - `Set-Content ...` was rejected (`blocked by policy`).\n\nIf you provide a workspace where `todo-app/todo-ui` exists and writes are enabled, I can implement the full UI scaffold (render + add/toggle/delete wiring + styling + empty state) in one pass."
+}

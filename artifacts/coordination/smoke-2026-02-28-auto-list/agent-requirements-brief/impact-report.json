@@ -1,0 +1,12 @@
+{
+  "agent": "agent-requirements-brief",
+  "runId": "smoke-2026-02-28-auto-list",
+  "state": "DONE",
+  "scope": "requirements",
+  "changedFiles": [],
+  "durationMs": 17558,
+  "exitCode": 0,
+  "threadId": "019ca372-78eb-75b0-b218-28123065fe18",
+  "lastMessage": "**UI Scaffold Requirements Brief**\n\n- **Product goals (define first)**\n- State the primary user outcome in one sentence: \u201cUsers can ___ in under ___ minutes.\u201d\n- Pick 1 primary success metric (activation, task completion, conversion, retention, etc.).\n- Pick 2 guardrail metrics (error rate, drop-off, support tickets, performance).\n- Define MVP scope: must-have vs explicitly out-of-scope for v1.\n\n- **Target users (prioritize)**\n- Identify 1 primary persona (role, skill level, motivation, pain point).\n- Identify 1 secondary persona only if it changes navigation or permissions.\n- Capture usage context: device, session length, frequency, environment.\n- List accessibility needs relevant to your audience (keyboard-only, contrast, screen reader).\n\n- **Core screens your scaffold should cover**\n- Entry: landing/welcome + sign-in/sign-up.\n- First-run: onboarding/setup (or skip path).\n- Main workspace/dashboard (primary value view).\n- Core flow screens: list/index, detail view, create/edit form.\n- Supporting: search/filter/sort state.\n- Account/settings/profile.\n- System states: loading, empty, error, success/confirmation, offline/no-permission.\n- Help/feedback/contact or issue-report entry point.\n\n- **Constraints to lock before UI build**\n- Platform targets: web/mobile/responsive breakpoints.\n- Design system constraints: typography, color tokens, spacing scale, components.\n- Technical constraints: framework, routing model, auth provider, API shape.\n- Non-functionals: performance budgets, accessibility target (WCAG level), localization need.\n- Compliance/security constraints: data sensitivity, logging, retention, legal copy.\n\n- **Definition of done for scaffold**\n- Every core user task maps to a screen and route.\n- All critical states (loading/empty/error/success) are represented.\n- Navigation and information architecture are testable end-to-end.\n- Reusable layout/components are identified for future feature work.",
+  "finishedAt": "2026-02-28T08:52:11.635105+00:00"
+}

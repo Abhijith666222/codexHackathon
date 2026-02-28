@@ -1,0 +1,13 @@
+{
+  "agent": "agent-shell",
+  "runId": "run-2026-02-28-084457",
+  "scope": "frontend/tasks-ui/shell",
+  "state": "BLOCKED",
+  "threadId": "019ca36c-82d2-7833-ac33-2c5234c01f77",
+  "startedAt": "2026-02-28T08:45:22.297127+00:00",
+  "finishedAt": "2026-02-28T08:46:20.427907+00:00",
+  "durationMs": 58017,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:46:20.484062+00:00",
+  "blockerReason": "No file changes were produced; execution was blocked or task was not executed."
+}

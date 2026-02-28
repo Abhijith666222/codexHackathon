@@ -1,0 +1,56 @@
+{
+  "runId": "smoke-2026-02-28-code-emptypatch",
+  "task": "Implement a tiny todo app scaffold",
+  "plannerResult": {
+    "raw_task": "Implement a tiny todo app scaffold",
+    "subtasks": [
+      {
+        "name": "agent-scaffold",
+        "scope": "todo-app/app-shell",
+        "objective": "Set up the base project scaffold: folder layout, build/run scripts, main entrypoint, and placeholder configuration files for a minimal runnable app."
+      },
+      {
+        "name": "agent-domain",
+        "scope": "todo-app/todo-domain",
+        "objective": "Implement the core todo model and state actions (create, toggle complete, remove, list) with clean interfaces that can be consumed by the UI layer."
+      },
+      {
+        "name": "agent-ui",
+        "scope": "todo-app/todo-ui",
+        "objective": "Build a simple UI scaffold that renders todos and wires add/toggle/delete interactions to the domain layer, with lightweight styling and empty-state handling."
+      },
+      {
+        "name": "agent-docs",
+        "scope": "todo-app/project-docs",
+        "objective": "Write concise setup and usage documentation, including run commands, current scaffold capabilities, and clearly marked next-step enhancements."
+      }
+    ]
+  },
+  "plannerParseAttempts": 1,
+  "fallbackUsed": false,
+  "normalizedPlan": {
+    "subtasks": [
+      {
+        "name": "agent-scaffold",
+        "scope": "todo-app/app-shell",
+        "objective": "Set up the base project scaffold: folder layout, build/run scripts, main entrypoint, and placeholder configuration files for a minimal runnable app."
+      },
+      {
+        "name": "agent-domain",
+        "scope": "todo-app/todo-domain",
+        "objective": "Implement the core todo model and state actions (create, toggle complete, remove, list) with clean interfaces that can be consumed by the UI layer."
+      },
+      {
+        "name": "agent-ui",
+        "scope": "todo-app/todo-ui",
+        "objective": "Build a simple UI scaffold that renders todos and wires add/toggle/delete interactions to the domain layer, with lightweight styling and empty-state handling."
+      },
+      {
+        "name": "agent-docs",
+        "scope": "todo-app/project-docs",
+        "objective": "Write concise setup and usage documentation, including run commands, current scaffold capabilities, and clearly marked next-step enhancements."
+      }
+    ]
+  },
+  "parsedAt": "2026-02-28T08:55:13.413731+00:00"
+}

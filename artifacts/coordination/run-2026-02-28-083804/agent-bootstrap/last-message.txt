@@ -1,0 +1,32 @@
+I’m blocked from applying changes: this workspace is mounted read-only, so I cannot create or edit `ui/bootstrap/...` files here.
+
+Scope findings:
+- `ui/bootstrap` does not exist yet in this workspace.
+- I can read existing repo tooling (`package.json`, `pnpm-workspace.yaml`, `sdk/typescript/*`, `.github/workflows/*`) and scaffold from that, but writes are currently blocked.
+
+If you enable write access, I can apply a scoped scaffold in one patch with these files:
+- `ui/bootstrap/package.json` (React + Vite + ESLint + Prettier + Vitest scripts, typed env + hooks config)
+- `ui/bootstrap/vite.config.ts`
+- `ui/bootstrap/tsconfig.json`
+- `ui/bootstrap/tsconfig.app.json`
+- `ui/bootstrap/tsconfig.node.json`
+- `ui/bootstrap/vitest.config.ts`
+- `ui/bootstrap/.env.example`
+- `ui/bootstrap/.editorconfig`
+- `ui/bootstrap/.gitignore`
+- `ui/bootstrap/.prettierignore`
+- `ui/bootstrap/.prettierrc.cjs`
+- `ui/bootstrap/eslint.config.js`
+- `ui/bootstrap/index.html`
+- `ui/bootstrap/src/main.tsx`
+- `ui/bootstrap/src/App.tsx`
+- `ui/bootstrap/src/App.css`
+- `ui/bootstrap/src/index.css`
+- `ui/bootstrap/src/env.ts`
+- `ui/bootstrap/src/vite-env.d.ts`
+- `ui/bootstrap/src/test/setup.ts`
+- `ui/bootstrap/src/App.test.tsx`
+- `ui/bootstrap/.github/workflows/ci.yml`
+- `ui/bootstrap/README.md`
+
+Reply with write-enabled permission and I’ll apply the full patch immediately.

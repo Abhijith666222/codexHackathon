@@ -1,0 +1,12 @@
+Blocked by platform permissions, so I could not apply the scaffold changes.
+
+What I verified:
+- `todo-app` does not currently exist under the repo root.
+- Creating `todo-app/app-shell` via shell command was rejected (`blocked by policy`).
+- Creating files via patch was also rejected (`rejected by user approval settings`).
+
+I’m ready to implement the full scaffold immediately, but I need a writable workspace (or adjusted approval settings) first. Once write access is enabled, I’ll create `todo-app/app-shell` with:
+- base folder layout
+- `package.json` scripts for build/run
+- main entrypoint
+- placeholder config files for a minimal runnable app

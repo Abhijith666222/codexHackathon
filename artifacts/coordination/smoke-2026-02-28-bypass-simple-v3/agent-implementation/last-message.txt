@@ -1,0 +1,3 @@
+Created `codex-rs/SMOKE_WRITE.md` with exactly one line:
+
+`smoke`

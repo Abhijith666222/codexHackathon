@@ -1,0 +1,36 @@
+**UI Scaffold Requirements Brief**
+
+- **Product goals (define first)**
+- State the primary user outcome in one sentence: “Users can ___ in under ___ minutes.”
+- Pick 1 primary success metric (activation, task completion, conversion, retention, etc.).
+- Pick 2 guardrail metrics (error rate, drop-off, support tickets, performance).
+- Define MVP scope: must-have vs explicitly out-of-scope for v1.
+
+- **Target users (prioritize)**
+- Identify 1 primary persona (role, skill level, motivation, pain point).
+- Identify 1 secondary persona only if it changes navigation or permissions.
+- Capture usage context: device, session length, frequency, environment.
+- List accessibility needs relevant to your audience (keyboard-only, contrast, screen reader).
+
+- **Core screens your scaffold should cover**
+- Entry: landing/welcome + sign-in/sign-up.
+- First-run: onboarding/setup (or skip path).
+- Main workspace/dashboard (primary value view).
+- Core flow screens: list/index, detail view, create/edit form.
+- Supporting: search/filter/sort state.
+- Account/settings/profile.
+- System states: loading, empty, error, success/confirmation, offline/no-permission.
+- Help/feedback/contact or issue-report entry point.
+
+- **Constraints to lock before UI build**
+- Platform targets: web/mobile/responsive breakpoints.
+- Design system constraints: typography, color tokens, spacing scale, components.
+- Technical constraints: framework, routing model, auth provider, API shape.
+- Non-functionals: performance budgets, accessibility target (WCAG level), localization need.
+- Compliance/security constraints: data sensitivity, logging, retention, legal copy.
+
+- **Definition of done for scaffold**
+- Every core user task maps to a screen and route.
+- All critical states (loading/empty/error/success) are represented.
+- Navigation and information architecture are testable end-to-end.
+- Reusable layout/components are identified for future feature work.

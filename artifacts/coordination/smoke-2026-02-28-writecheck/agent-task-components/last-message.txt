@@ -1,0 +1,14 @@
+I can’t apply the requested code changes in this session: the workspace is currently read-only for writes, so `apply_patch`/shell writes are blocked (`rejected: writing outside of the project` / `blocked by policy`).
+
+I did identify the target implementation file as:
+
+- `codex-rs/cloud-tasks/src/ui.rs`
+
+The requested refactor belongs there, and I already prepared the exact change shape:
+
+- add reusable task row component (props struct + renderer) to replace inline `render_task_item` logic
+- add reusable task form input component (title+composer render + cursor position)
+- add reusable action-control builder (props-driven footer key hints, including apply/attempt state)
+- update `draw_new_task_page`, `draw_list`, `draw_footer`, and replace the old `render_task_item` body with the new component API
+
+If you enable write access (or re-run in a writable session), I can apply the patch directly.

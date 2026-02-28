@@ -1,0 +1,13 @@
+{
+  "agent": "agent-state-data",
+  "runId": "smoke-2026-02-28-writecheck",
+  "scope": "tasks-ui/state",
+  "state": "BLOCKED",
+  "threadId": "019ca381-1c52-7f43-ad4c-09f05ba34815",
+  "startedAt": "2026-02-28T09:07:53.005550+00:00",
+  "finishedAt": "2026-02-28T09:09:29.461304+00:00",
+  "durationMs": 96160,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T09:09:29.513798+00:00",
+  "blockerReason": "No file changes were produced; execution was blocked or task was not executed."
+}

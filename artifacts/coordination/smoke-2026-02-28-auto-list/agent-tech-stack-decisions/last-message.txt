@@ -1,0 +1,27 @@
+**Recommended default (most teams)**
+- Framework: `Next.js` (App Router) + `TypeScript` with `strict` enabled.
+- Styling: `Tailwind CSS` + CSS variables for design tokens (color, spacing, radius, typography).
+- Component library: `shadcn/ui` (Radix-based primitives you own in-repo).
+- Routing: built-in Next routing (file-based).
+- State: `TanStack Query` for server state, `Zustand` for shared client UI state, local `useState` by default.
+- Forms/validation: `React Hook Form` + `Zod`.
+
+**If SSR/SEO is not needed (SPA)**
+- Framework: `Vite` + `React` + `TypeScript`.
+- Routing: `React Router`.
+- Keep the same styling/components/state choices above.
+
+**Project conventions to decide before scaffolding**
+- Package manager: `pnpm`.
+- Lint/format: `ESLint` + `Prettier` (or `Biome`, but only one formatter).
+- Tests: `Vitest` + Testing Library; `Playwright` for e2e.
+- API contracts: shared `zod` schemas for request/response validation.
+- Structure: feature-first (`src/features/*`), shared UI in `src/components/ui`.
+- CI gates: `typecheck`, `lint`, `test`, `build` on every PR.
+- Env hygiene: commit `.env.example`; validate env at app startup.
+
+**Pre-scaffold checklist**
+- Confirm SSR/SEO requirements (`Next.js` vs `Vite`).
+- Confirm design ownership level (`shadcn/ui` vs heavier pre-styled kit like MUI).
+- Confirm server-data complexity (if moderate+, use `TanStack Query`).
+- Define token set before generating UI components.

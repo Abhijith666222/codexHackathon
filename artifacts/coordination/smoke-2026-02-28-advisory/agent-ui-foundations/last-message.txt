@@ -1,0 +1,34 @@
+**Layout Structure**
+- [ ] Define an app shell: `Header | Nav | Main | Optional Aside | Footer`.
+- [ ] Standardize page containers (`max-width`, horizontal padding, responsive breakpoints).
+- [ ] Pick one spacing scale (e.g., 4/8px rhythm) and apply it everywhere.
+- [ ] Establish layout primitives (`Stack`, `Inline`, `Grid`, `Container`, `Spacer`).
+- [ ] Add page-level loading, empty, and error slots in the shell.
+
+**Component Primitives**
+- [ ] Ship core primitives first: `Button`, `Input`, `Select`, `Checkbox`, `Radio`, `Textarea`, `Modal`, `Tooltip`, `Tabs`, `Toast`.
+- [ ] Ensure all primitives support `disabled`, `loading`, `error`, `success`, and size variants.
+- [ ] Enforce accessibility defaults: labels, keyboard nav, focus-visible, ARIA where needed.
+- [ ] Keep primitives style-agnostic and compose them into feature components later.
+- [ ] Add visual/interaction tests for each primitive state.
+
+**Design Tokens**
+- [ ] Create token tiers: `base` (raw values) and `semantic` (usage-driven names).
+- [ ] Cover token categories: color, typography, spacing, radius, shadow, border, motion, z-index.
+- [ ] Use semantic names (`bg.surface`, `text.muted`, `border.default`) over hard-coded values.
+- [ ] Define light/dark (or brand) themes via token swaps, not component overrides.
+- [ ] Store tokens in one source of truth and generate platform outputs from it.
+
+**Navigation**
+- [ ] Define route map and ownership (`public`, `authenticated`, `admin`, etc.).
+- [ ] Choose persistent nav pattern (`top`, `side`, `hybrid`) and mobile behavior.
+- [ ] Ensure active route, breadcrumbs, and back behavior are consistent.
+- [ ] Support deep-linking for key views and filter states.
+- [ ] Add route guards plus route-level loading/error boundaries.
+
+**Data/State Boundaries**
+- [ ] Separate server state (API/cache) from UI state (local interaction).
+- [ ] Centralize data fetching/caching strategy (query keys, TTL, invalidation).
+- [ ] Keep mutations close to features; normalize optimistic updates and rollback rules.
+- [ ] Avoid global state for ephemeral UI state; scope state to nearest feature boundary.
+- [ ] Define clear contracts for data shape, error types, and retry behavior.

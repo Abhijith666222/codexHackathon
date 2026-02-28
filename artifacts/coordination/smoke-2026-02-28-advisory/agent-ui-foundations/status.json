@@ -1,0 +1,12 @@
+{
+  "agent": "agent-ui-foundations",
+  "runId": "smoke-2026-02-28-advisory",
+  "scope": "foundations",
+  "state": "DONE",
+  "threadId": "019ca36e-9399-7492-adb6-559c9cf2b8c1",
+  "startedAt": "2026-02-28T08:47:38.453063+00:00",
+  "finishedAt": "2026-02-28T08:47:56.132150+00:00",
+  "durationMs": 17533,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:47:56.184199+00:00"
+}

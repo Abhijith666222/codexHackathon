@@ -1,0 +1,7 @@
+{
+  "agent": "agent-list",
+  "runId": "run-2026-02-28-084417",
+  "scope": "frontend/tasks-list",
+  "objective": "Implement core Tasks UI components with mock data: task list, task item row, add-task input, and basic local state interactions.",
+  "createdAt": "2026-02-28T08:44:36.537844+00:00"
+}

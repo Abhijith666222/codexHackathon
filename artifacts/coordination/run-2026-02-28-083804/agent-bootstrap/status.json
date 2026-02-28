@@ -1,0 +1,13 @@
+{
+  "agent": "agent-bootstrap",
+  "runId": "run-2026-02-28-083804",
+  "scope": "ui/bootstrap",
+  "state": "BLOCKED",
+  "threadId": "019ca366-47cf-76a1-84cf-1e24e5a12820",
+  "startedAt": "2026-02-28T08:38:34.003789+00:00",
+  "finishedAt": "2026-02-28T08:39:29.477289+00:00",
+  "durationMs": 55188,
+  "exitCode": 0,
+  "updatedAt": "2026-02-28T08:39:29.538116+00:00",
+  "blockerReason": "Platform write restriction detected from agent output."
+}
