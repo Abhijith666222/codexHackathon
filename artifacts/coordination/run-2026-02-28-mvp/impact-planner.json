@@ -1,0 +1,19 @@
+{
+  "runId": "run-2026-02-28-mvp",
+  "role": "planner",
+  "scope": {
+    "A": "codex-rs/app-server-protocol",
+    "B": "contracts/app-schema.expected.json"
+  },
+  "impact": {
+    "protocol": "ThreadStartParams gains optional service_name_hint field in app-server protocol. No behavior changes."
+  },
+  "decisions": [
+    {
+      "from": "planner",
+      "to": "integrator",
+      "status": "BLOCKED",
+      "reason": "Wait for both implementation and contract refresh before merging."
+    }
+  ]
+}
