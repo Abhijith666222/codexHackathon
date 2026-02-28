@@ -13912,6 +13912,12 @@
               "string",
               "null"
             ]
+          },
+          "serviceNameHint": {
+            "type": [
+              "string",
+              "null"
+            ]
           }
         },
         "title": "ThreadStartParams",
