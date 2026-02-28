@@ -1,0 +1,21 @@
+{
+  "runId": "run-2026-02-28-mvp",
+  "role": "planner",
+  "expectedChanges": [
+    "Introduce one additive app-server protocol field in v2 protocol types only.",
+    "Pin expected schema artifact to match producer output.",
+    "Generate PR packet only after contract check passes."
+  ],
+  "componentOwnership": {
+    "codex-rs/app-server-protocol": "impl-a",
+    "contracts/app-schema.expected.json": "impl-b",
+    "scripts/multiagent/*": "integrator"
+  },
+  "passCriteria": {
+    "protocolChanged": true,
+    "contractUpdated": true,
+    "contractCheckPass": true,
+    "packetReady": true
+  },
+  "blockerPolicy": "Any contract-check PASS/FALSE mismatch must block integration and require impl-b follow-up commit."
+}
