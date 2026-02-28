@@ -1,0 +1,1224 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codex Multi-Agent Dashboard</title>
+    <style>
+      :root {
+        --bg-a: #020817;
+        --bg-b: #080f1e;
+        --surface-900: #0f172a;
+        --text-main: #e2e8f0;
+        --text-subtle: #94a3b8;
+        --text-faint: #64748b;
+        --brand-300: #9fb1ff;
+        --brand-400: #7489ff;
+        --brand-500: #4f6ef7;
+        --brand-600: #3d5ae0;
+        --ok: #22c55e;
+        --danger: #ef4444;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        color: var(--text-main);
+        font-family: "Poppins", "Trebuchet MS", "Segoe UI", sans-serif;
+        background:
+          radial-gradient(circle at 12% 6%, rgba(79, 110, 247, 0.2), transparent 36%),
+          radial-gradient(circle at 88% -10%, rgba(79, 138, 247, 0.15), transparent 32%),
+          linear-gradient(160deg, var(--bg-a), var(--bg-b));
+      }
+
+      .app-shell {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 18px;
+      }
+
+      .panel {
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 14px;
+        background: rgba(30, 41, 59, 0.6);
+        backdrop-filter: blur(8px);
+      }
+
+      .panel-pad {
+        padding: 14px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 14px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+      }
+
+      .brand-mark {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(160deg, var(--brand-600), var(--brand-300));
+        color: #fff;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .title {
+        margin: 0;
+        font-size: 17px;
+        line-height: 1.1;
+        font-weight: 700;
+      }
+
+      .subtitle {
+        margin: 4px 0 0;
+        color: var(--text-subtle);
+        font-size: 12px;
+      }
+
+      .status-wrap {
+        display: grid;
+        justify-items: end;
+        gap: 6px;
+      }
+
+      .status-meta {
+        color: var(--text-subtle);
+        font-size: 12px;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 6px 10px;
+        border: 1px solid transparent;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .status-idle {
+        background: #1f2937;
+        color: #e2e8f0;
+        border-color: rgba(148, 163, 184, 0.38);
+      }
+
+      .status-starting {
+        background: rgba(245, 158, 11, 0.2);
+        color: #fde68a;
+        border-color: rgba(245, 158, 11, 0.5);
+      }
+
+      .status-running {
+        background: rgba(79, 110, 247, 0.25);
+        color: #bfdbfe;
+        border-color: rgba(79, 110, 247, 0.55);
+      }
+
+      .status-done {
+        background: rgba(34, 197, 94, 0.2);
+        color: #86efac;
+        border-color: rgba(34, 197, 94, 0.5);
+      }
+
+      .status-blocked {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fecaca;
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+
+      .grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .grid-2 {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+        margin-top: 8px;
+      }
+
+      .metric {
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(2, 8, 23, 0.65);
+        padding: 10px;
+      }
+
+      .metric-title {
+        color: var(--text-faint);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .metric-value {
+        margin-top: 6px;
+        font-size: 22px;
+        line-height: 1;
+        font-weight: 700;
+      }
+
+      .section-title {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .section-title h2 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .section-title .small {
+        color: var(--text-subtle);
+        font-size: 12px;
+      }
+
+      .label {
+        color: var(--text-subtle);
+        font-size: 11px;
+        margin-bottom: 6px;
+      }
+
+      .field {
+        width: 100%;
+        border-radius: 10px;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        background: #090f1f;
+        color: var(--text-main);
+        padding: 10px 11px;
+        font-size: 13px;
+        font-family: inherit;
+      }
+
+      .field:focus {
+        outline: none;
+        border-color: var(--brand-400);
+        box-shadow: 0 0 0 2px rgba(116, 137, 255, 0.25);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 9px;
+      }
+
+      .form-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .toolbar,
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .btn {
+        border: 0;
+        cursor: pointer;
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #edf2ff;
+        background: var(--brand-600);
+        font-weight: 600;
+        transition: transform 120ms ease, background 120ms ease, opacity 120ms ease;
+      }
+
+      .btn:hover {
+        background: var(--brand-500);
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn:disabled {
+        cursor: not-allowed;
+        opacity: 0.45;
+      }
+
+      .btn-small {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
+
+      .btn-ghost {
+        background: rgba(148, 163, 184, 0.12);
+        border: 1px solid rgba(148, 163, 184, 0.22);
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      }
+
+      .tab-btn {
+        border: 0;
+        background: transparent;
+        color: var(--text-subtle);
+        padding: 10px 12px;
+        border-bottom: 2px solid transparent;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .tab-btn.active {
+        color: #fff;
+        border-bottom-color: var(--brand-400);
+      }
+
+      .tab-panel {
+        display: none;
+      }
+
+      .tab-panel.active {
+        display: block;
+      }
+
+      .list-card,
+      .activity-card {
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 10px;
+        background: rgba(2, 8, 23, 0.35);
+        padding: 10px;
+        min-height: 140px;
+        max-height: 390px;
+        overflow: auto;
+      }
+
+      .list-item {
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 10px;
+        padding: 10px;
+        margin-bottom: 8px;
+        background: rgba(2, 8, 23, 0.4);
+      }
+
+      .list-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .item-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 700;
+        border: 1px solid rgba(148, 163, 184, 0.38);
+      }
+
+      .badge-running {
+        background: rgba(79, 110, 247, 0.2);
+        color: #bfdbfe;
+      }
+
+      .badge-done {
+        background: rgba(34, 197, 94, 0.18);
+        color: #86efac;
+      }
+
+      .badge-blocked {
+        background: rgba(239, 68, 68, 0.18);
+        color: #fecaca;
+      }
+
+      .badge-queued {
+        background: rgba(148, 163, 184, 0.16);
+        color: #cbd5e1;
+      }
+
+      .progress {
+        height: 7px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.18);
+        overflow: hidden;
+      }
+
+      .progress > span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--brand-600), var(--ok));
+      }
+
+      .small {
+        color: var(--text-subtle);
+        font-size: 11px;
+      }
+
+      .bold {
+        color: #f8fafc;
+        font-weight: 600;
+      }
+
+      .meta {
+        color: var(--text-subtle);
+        font-size: 12px;
+      }
+
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        white-space: pre-wrap;
+      }
+
+      .activity-line {
+        border-bottom: 1px dashed rgba(148, 163, 184, 0.18);
+        padding: 6px 0;
+        font-size: 13px;
+      }
+
+      .activity-line:last-child {
+        border-bottom: 0;
+      }
+
+      .state-json {
+        width: 100%;
+        min-height: 255px;
+        resize: vertical;
+      }
+
+      .status-text {
+        min-height: 20px;
+        margin-top: 8px;
+        font-size: 13px;
+      }
+
+      .ok-text {
+        color: #86efac;
+      }
+
+      .error-text {
+        color: #fecaca;
+      }
+
+      .empty {
+        color: var(--text-subtle);
+        padding: 8px 0;
+      }
+
+      .toast {
+        margin-top: 8px;
+        color: var(--text-faint);
+        font-size: 12px;
+      }
+
+      .chip {
+        display: inline-flex;
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 11px;
+        background: rgba(148, 163, 184, 0.17);
+        color: #cbd5e1;
+        border: 1px solid rgba(148, 163, 184, 0.28);
+      }
+
+      .muted {
+        color: var(--text-subtle);
+      }
+
+      @media (max-width: 900px) {
+        .app-shell {
+          padding: 12px;
+        }
+
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .status-wrap {
+          justify-items: start;
+        }
+
+        .form-actions {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark">CM</div>
+          <div>
+            <p class="title">Codex Multi-Agent Console</p>
+            <p class="subtitle">Command center for planner and worker orchestration</p>
+          </div>
+        </div>
+
+        <div class="status-wrap">
+          <span id="stateBadge" class="status-pill status-idle">IDLE</span>
+          <div class="status-meta" id="runUpdated">Last refresh: --</div>
+          <div class="status-meta" id="runTick">Tick: 0</div>
+        </div>
+      </header>
+
+      <section class="grid grid-2">
+        <article class="panel panel-pad">
+          <div class="section-title">
+            <h2>Launch a run</h2>
+            <span class="chip">CLI parity</span>
+          </div>
+
+          <form id="startForm" autocomplete="off" class="form-grid">
+            <label class="label" for="presetSelect">Preset prompt</label>
+            <select id="presetSelect" class="field">
+              <option value="">-- choose a starter --</option>
+              <option value="Generate a short implementation plan for adding a new feature, including milestones and risks.">Implementation plan</option>
+              <option value="Give me a concise checklist to plan this project in phases with verification points.">Planning checklist</option>
+              <option value="Review the current implementation and suggest prioritized improvements for quality and safety.">Priority review</option>
+              <option value="Draft a production-ready MVP for this repo, covering minimal architecture, acceptance criteria, and rollout plan.">MVP architecture plan</option>
+            </select>
+
+            <label class="label" for="taskInput">Task prompt</label>
+            <textarea
+              id="taskInput"
+              class="field"
+              rows="8"
+              placeholder="Example: Add a focused dashboard for live agent activity and include a progress chart."
+            ></textarea>
+
+            <div class="form-actions">
+              <button id="startBtn" type="submit" class="btn">Start Run</button>
+              <button id="refreshBtn" type="button" class="btn btn-ghost">Refresh Now</button>
+            </div>
+          </form>
+
+          <div class="toolbar">
+            <label>
+              <input id="autoRefresh" type="checkbox" checked />
+              <span class="small">Auto refresh</span>
+            </label>
+            <label class="small">
+              Interval
+              <select id="refreshRate" class="field" style="padding: 5px 8px;">
+                <option value="500">0.5s</option>
+                <option value="750" selected>0.75s</option>
+                <option value="1000">1.0s</option>
+                <option value="1500">1.5s</option>
+                <option value="2500">2.5s</option>
+              </select>
+            </label>
+            <label>
+              <input id="autoScroll" type="checkbox" checked />
+              <span class="small">Auto-scroll activity</span>
+            </label>
+          </div>
+
+          <p id="statusMessage" class="status-text"></p>
+          <p id="currentTask" class="small">No active task.</p>
+          <p id="liveHint" class="toast">Tip: this UI reads the same <b>/api/state</b> payload used by the CLI.</p>
+        </article>
+
+        <article class="panel panel-pad">
+          <div class="section-title">
+            <h2>Run Snapshot</h2>
+            <span id="runStateChip" class="chip">Overall: IDLE</span>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric">
+              <div class="metric-title">Run ID</div>
+              <div id="runIdValue" class="metric-value">--</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">State</div>
+              <div id="runStateValue" class="metric-value">IDLE</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Task Mode</div>
+              <div id="taskModeValue" class="metric-value">--</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Plan items</div>
+              <div id="planCountValue" class="metric-value">0</div>
+            </div>
+          </div>
+            <div class="metric-row">
+            <div class="metric">
+              <div class="metric-title">Agent progress</div>
+              <div class="progress"><span id="agentProgressBar"></span></div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Total</div>
+              <div id="agentCountValue" class="metric-value">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Done</div>
+              <div id="agentsDoneValue" class="metric-value" style="color: var(--ok);">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Running</div>
+              <div id="agentsRunningValue" class="metric-value" style="color: var(--brand-400);">0</div>
+            </div>
+            <div class="metric">
+              <div class="metric-title">Blocked</div>
+              <div id="agentsBlockedValue" class="metric-value" style="color: var(--danger);">0</div>
+            </div>
+          </div>
+          <div class="small">
+            Last mode: <span id="runTaskMode">auto</span>  |  Evidence path:
+            <span id="runEvidencePath">artifacts/pr-packets/&lt;run-id&gt;</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel panel-pad" style="margin-top: 12px;">
+        <div class="tabs">
+          <button id="tabOverview" class="tab-btn active" type="button" data-tab="overview">Overview</button>
+          <button id="tabPlan" class="tab-btn" type="button" data-tab="plan">Plan</button>
+          <button id="tabAgents" class="tab-btn" type="button" data-tab="agents">Agents</button>
+          <button id="tabActivity" class="tab-btn" type="button" data-tab="activity">Activity</button>
+          <button id="tabState" class="tab-btn" type="button" data-tab="state">State</button>
+        </div>
+
+        <div id="overviewPanel" class="tab-panel active" style="padding-top: 10px;">
+          <div class="section-title">
+            <h2>Overview</h2>
+            <span id="overviewStatus" class="small">0 agents</span>
+          </div>
+          <div class="list-card">
+            <div class="small">Latest task</div>
+            <p id="overviewTask" class="bold" style="margin: 4px 0 8px;">No active task.</p>
+            <div class="small">Latest activity</div>
+            <div id="overviewActivity" class="small"></div>
+          </div>
+        </div>
+
+        <div id="planPanel" class="tab-panel" style="padding-top: 10px;">
+          <div class="section-title">
+            <h2>Planner decomposition</h2>
+            <span id="planSummary" class="small muted">0 items</span>
+          </div>
+          <div class="filters" style="margin: 0 0 8px;">
+            <input id="planSearch" class="field" placeholder="Search plan item" />
+          </div>
+          <div id="planList" class="list-card"></div>
+        </div>
+
+        <div id="agentsPanel" class="tab-panel" style="padding-top: 10px;">
+          <div class="section-title">
+            <h2>Agent activity</h2>
+            <span id="agentSummary" class="small muted">0 agents</span>
+          </div>
+          <div class="filters" style="margin: 0 0 8px;">
+            <input id="agentSearch" class="field" style="min-width: 160px;" placeholder="Search name or scope" />
+            <select id="agentStatusFilter" class="field" style="max-width: 170px;">
+              <option value="all">All statuses</option>
+              <option value="QUEUED">Queued</option>
+              <option value="RUNNING">Running</option>
+              <option value="DONE">Done</option>
+              <option value="BLOCKED">Blocked</option>
+            </select>
+          </div>
+          <div id="agentList" class="list-card"></div>
+        </div>
+
+        <div id="activityPanel" class="tab-panel" style="padding-top: 10px;">
+          <div class="section-title">
+            <h2>Live activity</h2>
+            <span id="activityCount" class="small muted">0 entries</span>
+          </div>
+          <div class="toolbar">
+            <button id="copyActivityBtn" class="btn btn-small btn-ghost" type="button">Copy activity</button>
+            <button id="clearActivityBtn" class="btn btn-small btn-ghost" type="button">Clear activity</button>
+            <span class="small">Showing latest lines from build event summary.</span>
+          </div>
+          <div id="activityList" class="activity-card"></div>
+        </div>
+
+        <div id="statePanel" class="tab-panel" style="padding-top: 10px;">
+          <div class="section-title">
+            <h2>State JSON</h2>
+            <span class="small">Useful for audit and handoff.</span>
+          </div>
+          <div class="toolbar">
+            <button id="copyStateBtn" class="btn btn-small btn-ghost" type="button">Copy state</button>
+            <button id="copyCompactStateBtn" class="btn btn-small btn-ghost" type="button">Copy compact</button>
+            <button id="downloadStateBtn" class="btn btn-small btn-ghost" type="button">Download state.json</button>
+          </div>
+          <textarea id="stateJson" class="field state-json mono" readonly></textarea>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const stateBadge = document.getElementById("stateBadge");
+      const runUpdated = document.getElementById("runUpdated");
+      const runTick = document.getElementById("runTick");
+      const statusMessage = document.getElementById("statusMessage");
+      const startForm = document.getElementById("startForm");
+      const presetSelect = document.getElementById("presetSelect");
+      const taskInput = document.getElementById("taskInput");
+      const startBtn = document.getElementById("startBtn");
+      const refreshBtn = document.getElementById("refreshBtn");
+      const refreshRate = document.getElementById("refreshRate");
+      const autoRefresh = document.getElementById("autoRefresh");
+      const autoScroll = document.getElementById("autoScroll");
+      const runStateChip = document.getElementById("runStateChip");
+      const currentTask = document.getElementById("currentTask");
+
+      const runIdValue = document.getElementById("runIdValue");
+      const runStateValue = document.getElementById("runStateValue");
+      const taskModeValue = document.getElementById("taskModeValue");
+      const agentCountValue = document.getElementById("agentCountValue");
+      const planCountValue = document.getElementById("planCountValue");
+      const agentsDoneValue = document.getElementById("agentsDoneValue");
+      const agentsRunningValue = document.getElementById("agentsRunningValue");
+      const agentsBlockedValue = document.getElementById("agentsBlockedValue");
+      const agentProgressBar = document.getElementById("agentProgressBar");
+      const runTaskMode = document.getElementById("runTaskMode");
+      const runEvidencePath = document.getElementById("runEvidencePath");
+      const overviewStatus = document.getElementById("overviewStatus");
+      const overviewTask = document.getElementById("overviewTask");
+      const overviewActivity = document.getElementById("overviewActivity");
+
+      const planSearch = document.getElementById("planSearch");
+      const planSummary = document.getElementById("planSummary");
+      const planList = document.getElementById("planList");
+      const agentSearch = document.getElementById("agentSearch");
+      const agentStatusFilter = document.getElementById("agentStatusFilter");
+      const agentSummary = document.getElementById("agentSummary");
+      const agentList = document.getElementById("agentList");
+      const activityList = document.getElementById("activityList");
+      const activityCount = document.getElementById("activityCount");
+      const stateJson = document.getElementById("stateJson");
+
+      const copyStateBtn = document.getElementById("copyStateBtn");
+      const copyCompactStateBtn = document.getElementById("copyCompactStateBtn");
+      const downloadStateBtn = document.getElementById("downloadStateBtn");
+      const copyActivityBtn = document.getElementById("copyActivityBtn");
+      const clearActivityBtn = document.getElementById("clearActivityBtn");
+
+      const tabButtons = document.querySelectorAll(".tab-btn");
+      const tabPanels = {
+        overview: document.getElementById("overviewPanel"),
+        plan: document.getElementById("planPanel"),
+        agents: document.getElementById("agentsPanel"),
+        activity: document.getElementById("activityPanel"),
+        state: document.getElementById("statePanel"),
+      };
+
+      let poller = null;
+      let latestState = null;
+      let lastStateString = "";
+
+      const statusClassMap = {
+        IDLE: "status-idle",
+        STARTING: "status-starting",
+        RUNNING: "status-running",
+        DONE: "status-done",
+        BLOCKED: "status-blocked",
+      };
+
+      const badgeClassByAgentState = {
+        QUEUED: "badge-queued",
+        RUNNING: "badge-running",
+        DONE: "badge-done",
+        BLOCKED: "badge-blocked",
+      };
+
+      const prettyDate = (value) => {
+        if (!value) {
+          return "--";
+        }
+        const parsed = Date.parse(value);
+        if (Number.isNaN(parsed)) {
+          return String(value);
+        }
+        return new Date(parsed).toLocaleString([], {
+          month: "short",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      };
+
+      const setStatus = (state, message) => {
+        const normalized = String(state || "IDLE").toUpperCase();
+        const style = statusClassMap[normalized] || statusClassMap.IDLE;
+        stateBadge.className = `status-pill ${style}`;
+        stateBadge.textContent = normalized;
+        runStateChip.textContent = `Overall: ${normalized}`;
+        runStateValue.textContent = normalized;
+        runStateValue.style.color = style === "status-done"
+          ? "var(--ok)"
+          : style === "status-blocked"
+            ? "var(--danger)"
+            : style === "status-running"
+              ? "var(--brand-400)"
+              : "";
+        if (message) {
+          statusMessage.textContent = message;
+          statusMessage.className = "status-text" + (normalized === "BLOCKED" ? " error-text" : " ok-text");
+        }
+      };
+
+      const getText = (value, fallback = "") => {
+        if (value === null || value === undefined) return fallback;
+        return String(value);
+      };
+
+      const formatDuration = (ms) => {
+        if (!ms || ms < 0) return "--";
+        const total = Math.max(0, Math.round(Number(ms)));
+        if (!Number.isFinite(total)) return "--";
+        if (total < 1000) return `${total}ms`;
+        const sec = total / 1000;
+        if (sec < 60) return `${sec.toFixed(1)}s`;
+        const mins = Math.floor(sec / 60);
+        const rem = (sec % 60).toFixed(0).padStart(2, "0");
+        return `${mins}m ${rem}s`;
+      };
+
+      const sanitizeAgentState = (state) => String(state || "UNKNOWN").toUpperCase();
+
+      const sortAgents = (agents) => {
+        const order = {
+          RUNNING: 0,
+          QUEUED: 1,
+          BLOCKED: 2,
+          DONE: 3,
+          UNKNOWN: 4,
+        };
+        return [...agents].sort((a, b) => {
+          const sa = sanitizeAgentState(a.status);
+          const sb = sanitizeAgentState(b.status);
+          const diff = (order[sa] ?? 10) - (order[sb] ?? 10);
+          if (diff !== 0) return diff;
+          return String(a.name || "").localeCompare(String(b.name || ""));
+        });
+      };
+
+      const renderOverview = (state, agents) => {
+        const count = Array.isArray(agents) ? agents.length : 0;
+        const taskText = state.task ? state.task : "No active task.";
+        const done = (Array.isArray(agents) ? agents.filter((a) => sanitizeAgentState(a.status) === "DONE").length : 0);
+        const running = (Array.isArray(agents) ? agents.filter((a) => sanitizeAgentState(a.status) === "RUNNING").length : 0);
+        const blocked = (Array.isArray(agents) ? agents.filter((a) => sanitizeAgentState(a.status) === "BLOCKED").length : 0);
+
+        overviewTask.textContent = taskText;
+        overviewStatus.textContent = `${count} agents  |  ${done} done  |  ${running} running  |  ${blocked} blocked`;
+
+        const latest = state.activity;
+        if (Array.isArray(latest) && latest.length > 0) {
+          const latestLine = String(latest[latest.length - 1]);
+          overviewActivity.textContent = latestLine;
+        } else {
+          overviewActivity.textContent = "No activity yet.";
+        }
+      };
+
+      const renderPlan = (state) => {
+        const items = Array.isArray(state.planning) ? state.planning : [];
+        const query = getText(planSearch.value || "").trim().toLowerCase();
+
+        const visible = items.filter((item) => {
+          const haystack = `${item?.name || ""} ${item?.scope || ""} ${item?.objective || ""}`.toLowerCase();
+          return query ? haystack.includes(query) : true;
+        });
+
+        planSummary.textContent = `${visible.length} items of ${items.length}`;
+
+        if (visible.length === 0) {
+          planList.innerHTML = `<div class="empty">No planner items available yet.</div>`;
+          return;
+        }
+
+        planList.innerHTML = visible
+          .map(
+            (item) => `
+            <div class="list-item">
+              <div class="item-row">
+                <div>
+                  <div class="bold" style="margin-bottom:4px;">${item.name || "agent"}</div>
+                  <div class="small">Scope: <span class="mono">${item.scope || "root"}</span></div>
+                </div>
+              </div>
+              <div class="small" style="margin-top: 6px;">${item.objective || "No objective provided"}</div>
+            </div>
+          `,
+          )
+          .join("");
+      };
+
+      const renderAgents = (state) => {
+        const agents = Array.isArray(state.agents) ? sortAgents(state.agents) : [];
+        const query = getText(agentSearch.value || "").trim().toLowerCase();
+        const statusFilter = getText(agentStatusFilter.value || "all").toUpperCase();
+
+        const visible = agents.filter((agent) => {
+          const status = sanitizeAgentState(agent.status);
+          const matchedStatus = statusFilter === "ALL" || status === statusFilter;
+          if (!matchedStatus) return false;
+          if (!query) return true;
+          const text = `${agent.name || ""} ${agent.scope || ""} ${agent.objective || ""} ${agent.lastMessage || ""}`.toLowerCase();
+          return text.includes(query);
+        });
+
+        agentSummary.textContent = `${visible.length} agents`;
+        if (visible.length === 0) {
+          agentList.innerHTML = `<div class="empty">No agents match the selected filter.</div>`;
+          return;
+        }
+
+        agentList.innerHTML = visible
+          .map((agent) => {
+            const status = sanitizeAgentState(agent.status);
+            const badgeClass = badgeClassByAgentState[status] || "badge-queued";
+            const blockers = agent.blockerReason ? `<div class="small" style="margin-top: 6px;">Blocker: ${agent.blockerReason}</div>` : "";
+            return `
+              <div class="list-item">
+                <div class="item-row">
+                  <div>
+                    <div class="bold" style="margin-bottom:4px;">${agent.name || "agent"}</div>
+                    <div class="small">Scope: <span class="mono">${agent.scope || "root"}</span></div>
+                  </div>
+                  <span class="badge ${badgeClass}">${status}</span>
+                </div>
+                <div class="small" style="margin-top: 6px;">${agent.objective || "No objective provided"}</div>
+                <div class="meta" style="margin-top: 6px;">Files touched: ${agent.changedFiles || 0}  |  Duration: ${formatDuration(agent.durationMs || 0)}</div>
+                ${blockers}
+                ${agent.latestMessage ? `<div class="small" style="margin-top: 4px;">Latest: ${agent.latestMessage}</div>` : ""}
+              </div>
+            `;
+          })
+          .join("");
+      };
+
+      const renderActivity = (state) => {
+        const lines = Array.isArray(state.activity) ? state.activity : [];
+        activityCount.textContent = `${lines.length} entries`;
+
+        if (lines.length === 0) {
+          activityList.innerHTML = `<div class="empty">No activity yet.</div>`;
+          return;
+        }
+
+        activityList.innerHTML = lines
+          .map((line) => `
+            <div class="activity-line">${line}</div>
+          `)
+          .join("");
+
+        if (autoScroll.checked) {
+          activityList.scrollTop = activityList.scrollHeight;
+        }
+      };
+
+      const renderSnapshot = (state) => {
+        runIdValue.textContent = state.runId || "--";
+        taskModeValue.textContent = state.taskMode || "--";
+        runTaskMode.textContent = getText(state.taskMode, "auto");
+
+        const runId = state.runId ? `artifacts/pr-packets/${state.runId}` : "artifacts/pr-packets/<run-id>";
+        runEvidencePath.textContent = runId;
+
+        const planningCount = Array.isArray(state.planning) ? state.planning.length : 0;
+        const agents = Array.isArray(state.agents) ? state.agents : [];
+        const done = agents.filter((agent) => sanitizeAgentState(agent.status) === "DONE").length;
+        const running = agents.filter((agent) => sanitizeAgentState(agent.status) === "RUNNING").length;
+        const blocked = agents.filter((agent) => sanitizeAgentState(agent.status) === "BLOCKED").length;
+
+        planCountValue.textContent = String(planningCount);
+        agentCountValue.textContent = String(agents.length);
+        agentsDoneValue.textContent = String(done);
+        agentsRunningValue.textContent = String(running);
+        agentsBlockedValue.textContent = String(blocked);
+
+        const pct = agents.length > 0 ? Math.round((done / agents.length) * 100) : 0;
+        agentProgressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
+      };
+
+      const renderStateTab = (state) => {
+        stateJson.value = JSON.stringify(state, null, 2);
+      };
+
+      const renderCurrent = (state) => {
+        const normalized = String(state.overallState || "IDLE").toUpperCase();
+        setStatus(normalized);
+        setStatus(normalized, `Fetched ${prettyDate(state.updatedAt)} (${state.tick || 0})`);
+
+        runUpdated.textContent = `Last refresh: ${prettyDate(state.updatedAt)}`;
+        runTick.textContent = `Tick: ${state.tick || 0}`;
+
+        if (state.task) {
+          currentTask.textContent = `Current task: ${state.task}`;
+        } else {
+          currentTask.textContent = "No active task.";
+        }
+
+        renderSnapshot(state);
+        renderOverview(state, state.agents || []);
+        renderPlan(state);
+        renderAgents(state);
+        renderActivity(state);
+        renderStateTab(state);
+
+        const signature = JSON.stringify(state);
+        if (signature !== lastStateString) {
+          lastStateString = signature;
+          if (!autoRefresh.checked && state.overallState !== "RUNNING") {
+            // keep users from stale state when refreshing manually during done/error.
+          }
+        }
+      };
+
+      const normalizeStatePayload = (data) => {
+        if (!data || typeof data !== "object") return {};
+        const planning = Array.isArray(data.planning) ? data.planning : [];
+        const agents = Array.isArray(data.agents) ? data.agents : [];
+        return {
+          runId: getText(data.runId),
+          task: getText(data.task),
+          taskMode: getText(data.taskMode, "auto"),
+          overallState: getText(data.overallState, "IDLE").toUpperCase(),
+          tick: Number(data.tick || 0),
+          updatedAt: getText(data.updatedAt),
+          planning,
+          agents,
+          activity: Array.isArray(data.activity) ? data.activity : [],
+        };
+      };
+
+      const safeSetText = (el, value, fallback = "") => {
+        if (!el) return;
+        el.textContent = getText(value, fallback);
+      };
+
+      const fetchState = async () => {
+        try {
+          const response = await fetch("/api/state", { cache: "no-store" });
+          if (!response.ok) {
+            safeSetText(statusMessage, "Failed to fetch state", "");
+            statusMessage.className = "status-text error-text";
+            return;
+          }
+          const payload = await response.json();
+          const nextState = normalizeStatePayload(payload);
+          latestState = nextState;
+          renderCurrent(nextState);
+          statusMessage.textContent = "";
+          statusMessage.className = "status-text";
+        } catch (error) {
+          safeSetText(statusMessage, `Refresh error: ${getText(error?.message, "Network issue")}`);
+          statusMessage.className = "status-text error-text";
+        }
+      };
+
+      const activateTab = (tab) => {
+        Object.entries(tabPanels).forEach(([id, panel]) => {
+          const btn = document.querySelector(`[data-tab="${id}"]`);
+          if (!panel || !btn) return;
+          const selected = id === tab;
+          panel.classList.toggle("active", selected);
+          btn.classList.toggle("active", selected);
+        });
+      };
+
+      const copyText = async (value, fallbackMessage) => {
+        try {
+          await navigator.clipboard.writeText(value);
+          statusMessage.textContent = fallbackMessage;
+          statusMessage.className = "status-text ok-text";
+          setTimeout(() => {
+            statusMessage.textContent = "";
+            statusMessage.className = "status-text";
+          }, 900);
+        } catch {
+          statusMessage.textContent = "Clipboard unavailable in this environment.";
+          statusMessage.className = "status-text error-text";
+        }
+      };
+
+      const initEventBus = () => {
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const next = button.getAttribute("data-tab") || "overview";
+            activateTab(next);
+          });
+        });
+
+        planSearch.addEventListener("input", () => {
+          if (latestState) renderPlan(latestState);
+        });
+
+        agentSearch.addEventListener("input", () => {
+          if (latestState) renderAgents(latestState);
+        });
+
+        agentStatusFilter.addEventListener("change", () => {
+          if (latestState) renderAgents(latestState);
+        });
+
+        autoRefresh.addEventListener("change", () => {
+          if (autoRefresh.checked) {
+            const interval = Number(refreshRate.value || 750);
+            poller = setInterval(fetchState, interval);
+          } else if (poller) {
+            clearInterval(poller);
+            poller = null;
+          }
+        });
+
+        refreshRate.addEventListener("change", () => {
+          if (!autoRefresh.checked) return;
+          if (poller) {
+            clearInterval(poller);
+          }
+          const interval = Number(refreshRate.value || 750);
+          poller = setInterval(fetchState, interval);
+        });
+
+        startForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          const taskText = taskInput.value.trim();
+          if (!taskText) {
+            statusMessage.textContent = "Task prompt cannot be empty.";
+            statusMessage.className = "status-text error-text";
+            return;
+          }
+
+          if (startBtn.disabled) return;
+          startBtn.disabled = true;
+          startBtn.textContent = "Starting...";
+
+          try {
+            const response = await fetch("/api/start", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ task: taskText }),
+            });
+            const payload = await response.json().catch(() => ({}));
+            if (!response.ok) {
+              statusMessage.textContent = payload.error || "Failed to start run.";
+              statusMessage.className = "status-text error-text";
+              return;
+            }
+            statusMessage.textContent = `Run ${payload.runId} started. Polling live status...`;
+            statusMessage.className = "status-text ok-text";
+            if (!autoRefresh.checked) {
+              autoRefresh.checked = true;
+              const interval = Number(refreshRate.value || 750);
+              poller = setInterval(fetchState, interval);
+            }
+            taskInput.value = "";
+            presetSelect.value = "";
+          } finally {
+            startBtn.disabled = false;
+            startBtn.textContent = "Start Run";
+          }
+        });
+
+        refreshBtn.addEventListener("click", fetchState);
+
+        presetSelect.addEventListener("change", () => {
+          if (presetSelect.value) {
+            taskInput.value = presetSelect.value;
+          }
+        });
+
+        copyStateBtn.addEventListener("click", () => {
+          const value = latestState ? JSON.stringify(latestState, null, 2) : "{}";
+          copyText(value, "State copied.");
+        });
+
+        copyCompactStateBtn.addEventListener("click", () => {
+          const value = latestState ? JSON.stringify(latestState) : "{}";
+          copyText(value, "Compact state copied.");
+        });
+
+        downloadStateBtn.addEventListener("click", () => {
+          const value = latestState ? JSON.stringify(latestState, null, 2) : "{}";
+          const blob = new Blob([value], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          const name = latestState?.runId ? `${latestState.runId}-state.json` : "state.json";
+          a.download = name;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          URL.revokeObjectURL(url);
+          statusMessage.textContent = "State JSON downloaded.";
+          statusMessage.className = "status-text ok-text";
+        });
+
+        copyActivityBtn.addEventListener("click", () => {
+          const entries = latestState?.activity || [];
+          const value = Array.isArray(entries) ? entries.join("\n") : "";
+          copyText(value || "No activity", "Activity copied.");
+        });
+
+        clearActivityBtn.addEventListener("click", () => {
+          activityList.innerHTML = `<div class="empty">Activity cleared locally.</div>`;
+          activityCount.textContent = "0 entries";
+        });
+      };
+
+      const init = async () => {
+        initEventBus();
+        activateTab("overview");
+        statusMessage.textContent = "Connecting to dashboard state...";
+        await fetchState();
+
+        const interval = Number(refreshRate.value || 750);
+        poller = autoRefresh.checked ? setInterval(fetchState, interval) : null;
+      };
+
+      init();
+    </script>
+  </body>
+</html>
+
+
+
