@@ -115,13 +115,10 @@ const main = async () => {
     generatedAt: new Date().toISOString(),
     status: blockContract ? 'BLOCKED' : 'READY_TO_MERGE',
     checks: {
-      protocolFixture: {
+    protocolFixture: {
         status: commands[0].status,
         command: commands[0].label,
-      },
-      baselineSchemaRefresh: {
-        status: commands[1].status,
-        command: commands[1].label,
+        commandExitCode: commands[0].code,
       },
       contractGate: {
         status: contractCheck.status,

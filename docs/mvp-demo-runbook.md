@@ -59,7 +59,8 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-mvp-demo.ps1
 
 4) Integrator merge + gate FAIL (drift induced)
 - `Set-Location <worktree>/integrator`
-- `git merge mvp/impl-a --no-edit`
+- `git merge mvp/person-b-impl-a --no-edit`  
+  (or fallback to `mvp/impl-a` if the person branch is not present)
 - `node scripts/multiagent/contract-check.mjs --run-id run-2026-02-28-mvp`
 - Expected: command exits `1`, and:
   - `artifacts/pr-packets/run-2026-02-28-mvp/contract-check.json` shows `status=FAIL`
@@ -67,7 +68,8 @@ pwsh -NoProfile -ExecutionPolicy Bypass -File .\scripts\run-mvp-demo.ps1
   - integration considered BLOCKED
 
 5) Integrator merge + gate PASS (drift resolved)
-- `git merge mvp/impl-b --no-edit`
+- `git merge mvp/person-c-impl-b --no-edit`  
+  (or fallback to `mvp/impl-b` if the person branch is not present)
 - `node scripts/multiagent/contract-check.mjs --run-id run-2026-02-28-mvp`
 - Expected: command exits `0`, and:
   - `contract-check.json` shows `status=PASS`
